@@ -1,0 +1,20 @@
+events {
+}
+http {
+    ssl_session_tickets on;
+    ssl_session_ticket_key {{ stek_path }};
+    ssl_protocols TLSv1.2 TLSv1.3;
+
+    {%- for vhost in vhosts %}
+    server{
+        server_name {{ vhost.hostname }};
+        listen {{ vhost.port }} ssl;
+        {%- if vhost.stek_path %}
+        ssl_session_ticket_key {{ vhost.stek_path }};
+        {%- endif %}
+        ssl_certificate {{vhost.cert}};
+        ssl_certificate_key {{vhost.cert_key}};
+        root {{vhost.html_root}};
+    }
+    {%- endfor %}
+}

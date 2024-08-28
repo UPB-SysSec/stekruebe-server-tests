@@ -1,0 +1,6 @@
+Jinja2
+pyyaml
+pydantic
+pytest
+docker
+click

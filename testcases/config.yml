@@ -1,0 +1,69 @@
+_templates:
+  vHosts:
+    default_vhost: &default_vhost
+      port: 443
+    a: &a
+      <<: *default_vhost
+      port: 443
+      hostname: a.com
+      cert: /certs/a.com.crt
+      cert_key: /certs/a.com.key
+      html_root: /sites/a.com/
+    b: &b
+      <<: *default_vhost
+      port: 443
+      hostname: b.com
+      cert: /certs/b.com.crt
+      cert_key: /certs/b.com.key
+      html_root: /sites/b.com/
+
+test_cases:
+  one-server:
+    servers:
+      - vHosts:
+        - *a
+        - *b
+  one-server-different-ports:
+    servers:
+      - vHosts:
+        - *a
+        - <<: *b
+          port: 444
+  two-servers:
+    servers:
+      - vHosts:
+        - *a
+      - vHosts:
+        - *b
+  two-servers-different-ports:
+    servers:
+      - vHosts:
+        - *a
+      - vHosts:
+        - <<: *b
+          port: 444
+
+software_config:
+  _base_config: &base_software
+    stek_path: /stek.key
+  nginx: &nginx
+    <<: *base_software
+    image: nginx:latest
+    config_path: /etc/nginx/nginx.conf
+    template: nginx.conf.jinja
+    stek_length: 48
+  nginx80:
+    <<: *nginx
+    stek_length: 80
+  _apache:
+    <<: *base_software
+    # image: nginx:latest
+    # config_path: /etc/nginx/nginx.conf
+    # template: nginx.conf.jinja
+    stek_length: 48
+  _openlitespeed:
+    <<: *base_software
+    # image: nginx:latest
+    # config_path: /etc/nginx/nginx.conf
+    # template: nginx.conf.jinja
+    stek_length: 48
