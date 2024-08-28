@@ -78,12 +78,12 @@ def setup_server(software_name, testcase_name, software_cfg: config.SoftwareConf
 
 def precheck_remote(remote: Remote):
     try:
-        for _ in range(3):
+        for _ in range(15):
             try:
                 initial_result = request(remote, remote, remote)
                 break
-            except:
-                time.sleep(1)
+            except ConnectionRefusedError:
+                time.sleep(0.1)
     except:
         logging.exception("Failed to connect to %s", remote)
         raise
@@ -100,13 +100,14 @@ def precheck_remote(remote: Remote):
     # resume twice to ensure we do not have single use tickets
     r = request(remote, remote, remote, initial_result.session)
     resumption_working = resumption_working and r.session_reused
+    assert resumption_working, "Resumption did not work"
 
     return vhostTestData(remote, initial_result, requires_sni, resumption_working)
 
 
 def evaluate(software_name: str, software_cfg: config.SoftwareConfig, case_name: str, case_cfg: config.TestcaseConfig):
     server_instances = []
-    domains = {}
+    domains: dict[str, vhostTestData] = {}
     with ExitStack() as stack:
         for server_cfg in case_cfg.servers:
             instance = setup_server(software_name, case_name, software_cfg, server_cfg)
@@ -139,7 +140,7 @@ def evaluate(software_name: str, software_cfg: config.SoftwareConfig, case_name:
             ):
                 r = request(resumption_host.remote, sni, host_header, ticket_host.initial_result.session)
                 print(
-                    f"Connecting from {ticket_host.remote} to {resumption_host.remote} with SNI {sni} and Host {host_header}"
+                    f"Using ticket from {ticket_host.remote.hostname} at {resumption_host.remote.hostname} with SNI {sni.hostname if sni else 'None'} and Host {host_header.hostname}"
                 )
                 print(f"{'!' if r.session_reused else ' '}Session reused  : {r.session_reused}")
                 is_ticket_body = r.body == ticket_host.initial_result.body
@@ -148,9 +149,9 @@ def evaluate(software_name: str, software_cfg: config.SoftwareConfig, case_name:
                     is_ticket_body and is_resumption_body
                 ), "Same body for ticket and resumption; should've been caught earlier"
                 if is_ticket_body:
-                    print(" Body: Initial")
+                    print(f"{' ' if r.session_reused else '!'}Body: Initial")
                 elif is_resumption_body:
-                    print("!Body: Resumption")
+                    print(f"{'!' if r.session_reused else ' '}Body: Resumption")
                 else:
                     print("?Body: Unknown")
                 # assert r.session_reused == False, "Resumed ticket at other host"
