@@ -1,17 +1,34 @@
-from dataclasses import dataclass
-import ssl
-import os
-import logging
 import itertools
+import logging
+import os
+import ssl
+import tempfile
+import time
+from collections import namedtuple
+from contextlib import ExitStack
+from dataclasses import dataclass
+from enum import Enum, IntEnum
 from pathlib import Path
+from typing import Any, Optional, TypeVar, Union
+
 import docker as docker_lib
 from docker.models.containers import Container
 from docker.types import Mount
-import tempfile
-import time
+from pydantic import BaseModel
+
 from util import config
-from util.request import Remote, request, HttpsResponse
-from contextlib import ExitStack
+from util.request import HttpsResponse, Remote, request
+
+docker = docker_lib.from_env()
+
+TESTCASES_DIR = Path("testcases")
+CERTS_DIR = TESTCASES_DIR / "certs"
+SITES_DIR = TESTCASES_DIR / "sites"
+
+TEMP_DIR = None
+STARTED_CONTAINER_IDS = set()
+
+T = TypeVar("T")
 
 
 @dataclass
@@ -39,14 +56,76 @@ class vhostTestData:
     resumption_working: bool
 
 
-docker = docker_lib.from_env()
+class RemoteName(Enum):
+    UNKNOWN = "unknown"
+    TICKET_ISSUER = "ticket issuer"
+    RESUMPTION = "resumption"
 
-TESTCASES_DIR = Path("testcases")
-CERTS_DIR = TESTCASES_DIR / "certs"
-SITES_DIR = TESTCASES_DIR / "sites"
+    @staticmethod
+    def from_bodies(received, ticket_issuer_body, resumption_body):
+        assert (
+            ticket_issuer_body != resumption_body
+        ), "Same body for ticket and resumption; should've been caught earlier"
+        if received == ticket_issuer_body:
+            return RemoteName.TICKET_ISSUER
+        elif received == resumption_body:
+            return RemoteName.RESUMPTION
+        else:
+            return RemoteName.UNKNOWN
 
-TEMP_DIR = None
-STARTED_CONTAINER_IDS = set()
+
+class ResultSummary(IntEnum):
+    GOOD = 0
+    LOOK_INTO_THIS = 1
+    WARN = 2
+    BAD = 3
+
+    def __or__(self, other):
+        # bitwise OR should give the worst result
+        assert isinstance(other, ResultSummary)
+        return max(self, other)
+
+
+class SingleResult(BaseModel):
+    summary: ResultSummary
+    ticket_resumed: bool
+    body: RemoteName
+
+    @staticmethod
+    def from_response(response: HttpsResponse, ticket_issuer: vhostTestData, resumption: vhostTestData):
+        summary = None
+        body_remote = RemoteName.from_bodies(
+            response.body, ticket_issuer.initial_result.body, resumption.initial_result.body
+        )
+
+        if not response.session_reused:
+            summary = ResultSummary.GOOD
+        else:
+            # session was reused
+            if body_remote == RemoteName.TICKET_ISSUER:
+                summary = ResultSummary.GOOD
+            elif body_remote == RemoteName.RESUMPTION:
+                summary = ResultSummary.BAD
+            else:
+                summary = ResultSummary.LOOK_INTO_THIS
+
+        return SingleResult(
+            ticket_resumed=response.session_reused,
+            body=body_remote,
+            summary=summary,
+        )
+
+
+class GroupedResult(BaseModel):
+    summary: ResultSummary
+    details: dict[Any, Union["GroupedResult", SingleResult]]
+
+    @staticmethod
+    def from_results(results: dict[Any, Union["GroupedResult", SingleResult]]):
+        summary = ResultSummary.GOOD
+        for result in results.values():
+            summary |= result.summary
+        return GroupedResult(summary=summary, details=results)
 
 
 def setup_server(software_name, testcase_name, software_cfg: config.SoftwareConfig, server_cfg: config.ServerConfig):
@@ -105,7 +184,48 @@ def precheck_remote(remote: Remote):
     return vhostTestData(remote, initial_result, requires_sni, resumption_working)
 
 
-def evaluate(software_name: str, software_cfg: config.SoftwareConfig, case_name: str, case_cfg: config.TestcaseConfig):
+def _select(remote: Optional[RemoteName], issuer: T, resumption: T) -> T:
+    if remote is None:
+        return None
+    if remote == RemoteName.TICKET_ISSUER:
+        return issuer
+    elif remote == RemoteName.RESUMPTION:
+        return resumption
+    else:
+        raise ValueError("Unknown remote name")
+
+
+def _yield_results_group(f):
+    def wrapper(*args, **kwargs):
+        return GroupedResult.from_results(dict(f(*args, **kwargs)))
+
+    return wrapper
+
+
+@_yield_results_group
+def evaluate_request(domains: dict[str, vhostTestData], sni_name: RemoteName, host_header_name: RemoteName):
+    for ticket_issuer_host, resumption_host in itertools.permutations(domains.values(), 2):
+        assert ticket_issuer_host != resumption_host, "Same host; should not happen"
+        sni = _select(sni_name, ticket_issuer_host.remote, resumption_host.remote)
+        host_header = _select(host_header_name, ticket_issuer_host.remote, resumption_host.remote)
+
+        response = request(resumption_host.remote, sni, host_header, ticket_issuer_host.initial_result.session)
+        result = SingleResult.from_response(response, ticket_issuer_host, resumption_host)
+        yield f"issuer={ticket_issuer_host.remote.hostname}, resumption={resumption_host.remote.hostname}", result
+
+
+@_yield_results_group
+def evaluate_vhosts(domains: dict[str, vhostTestData]):
+    for sni_name, host_header_name in itertools.product(
+        [RemoteName.TICKET_ISSUER, RemoteName.RESUMPTION, None],
+        [RemoteName.TICKET_ISSUER, RemoteName.RESUMPTION],
+    ):
+        yield f"sni={sni_name}, host={host_header_name}", evaluate_request(domains, sni_name, host_header_name)
+
+
+def evaluate_test_case(
+    software_name: str, software_cfg: config.SoftwareConfig, case_name: str, case_cfg: config.TestcaseConfig
+):
     server_instances = []
     domains: dict[str, vhostTestData] = {}
     with ExitStack() as stack:
@@ -131,30 +251,7 @@ def evaluate(software_name: str, software_cfg: config.SoftwareConfig, case_name:
             logging.error("Duplicate bodies found")
             return
 
-        for ticket_host, resumption_host in itertools.permutations(domains.values(), 2):
-            assert ticket_host != resumption_host, "Same host; should not happen"
-
-            for sni, host_header in itertools.product(
-                [ticket_host.remote, resumption_host.remote, None],
-                [ticket_host.remote, resumption_host.remote],
-            ):
-                r = request(resumption_host.remote, sni, host_header, ticket_host.initial_result.session)
-                print(
-                    f"Using ticket from {ticket_host.remote.hostname} at {resumption_host.remote.hostname} with SNI {sni.hostname if sni else 'None'} and Host {host_header.hostname}"
-                )
-                print(f"{'!' if r.session_reused else ' '}Session reused  : {r.session_reused}")
-                is_ticket_body = r.body == ticket_host.initial_result.body
-                is_resumption_body = r.body == resumption_host.initial_result.body
-                assert not (
-                    is_ticket_body and is_resumption_body
-                ), "Same body for ticket and resumption; should've been caught earlier"
-                if is_ticket_body:
-                    print(f"{' ' if r.session_reused else '!'}Body: Initial")
-                elif is_resumption_body:
-                    print(f"{'!' if r.session_reused else ' '}Body: Resumption")
-                else:
-                    print("?Body: Unknown")
-                # assert r.session_reused == False, "Resumed ticket at other host"
+        return evaluate_vhosts(domains)
 
 
 def main():
@@ -162,9 +259,15 @@ def main():
     testconfig = config.parse_config_file(TESTCASES_DIR / "config.yml")
     with tempfile.TemporaryDirectory(delete=True) as temp_dir:
         TEMP_DIR = Path(temp_dir)
+        software_results = {}
         for software_name, software_cfg in testconfig.software_config.items():
+            case_results = {}
             for case_name, case_cfg in testconfig.test_cases.items():
-                evaluate(software_name, software_cfg, case_name, case_cfg)
+                case_results[case_name] = evaluate_test_case(software_name, software_cfg, case_name, case_cfg)
+            software_results[software_name] = GroupedResult.from_results(case_results)
+        all_results = GroupedResult.from_results(software_results)
+    with open("results.json", "w") as f:
+        f.write(all_results.model_dump_json(indent=2))
     TEMP_DIR = None
 
 
