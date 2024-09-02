@@ -1,0 +1,18 @@
+
+### Something needs to go here but container exists immediately all the time
+
+
+{%- for vhost in vhosts %}
+    <VirtualHost *:{{ vhost.port }}>
+        ServerName {{ vhost.hostname }}
+        DocumentRoot {{ vhost.html_root }}
+        SSLEngine on
+        SSLCertificateFile "{{vhost.cert}}"
+        SSLCertificateKeyFile "{{vhost.cert_key}}"
+        SSLProtocol TLSv1.2 TLSv1.3;
+        {%- if vhost.stek_path %}
+            SSLSessionTickets on
+            SSLSessionTicketKeyFile "{{ stek_path }}"
+        {%- endif %}
+    </VirtualHost>
+{%- endfor %}

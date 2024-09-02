@@ -57,9 +57,9 @@ software_config:
     stek_length: 80
   _apache:
     <<: *base_software
-    # image: nginx:latest
-    # config_path: /etc/nginx/nginx.conf
-    # template: nginx.conf.jinja
+    image: httpd:latest
+    config_path: /usr/local/apache2/conf/httpd.conf
+    template: apache.conf.jinja
     stek_length: 48
   _openlitespeed:
     <<: *base_software
