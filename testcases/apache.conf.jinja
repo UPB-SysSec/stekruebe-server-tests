@@ -569,14 +569,25 @@ SSLPassPhraseDialog  builtin
 SSLSessionCache        "shmcb:/usr/local/apache2/logs/ssl_scache(512000)"
 SSLSessionCacheTimeout  300
 
-Listen 443
 SSLRandomSeed startup builtin
 SSLRandomSeed connect builtin
+
+# supress warning
+ServerName localhost
 
 SSLSessionTickets on
 SSLSessionTicketKeyFile "{{ stek_path }}"
 
+{% for port in vhosts|map(attribute="port")|unique %}
+Listen {{ port }}
+{% endfor %}
+
 {%- for vhost in vhosts %}
+    <Directory "{{ vhost.html_root }}">
+        AllowOverride None
+        Options None
+        Require all granted
+    </Directory>
     <VirtualHost *:{{ vhost.port }}>
         ServerName {{ vhost.hostname }}
         DocumentRoot {{ vhost.html_root }}
