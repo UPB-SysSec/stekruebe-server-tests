@@ -64,6 +64,7 @@ def parse_config_file(file_path: str) -> TestConfig:
 
 
 if __name__ == "__main__":
+    import sys
     from pprint import pprint
 
     with open("testcases/config.yml") as f:
@@ -79,10 +80,31 @@ if __name__ == "__main__":
     config = parse_config_file("testcases/config.yml")
     pprint(config)
 
-    for sw, sw_cfg in config.software_config.items():
+    if len(sys.argv) == 1:
+        # print all configs
+        for sw, sw_cfg in config.software_config.items():
+            print("#", sw)
+            for testcase, testcase_cfg in config.test_cases.items():
+                print("##", testcase)
+                for i, server in enumerate(testcase_cfg.servers):
+                    print("###", i)
+                    print(sw_cfg.render_config(server, "/stek.key"))
+    elif len(sys.argv) == 2:
+        sw = sys.argv[1]
         print("#", sw)
+        sw_cfg = config.software_config[sw]
         for testcase, testcase_cfg in config.test_cases.items():
             print("##", testcase)
             for i, server in enumerate(testcase_cfg.servers):
                 print("###", i)
                 print(sw_cfg.render_config(server, "/stek.key"))
+    elif len(sys.argv) == 3:
+        sw = sys.argv[1]
+        testcase = sys.argv[2]
+        sw_cfg = config.software_config[sw]
+        testcase_cfg = config.test_cases[testcase]
+        print("#", sw)
+        print("##", testcase)
+        for i, server in enumerate(testcase_cfg.servers):
+            print("###", i)
+            print(sw_cfg.render_config(server, "/stek.key"))
