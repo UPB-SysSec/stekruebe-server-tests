@@ -55,7 +55,7 @@ software_config:
   nginx80:
     <<: *nginx
     stek_length: 80
-  _apache:
+  apache:
     <<: *base_software
     image: httpd:latest
     config_path: /usr/local/apache2/conf/httpd.conf
