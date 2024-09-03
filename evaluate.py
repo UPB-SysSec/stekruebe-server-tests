@@ -37,7 +37,14 @@ class DeployedServer:
     container: Container
     temp_files: list[str]
 
-    def teardown(self):
+    def teardown(self, exc_type=None, exc_value=None, traceback=None):
+        logging.debug(
+            "removing container id=%s name=%s (exc_type=%r)", self.container.id, self.container.name, exc_type
+        )
+        if exc_type is not None:
+            # get logs
+            logs = self.container.logs(stream=False)
+            logging.error(logs)
         self.container.remove(force=True)
         STARTED_CONTAINER_IDS.remove(self.container.id)
 
@@ -45,7 +52,7 @@ class DeployedServer:
         return self
 
     def __exit__(self, exc_type, exc_value, traceback):
-        self.teardown()
+        self.teardown(exc_type, exc_value, traceback)
 
 
 @dataclass
@@ -90,6 +97,8 @@ class SingleResult(BaseModel):
     summary: ResultSummary
     ticket_resumed: bool
     body: RemoteName
+    response_status_code: int
+    response_body: bytes
 
     @staticmethod
     def from_response(response: HttpsResponse, ticket_issuer: vhostTestData, resumption: vhostTestData):
@@ -113,6 +122,8 @@ class SingleResult(BaseModel):
             ticket_resumed=response.session_reused,
             body=body_remote,
             summary=summary,
+            response_status_code=response.response.status,
+            response_body=response.body,
         )
 
 
@@ -145,13 +156,15 @@ def setup_server(software_name, testcase_name, software_cfg: config.SoftwareConf
         Mount(source=stek_file.name, target="/stek.key", read_only=True, type="bind"),
         Mount(source=config_file.name, target=software_cfg.config_path, read_only=True, type="bind"),
     ]
-    container = docker.containers.run(software_cfg.image, detach=True, name=name, auto_remove=True, mounts=mounts)
+    container = docker.containers.run(software_cfg.image, detach=True, name=name, auto_remove=False, mounts=mounts)
     # except:
     STARTED_CONTAINER_IDS.add(container.id)
 
     container.reload()
     ip = container.attrs["NetworkSettings"]["IPAddress"]
     assert ip is not None
+    logging.debug("started container id=%s name=%s", container.id, name)
+
     return DeployedServer(ip, container, [stek_file.name, config_file.name])
 
 
@@ -273,4 +286,5 @@ def main():
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
+    logging.getLogger("urllib3").setLevel(logging.INFO)
     main()
