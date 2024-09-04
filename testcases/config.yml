@@ -16,6 +16,13 @@ _templates:
       cert: /certs/b.com.crt
       cert_key: /certs/b.com.key
       html_root: /sites/b.com/
+    c: &c
+      <<: *default_vhost
+      port: 443
+      hostname: c.com
+      cert: /certs/c.com.crt
+      cert_key: /certs/c.com.key
+      html_root: /sites/c.com/
 
 test_cases:
   one-server:
@@ -23,6 +30,7 @@ test_cases:
       - vHosts:
         - *a
         - *b
+        - *c
   one-server-different-ports:
     servers:
       - vHosts:
@@ -61,9 +69,9 @@ software_config:
     config_path: /usr/local/apache2/conf/httpd.conf
     template: apache.conf.jinja
     stek_length: 48
-  _openlitespeed:
+  openlitespeed:
     <<: *base_software
-    # image: nginx:latest
-    # config_path: /etc/nginx/nginx.conf
-    # template: nginx.conf.jinja
+    image: litespeedtech/openlitespeed:latest
+    config_path: /usr/local/lsws/conf/httpd_config.conf
+    template: openlitespeed.conf.jinja
     stek_length: 48
