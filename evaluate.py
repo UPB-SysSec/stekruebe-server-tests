@@ -7,7 +7,7 @@ import time
 from collections import namedtuple
 from contextlib import ExitStack
 from dataclasses import dataclass
-from enum import Enum, IntEnum
+from enum import Enum, IntEnum, StrEnum
 from pathlib import Path
 from typing import Any, Optional, TypeVar, Union
 
@@ -63,7 +63,7 @@ class vhostTestData:
     resumption_working: bool
 
 
-class RemoteName(Enum):
+class RemoteName(StrEnum):
     UNKNOWN = "unknown"
     TICKET_ISSUER = "ticket issuer"
     RESUMPTION = "resumption"
@@ -81,6 +81,29 @@ class RemoteName(Enum):
             return RemoteName.UNKNOWN
 
 
+class RemoteNameSummary(StrEnum):
+    UNKNOWN = "unknown"
+    TICKET_ISSUER = "ticket issuer"
+    RESUMPTION = "resumption"
+    MULTIPLE = "<multiple values>"
+
+    @staticmethod
+    def summarize(*remote_names):
+        if isinstance(remote_names[0], RemoteName):
+            assert all(isinstance(r, RemoteName) for r in remote_names)
+            remote_names = [RemoteNameSummary(r) for r in remote_names]
+
+        if isinstance(remote_names[0], RemoteNameSummary):
+            assert all(isinstance(r, RemoteNameSummary) for r in remote_names)
+            seen_values = set(remote_names)
+            if len(seen_values) == 1:
+                return remote_names[0]
+            # multiple values
+            return RemoteNameSummary.MULTIPLE
+        else:
+            raise ValueError("Unknown type")
+
+
 class ResultSummary(IntEnum):
     GOOD = 0
     LOOK_INTO_THIS = 1
@@ -91,6 +114,32 @@ class ResultSummary(IntEnum):
         # bitwise OR should give the worst result
         assert isinstance(other, ResultSummary)
         return max(self, other)
+
+
+class BoolSummary(StrEnum):
+    ALL = "all"
+    SOME = "some"
+    NONE = "none"
+
+    @staticmethod
+    def summarize(*bools):
+        if isinstance(bools[0], bool):
+            assert all(isinstance(b, bool) for b in bools)
+            if all(bools):
+                return BoolSummary.ALL
+            elif any(bools):
+                return BoolSummary.SOME
+            else:
+                return BoolSummary.NONE
+        elif isinstance(bools[0], BoolSummary):
+            assert all(isinstance(b, BoolSummary) for b in bools)
+            seen_values = set(bools)
+            if len(seen_values) == 1:
+                return bools[0]
+            # multiple values: i.e. it cannot be all or none -> some
+            return BoolSummary.SOME
+        else:
+            raise ValueError("Unknown type")
 
 
 class SingleResult(BaseModel):
@@ -129,6 +178,8 @@ class SingleResult(BaseModel):
 
 class GroupedResult(BaseModel):
     summary: ResultSummary
+    ticket_resumed: BoolSummary
+    body: RemoteNameSummary
     details: dict[Any, Union["GroupedResult", SingleResult]]
 
     @staticmethod
@@ -136,7 +187,9 @@ class GroupedResult(BaseModel):
         summary = ResultSummary.GOOD
         for result in results.values():
             summary |= result.summary
-        return GroupedResult(summary=summary, details=results)
+        ticket_resumed = BoolSummary.summarize(*(r.ticket_resumed for r in results.values()))
+        body = RemoteNameSummary.summarize(*(r.body for r in results.values()))
+        return GroupedResult(summary=summary, ticket_resumed=ticket_resumed, body=body, details=results)
 
 
 def setup_server(software_name, testcase_name, software_cfg: config.SoftwareConfig, server_cfg: config.ServerConfig):
