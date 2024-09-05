@@ -562,9 +562,9 @@ LoadModule socache_shmcb_module modules/mod_socache_shmcb.so
 # also based on from conf/extra/httpd-ssl.conf
 SSLCipherSuite HIGH:MEDIUM:!MD5:!RC4:!3DES
 SSLProxyCipherSuite HIGH:MEDIUM:!MD5:!RC4:!3DES
-SSLHonorCipherOrder on 
-SSLProtocol all -SSLv3
-SSLProxyProtocol all -SSLv3
+SSLHonorCipherOrder on
+SSLProtocol TLSv1.2 +TLSv1.3
+SSLProxyProtocol TLSv1.2 +TLSv1.3
 SSLPassPhraseDialog  builtin
 SSLSessionCache        "shmcb:/usr/local/apache2/logs/ssl_scache(512000)"
 SSLSessionCacheTimeout  300
@@ -594,7 +594,6 @@ Listen {{ port }}
         SSLEngine on
         SSLCertificateFile "{{vhost.cert}}"
         SSLCertificateKeyFile "{{vhost.cert_key}}"
-        SSLProtocol TLSv1.2 TLSv1.3
         {%- if vhost.stek_path %}
             SSLSessionTickets on
             SSLSessionTicketKeyFile "{{ vhost.stek_path }}"

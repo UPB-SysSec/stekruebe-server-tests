@@ -1,7 +1,10 @@
-from dataclasses import dataclass
-import ssl
-import socket
 import http.client
+import logging as _logging
+import socket
+import ssl
+from dataclasses import dataclass
+
+logging = _logging.getLogger(__name__)
 
 
 def create_ssl_context(minimum_version=None, maximum_version=None, keylogfile=False):
@@ -20,6 +23,7 @@ def create_ssl_context(minimum_version=None, maximum_version=None, keylogfile=Fa
 CTX_ANY = create_ssl_context()
 CTX_TLS12 = create_ssl_context(maximum_version=ssl.TLSVersion.TLSv1_2)
 CTX_TLS13 = create_ssl_context(minimum_version=ssl.TLSVersion.TLSv1_3)
+CTX_DEFAULT = CTX_ANY
 
 
 @dataclass(frozen=False)
@@ -57,25 +61,32 @@ class HttpsResponse:
     peername: tuple
 
 
-def request(host: Remote, sni_host: Remote | None, host_header_host: Remote = ..., session=None, context=CTX_ANY):
+def request(
+    host: Remote, sni_host: Remote | None, host_header_host: Remote = ..., session=None, context=CTX_DEFAULT, timeout=2
+):
     assert isinstance(host, Remote)
     assert isinstance(sni_host, (Remote, type(None)))
     if host_header_host is ...:
         host_header_host = host
     assert isinstance(host_header_host, Remote)
 
-    with socket.create_connection(host.get_connectable()) as tcp_sock:
-        sni_name = sni_host.hostname if sni_host is not None else None
+    sni_name = sni_host.hostname if sni_host is not None else None
+    request = (
+        b"GET / HTTP/1.1\r\nHost: "
+        + host_header_host.hostname.encode()
+        + b"\r\nUser-Agent: cli/1\r\nAccept: */*\r\n\r\n"
+    )
+
+    logging.debug("Connecting to %s", host)
+    with socket.create_connection(host.get_connectable(), timeout=timeout) as tcp_sock:
+        logging.debug("Wrapping into TLS")
         with context.wrap_socket(tcp_sock, server_hostname=sni_name, session=session) as sock:
-            request = (
-                b"GET / HTTP/1.1\r\nHost: "
-                + host_header_host.hostname.encode()
-                + b"\r\nUser-Agent: cli/1\r\nAccept: */*\r\n\r\n"
-            )
+            logging.debug("Sending HTTP request")
             sock.write(request)
 
             response = http.client.HTTPResponse(sock)
             response.begin()
+            logging.debug("Reading HTTP response")
             body = response.read()
 
             # print("[ ]", host)
@@ -86,6 +97,6 @@ def request(host: Remote, sni_host: Remote | None, host_header_host: Remote = ..
                 response=response,
                 body=body,
                 session_reused=sock.session_reused,
-                cert=sock.getpeercert(),
+                cert=sock.getpeercert(True),
                 peername=sock.getpeername(),
             )
