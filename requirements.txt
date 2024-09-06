@@ -4,3 +4,5 @@ pydantic
 pytest
 docker
 click
+cffi
+setuptools

@@ -1,8 +1,9 @@
-from pydantic import BaseModel, field_validator
+from pydantic import BaseModel, field_validator, model_validator
 import yaml
 from typing import Any, Union
 import jinja2
 import os.path as op
+from typing import Optional
 
 
 class VirtualHostConfig(BaseModel):
@@ -11,14 +12,39 @@ class VirtualHostConfig(BaseModel):
     cert: str
     cert_key: str
     html_root: str
+    stek_id: Optional[str] = None
+    stek_path: Optional[str] = None
+
+    # validate that stekid and stekpath are set at the same time
+
+    @model_validator(mode="after")
+    def check_passwords_match(self):
+        stek_specifiers = 0
+        if self.stek_id:
+            stek_specifiers += 1
+        if self.stek_path:
+            stek_specifiers += 1
+        if stek_specifiers == 1:
+            raise ValueError("stek_id and stek_path must either both be set or both be None")
+        return self
 
 
 class ServerConfig(BaseModel):
     vHosts: list[VirtualHostConfig]
+    stek_id: str
 
 
 class TestcaseConfig(BaseModel):
     servers: list[ServerConfig]
+
+    def get_stek_ids(self) -> set[str]:
+        ret = set()
+        for server in self.servers:
+            ret.add(server.stek_id)
+            for vhost in server.vHosts:
+                if vhost.stek_id:
+                    ret.add(vhost.stek_id)
+        return ret
 
 
 class SoftwareConfig(BaseModel):
@@ -27,12 +53,13 @@ class SoftwareConfig(BaseModel):
     template: str
     stek_length: int
 
-    def render_config(self, server_cfg: ServerConfig, stek_path) -> str:
+    def render_config(self, server_cfg: ServerConfig, stek_path, comment=None) -> str:
         with open(self.template) as f:
             template = jinja2.Template(f.read())
         return template.render(
             vhosts=server_cfg.vHosts,
             stek_path=stek_path,
+            comment=comment,
         )
 
 
@@ -72,10 +99,10 @@ if __name__ == "__main__":
     print("Raw config:")
     pprint(config)
     # parse different parts
-    VirtualHostConfig(**config["test_cases"]["one-server"]["servers"][0]["vHosts"][0])
-    ServerConfig(**config["test_cases"]["one-server"]["servers"][0])
-    TestcaseConfig(**config["test_cases"]["one-server"])
-    SoftwareConfig(**config["software_config"]["nginx"])
+    # VirtualHostConfig(**config["test_cases"]["one-server"]["servers"][0]["vHosts"][0])
+    # ServerConfig(**config["test_cases"]["one-server"]["servers"][0])
+    # TestcaseConfig(**config["test_cases"]["one-server"])
+    # SoftwareConfig(**config["software_config"]["nginx"])
     print("\nParsed config:")
     config = parse_config_file("testcases/config.yml")
     pprint(config)

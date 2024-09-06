@@ -23,31 +23,79 @@ _templates:
       cert: /certs/c.com.crt
       cert_key: /certs/c.com.key
       html_root: /sites/c.com/
+    as: &as
+      <<: *a
+      stek_path: /a.com.stek.key
+      stek_id: a.com
+    bs: &bs
+      <<: *b
+      stek_path: /b.com.stek.key
+      stek_id: b.com
+    cs: &cs
+      <<: *c
+      stek_path: /c.com.stek.key
+      stek_id: c.com
+  default_server: &default_server
+    stek_id: server1
 
 test_cases:
   one-server:
     servers:
-      - vHosts:
+      - <<: *default_server
+        vHosts:
         - *a
         - *b
         - *c
+  one-server-different-steks:
+    servers:
+      - <<: *default_server
+        vHosts:
+        - *as
+        - *bs
+        - *cs
   one-server-different-ports:
     servers:
-      - vHosts:
+      - <<: *default_server
+        vHosts:
         - *a
         - <<: *b
           port: 444
-  two-servers:
+  two-servers-same-stek:
     servers:
-      - vHosts:
+      - <<: *default_server
+        vHosts:
         - *a
-      - vHosts:
+      - <<: *default_server
+        vHosts:
         - *b
-  two-servers-different-ports:
+  two-servers-same-stek-different-ports:
     servers:
-      - vHosts:
+      - <<: *default_server
+        vHosts:
         - *a
-      - vHosts:
+      - <<: *default_server
+        vHosts:
+        - <<: *b
+          port: 444
+  two-servers-distinct-stek:
+    servers:
+      - <<: *default_server
+        stek_id: server1
+        vHosts:
+        - *a
+      - <<: *default_server
+        stek_id: server2
+        vHosts:
+        - *b
+  two-servers-distinct-stek-different-ports:
+    servers:
+      - <<: *default_server
+        stek_id: server1
+        vHosts:
+        - *a
+      - <<: *default_server
+        stek_id: server2
+        vHosts:
         - <<: *b
           port: 444
 

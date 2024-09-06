@@ -6,5 +6,6 @@ __pycache__/
 
 .trash
 testcases/certs/
-results.json
+results*.json
+results*.csv
 test/

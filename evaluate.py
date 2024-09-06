@@ -10,15 +10,17 @@ from contextlib import ExitStack
 from dataclasses import dataclass
 from enum import Enum, IntEnum, StrEnum
 from pathlib import Path
-from typing import Any, Optional, TypeVar, Union
+from typing import Any, Optional, TypeVar, Union, Iterable
 
 import docker as docker_lib
 from docker.models.containers import Container
 from docker.types import Mount
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
+from pydantic_core import PydanticUndefined
 
 from util import config
-from util.request import HttpsResponse, Remote, request
+from util.request import HttpsResponse, Remote, request as _request, CTX_DEFAULT, CTX_TLS12, CTX_TLS13
+
 
 docker = docker_lib.from_env()
 
@@ -43,6 +45,30 @@ T = TypeVar("T")
 logging = _logging.getLogger(__name__)
 
 
+class TlsVersion(StrEnum):
+    TLSv1_2 = "TLSv1.2"
+    TLSv1_3 = "TLSv1.3"
+
+
+class StekRegistry:
+    def __init__(self):
+        self.steks = {}
+        self.stek_id_lookup = {}
+
+    def get_stek(self, name: str, length: int):
+        if name not in self.steks:
+            self.steks[name] = _generate_stek(length, name)
+            self.stek_id_lookup[self.steks[name][:16]] = name
+        assert len(self.steks[name]) == length
+        return self.steks[name]
+
+    def lookup_stek(self, stek_id: bytes):
+        ret = self.stek_id_lookup.get(stek_id[:16], None)
+        if ret is not None:
+            return ret
+        return f"unknown({stek_id[:16].hex()})"
+
+
 @dataclass
 class DeployedServer:
     ip: str
@@ -59,6 +85,8 @@ class DeployedServer:
             logging.error(logs)
         self.container.remove(force=True)
         STARTED_CONTAINER_IDS.remove(self.container.id)
+        for f in self.temp_files:
+            os.unlink(f)
 
     def __enter__(self):
         return self
@@ -71,6 +99,7 @@ class DeployedServer:
 class vhostTestData:
     remote: Remote
     initial_result: HttpsResponse
+    sessions: dict[TlsVersion, ssl.SSLSession]
     requires_sni: bool
     resumption_working: bool
 
@@ -163,10 +192,74 @@ assert RemoteName.summarize(_A_ISS, _B_RES) == _RemoteName_MULTIPLE
 del _A_ISS, _A_RES, _B_ISS, _B_RES
 
 
+def request(
+    host: Remote,
+    sni_host: Remote | None,
+    host_header_host: Remote = ...,
+    session=None,
+    version: Optional[TlsVersion] = None,
+    timeout=2,
+):
+    ctx = CTX_DEFAULT
+    if version is TlsVersion.TLSv1_2:
+        ctx = CTX_TLS12
+    elif version is TlsVersion.TLSv1_3:
+        ctx = CTX_TLS13
+    return _request(host, sni_host, host_header_host, session, ctx, timeout)
+
+
+class GeneratedModel(BaseModel):
+    @staticmethod
+    def _get_values_for_type(typ):
+        if typ == type(None):
+            return [None]
+
+        if typ == str:
+            raise ValueError("Cannot generate strings")
+
+        if typ == bool:
+            return [False, True]
+
+        if hasattr(typ, "__origin__") and typ.__origin__ == Union:
+            # handle Union/Optional
+            values = set()
+            for arg in typ.__args__:
+                values.update(TestCaseParameters._get_values_for_type(arg))
+            return values
+
+        if issubclass(typ, Enum):
+            return list(typ)
+
+        raise ValueError(f"Unknown type {typ}")
+
+    @classmethod
+    def generate(cls, **given_parameters):
+        field_value_space = {}
+        for field_name, field_info in cls.model_fields.items():
+            if field_name in given_parameters:
+                if isinstance(given_parameters[field_name], (list, tuple, set)):
+                    field_value_space[field_name] = given_parameters[field_name]
+                else:
+                    field_value_space[field_name] = [given_parameters[field_name]]
+            elif isinstance(field_info.examples, list):
+                field_value_space[field_name] = field_info.examples
+            else:
+                field_value_space[field_name] = TestCaseParameters._get_values_for_type(field_info.annotation)
+
+        for values in itertools.product(*field_value_space.values()):
+            parameters = dict(zip(field_value_space.keys(), values))
+            yield cls(**parameters)
+
+
+class TestCaseParameters(GeneratedModel):
+    tls_version: TlsVersion = Field(examples=list(TlsVersion))
+    sni_name: Optional[RemoteAlias] = Field(examples=[RemoteAlias.TICKET_ISSUER, RemoteAlias.RESUMPTION, None])
+    host_header_name: RemoteAlias = Field(examples=[RemoteAlias.TICKET_ISSUER, RemoteAlias.RESUMPTION])
+
+
 class ResultSummary(IntEnum):
     GOOD = 0
-    LOOK_INTO_THIS = 1
-    WARN = 2
+    WARN = 1
     BAD = 3
 
     def __or__(self, other):
@@ -202,6 +295,7 @@ class BoolSummary(StrEnum):
 
 
 class SingleResult(BaseModel):
+    parameters: dict[str, Any]
     summary: ResultSummary
     ticket_resumed: bool
     body: RemoteName
@@ -214,6 +308,7 @@ class SingleResult(BaseModel):
 
     @staticmethod
     def from_response(
+        parameters: dict[str, Any],
         resumption_response: HttpsResponse,
         full_response: HttpsResponse,
         ticket_issuer: vhostTestData,
@@ -244,9 +339,11 @@ class SingleResult(BaseModel):
             elif body_remote.alias == RemoteAlias.RESUMPTION:
                 summary = ResultSummary.BAD
             else:
-                summary = ResultSummary.LOOK_INTO_THIS
+                # unknown body
+                summary = ResultSummary.WARN
 
         return SingleResult(
+            parameters=parameters,
             ticket_resumed=resumption_response.session_reused,
             body=body_remote,
             summary=summary,
@@ -296,23 +393,61 @@ class GroupedResult(BaseModel):
         )
 
 
-def setup_server(software_name, testcase_name, software_cfg: config.SoftwareConfig, server_cfg: config.ServerConfig):
+_SERVER_COUNTER = 0
+
+
+def _generate_stek(length: int, prefix: Union[bytes, str] = b""):
+    if isinstance(prefix, str):
+        prefix = prefix.encode("ascii")
+    stek = prefix
+    stek += os.urandom(length - len(prefix))
+    return stek
+
+
+def setup_server(
+    software_name,
+    testcase_name,
+    software_cfg: config.SoftwareConfig,
+    server_cfg: config.ServerConfig,
+    steks: StekRegistry,
+    number: int,
+):
+    global _SERVER_COUNTER
+    _prefix = f"{_SERVER_COUNTER}_{number}_"
+    _SERVER_COUNTER += 1
+
+    tmp_files = []
+
+    def create_temp_file(prefix, **kwargs):
+        f = tempfile.NamedTemporaryFile(delete=False, dir=TEMP_DIR, prefix=_prefix + prefix, **kwargs)
+        tmp_files.append(f.name)
+        return f
+
     name = f"stekruebe_{software_name}_{testcase_name}_" + "_".join(v.hostname for v in server_cfg.vHosts)
-
-    stek_file = tempfile.NamedTemporaryFile(delete=False, dir=TEMP_DIR, suffix=".stek.key")
-    stek_file.write(os.urandom(software_cfg.stek_length))
-    stek_file.close()
-
-    config_file = tempfile.NamedTemporaryFile("w", delete=False, dir=TEMP_DIR, suffix=".nginx.conf")
-    config_file.write(software_cfg.render_config(server_cfg, "/stek.key"))
-    config_file.close()
 
     mounts = [
         Mount(source=str(CERTS_DIR.absolute()), target="/certs", read_only=True, type="bind"),
         Mount(source=str(SITES_DIR.absolute()), target="/sites", read_only=True, type="bind"),
-        Mount(source=stek_file.name, target="/stek.key", read_only=True, type="bind"),
-        Mount(source=config_file.name, target=software_cfg.config_path, read_only=True, type="bind"),
     ]
+
+    stek_file = create_temp_file("stek.key.")
+    stek_file.write(steks.get_stek(server_cfg.stek_id, software_cfg.stek_length))
+    stek_file.close()
+    mounts.append(Mount(source=stek_file.name, target="/stek.key", read_only=True, type="bind"))
+
+    for vhost in server_cfg.vHosts:
+        if vhost.stek_id:
+            assert vhost.stek_path
+            vhost_stek_file = create_temp_file(f".{vhost.hostname}.stek.key")
+            vhost_stek_file.write(steks.get_stek(vhost.stek_id, software_cfg.stek_length))
+            vhost_stek_file.close()
+            mounts.append(Mount(source=vhost_stek_file.name, target=vhost.stek_path, read_only=True, type="bind"))
+
+    config_file = create_temp_file(".server.conf", mode="w")
+    config_file.write(software_cfg.render_config(server_cfg, "/stek.key", comment=f"Config for container {name}"))
+    config_file.close()
+    mounts.append(Mount(source=config_file.name, target=software_cfg.config_path, read_only=True, type="bind"))
+
     container = docker.containers.run(software_cfg.image, detach=True, name=name, auto_remove=False, mounts=mounts)
     # except:
     STARTED_CONTAINER_IDS.add(container.id)
@@ -322,17 +457,17 @@ def setup_server(software_name, testcase_name, software_cfg: config.SoftwareConf
     assert ip is not None
     logging.debug("started container id=%s name=%s", container.id, name)
 
-    return DeployedServer(ip, container, [stek_file.name, config_file.name])
+    return DeployedServer(ip, container, tmp_files)
 
 
-def precheck_remote(remote: Remote):
+def precheck_remote(remote: Remote, steks: StekRegistry):
     logging.debug("Checking %s", remote)
     try:
         for _ in range(15):
             try:
                 initial_result = request(remote, remote, remote, timeout=1)
                 break
-            except (ConnectionRefusedError, TimeoutError):
+            except (ConnectionRefusedError, TimeoutError, OSError):
                 time.sleep(0.1)
         else:
             # last attempt; will probably fail and raise the exception outwards
@@ -353,15 +488,56 @@ def precheck_remote(remote: Remote):
     except ssl.SSLError:
         requires_sni = True
 
-    resumption_working = True
-    r = request(remote, remote, remote, initial_result.session)
-    resumption_working = resumption_working and r.session_reused
-    # resume twice to ensure we do not have single use tickets
-    r = request(remote, remote, remote, initial_result.session)
-    resumption_working = resumption_working and r.session_reused
-    assert resumption_working, "Resumption did not work"
+    assert not requires_sni
 
-    return vhostTestData(remote, initial_result, requires_sni, resumption_working)
+    sessions = {}
+    for version in TlsVersion:
+        # for each version get a session
+        response = request(remote, remote, remote, version=version)
+        sessions[version] = response.session
+
+        stek = steks.lookup_stek(response.ticket)
+
+        # also validate that the cert and body are the same
+        assert response.cert == CERTS[remote.hostname]
+        # also check that the session can be resumed
+        assert response.body == initial_result.body
+        # also check that SNI requirements stay the same
+        try:
+            no_sni_response = request(remote, None, remote, version=version)
+            no_sni_stek = steks.lookup_stek(no_sni_response.ticket)
+            assert not requires_sni
+            logging.info(
+                "vhost %s (%s) uses stek %s, no SNI results in stek %s",
+                remote.hostname,
+                version,
+                stek,
+                no_sni_stek,
+            )
+        except ssl.SSLError:
+            assert requires_sni
+            logging.warning(
+                "vhost %s (%s) uses stek %s, requires SNI",
+                remote.hostname,
+                version,
+                stek,
+            )
+
+        # validate that the tickets can be resumed multiple times (i.e. no single use tickets; we assume that we can simply reuse the same ticket again and again)
+        resumption_working = True
+        r = request(remote, remote, remote, response.session, version=version)
+        resumption_working = resumption_working and r.session_reused
+        r = request(remote, remote, remote, response.session, version=version)
+        resumption_working = resumption_working and r.session_reused
+        assert resumption_working, "Resumption did not work"
+
+    return vhostTestData(
+        remote=remote,
+        initial_result=initial_result,
+        sessions=sessions,
+        requires_sni=requires_sni,
+        resumption_working=resumption_working,
+    )
 
 
 def _select(remote: Optional[RemoteAlias], issuer: T, resumption: T) -> T:
@@ -375,59 +551,46 @@ def _select(remote: Optional[RemoteAlias], issuer: T, resumption: T) -> T:
         raise ValueError("Unknown remote name")
 
 
-def _yield_results_group(f):
-    def wrapper(*args, **kwargs):
-        return GroupedResult.from_results(dict(f(*args, **kwargs)))
-
-    return wrapper
-
-
-@_yield_results_group
-def evaluate_request(domains: dict[str, vhostTestData], sni_name: RemoteAlias, host_header_name: RemoteAlias):
+def evaluate_request(domains: dict[str, vhostTestData], parameters: TestCaseParameters):
     for ticket_issuer_host, resumption_host in itertools.permutations(domains.values(), 2):
         assert ticket_issuer_host != resumption_host, "Same host; should not happen"
-        sni = _select(sni_name, ticket_issuer_host.remote, resumption_host.remote)
-        host_header = _select(host_header_name, ticket_issuer_host.remote, resumption_host.remote)
+        sni = _select(parameters.sni_name, ticket_issuer_host.remote, resumption_host.remote)
+        host_header = _select(parameters.host_header_name, ticket_issuer_host.remote, resumption_host.remote)
 
         resumption_response = request(
-            resumption_host.remote, sni, host_header, ticket_issuer_host.initial_result.session
+            resumption_host.remote,
+            sni,
+            host_header,
+            ticket_issuer_host.sessions[parameters.tls_version],
+            parameters.tls_version,
         )
-        full_response = request(resumption_host.remote, sni, host_header)
-        result = SingleResult.from_response(
+        full_response = request(resumption_host.remote, sni, host_header, None, parameters.tls_version)
+        yield SingleResult.from_response(
+            dict(issuer=ticket_issuer_host.remote.hostname, resumption=resumption_host.remote.hostname),
             resumption_response=resumption_response,
             full_response=full_response,
             ticket_issuer=ticket_issuer_host,
             resumption=resumption_host,
         )
-        yield f"issuer={ticket_issuer_host.remote.hostname}, resumption={resumption_host.remote.hostname}", result
-
-
-@_yield_results_group
-def evaluate_vhosts(domains: dict[str, vhostTestData]):
-    for sni_name, host_header_name in itertools.product(
-        [RemoteAlias.TICKET_ISSUER, RemoteAlias.RESUMPTION, None],
-        [RemoteAlias.TICKET_ISSUER, RemoteAlias.RESUMPTION],
-    ):
-        yield f"sni={sni_name}, host={host_header_name}", evaluate_request(domains, sni_name, host_header_name)
 
 
 def evaluate_test_case(
     software_name: str, software_cfg: config.SoftwareConfig, case_name: str, case_cfg: config.TestcaseConfig
 ):
+    logging.info("Running server %s in case %s", software_name, case_name)
     server_instances = []
     domains: dict[str, vhostTestData] = {}
+    steks = StekRegistry()
     with ExitStack() as stack:
-        for server_cfg in case_cfg.servers:
-            instance = setup_server(software_name, case_name, software_cfg, server_cfg)
+        for i, server_cfg in enumerate(case_cfg.servers):
+            instance = setup_server(software_name, case_name, software_cfg, server_cfg, steks, i)
             stack.enter_context(instance)
             server_instances.append(instance)
             logging.debug("Checking vhosts")
             for vhost in server_cfg.vHosts:
                 assert vhost.hostname not in domains, "Duplicate domain - we do not handle this"
                 remote = Remote(vhost.hostname, ip=instance.ip, port=vhost.port)
-                domains[vhost.hostname] = precheck_remote(remote)
-
-        print("#", software_name, case_name)
+                domains[vhost.hostname] = precheck_remote(remote, steks)
 
         bodies = {}
         # check for duplicate bodies
@@ -440,34 +603,123 @@ def evaluate_test_case(
             logging.error("Duplicate bodies found")
             return
 
-        return evaluate_vhosts(domains)
+        for case_parameters in TestCaseParameters.generate():
+            logging.debug("Case Parameters %r", case_parameters)
+            yield from _merge_identifier(
+                **case_parameters.model_dump(),
+                _from=evaluate_request(domains, case_parameters),
+            )
+
+
+def _merge_identifier(*, _from: Iterable[SingleResult], **identifiers):
+    for result in _from:
+        assert set(identifiers.keys()) & set(result.parameters.keys()) == set(), "Identifier already in parameters"
+        result.parameters = {**identifiers, **result.parameters}
+        yield result
+
+
+def evaluate(testconfig: config.TestConfig):
+    for software_name, software_cfg in testconfig.software_config.items():
+        for case_name, case_cfg in testconfig.test_cases.items():
+            try:
+                yield from _merge_identifier(
+                    software_name=software_name,
+                    case_name=case_name,
+                    _from=evaluate_test_case(software_name, software_cfg, case_name, case_cfg),
+                )
+            except:
+                logging.exception("Failed to evaluate %s %s", software_name, case_name)
+                raise
+
+
+def group_results(results: Iterable[SingleResult], *group_keys, _used_keys=None):
+    if _used_keys is None:
+        _used_keys = set()
+    else:
+        _used_keys = set(_used_keys)
+
+    current_key = group_keys[0]
+    remaining_keys = group_keys[1:]
+
+    if isinstance(current_key, tuple):
+        for key in current_key:
+            assert key not in _used_keys, "Key used multiple times"
+            _used_keys.add(key)
+    else:
+        assert current_key not in _used_keys, "Key used multiple times"
+        _used_keys.add(current_key)
+
+    grouped: dict = {}
+    for result in results:
+        if isinstance(current_key, tuple):
+            identifier = ", ".join(f"{k}={result.parameters[k]}" for k in current_key)
+        else:
+            identifier = f"{current_key}={result.parameters[current_key]}"
+
+        if identifier not in grouped:
+            grouped[identifier] = []
+        grouped[identifier].append(result)
+
+    if remaining_keys:
+        for identifier in grouped:
+            grouped[identifier] = group_results(grouped[identifier], *remaining_keys, _used_keys=_used_keys)
+    else:
+        left_over_keys = set(result.parameters.keys()) - _used_keys
+        assert not left_over_keys, "Left over keys"  # TODO implement/handle
+        for identifier in grouped:
+            assert len(grouped[identifier]) == 1  # TODO implement/handle
+            grouped[identifier] = grouped[identifier][0]
+    return GroupedResult.from_results(grouped)
 
 
 def main():
     global TEMP_DIR
+    import csv
+
     testconfig = config.parse_config_file(TESTCASES_DIR / "config.yml")
-    with tempfile.TemporaryDirectory(delete=True) as temp_dir:
+    with tempfile.TemporaryDirectory(delete=True, prefix="steckruebe_") as temp_dir, open("results.csv", "w") as f:
         TEMP_DIR = Path(temp_dir)
-        software_results = {}
-        for software_name, software_cfg in testconfig.software_config.items():
-            case_results = {}
-            for case_name, case_cfg in testconfig.test_cases.items():
-                try:
-                    case_results[case_name] = evaluate_test_case(software_name, software_cfg, case_name, case_cfg)
-                except:
-                    logging.exception("Failed to evaluate %s %s", software_name, case_name)
-                    raise
-            software_results[software_name] = GroupedResult.from_results(case_results)
-        all_results = GroupedResult.from_results(software_results)
-    if all_results is not None:
-        with open("results.json", "w") as f:
-            f.write(all_results.model_dump_json(indent=2))
-    else:
-        logging.critical("No results")
-    TEMP_DIR = None
+        keys = None
+        results = []
+        for result in evaluate(testconfig):
+            parameters = result.parameters
+            assert isinstance(parameters, dict)
+            assert isinstance(result, SingleResult)
+            results.append(result)
+
+            result = result.model_dump()
+            # parameters = {f"parameters.{k}": v for k, v in parameters.items()}
+            result = {f"result.{k}": v for k, v in result.items() if k != "parameters"}
+
+            if keys is None:
+                # first result
+                keys = parameters.keys()
+                writer = csv.DictWriter(f, fieldnames=[*keys, *result.keys()])
+                writer.writeheader()
+            else:
+                assert keys == parameters.keys(), "Different keys"
+            writer.writerow(
+                {
+                    **parameters,
+                    **result,
+                }
+            )
+
+    # group results
+    group_keys = (
+        "software_name",
+        "case_name",
+        ("sni_name", "host_header_name"),
+        "tls_version",
+        ("issuer", "resumption"),
+    )
+    with open("results.json", "w") as f:
+        grouped = group_results(results, *group_keys)
+        f.write(grouped.model_dump_json(indent=2))
 
 
 if __name__ == "__main__":
     _logging.basicConfig(level=_logging.INFO)
     logging.setLevel(_logging.INFO)
+
     main()

@@ -3,8 +3,21 @@ import logging as _logging
 import socket
 import ssl
 from dataclasses import dataclass
+from typing import Optional
+
 
 logging = _logging.getLogger(__name__)
+
+try:
+    try:
+        from .openssl_ticket import get_ticket_bytes
+    except ImportError:
+        from openssl_ticket import get_ticket_bytes
+except:
+    logging.exception("Failed to import get_ticket_bytes; using a stub function")
+
+    def get_ticket_bytes(session) -> bytes:
+        return None
 
 
 def create_ssl_context(minimum_version=None, maximum_version=None, keylogfile=False):
@@ -57,6 +70,7 @@ class HttpsResponse:
     response: http.client.HTTPResponse
     body: bytes
     session_reused: bool
+    ticket: Optional[bytes]
     cert: dict
     peername: tuple
 
@@ -97,6 +111,7 @@ def request(
                 response=response,
                 body=body,
                 session_reused=sock.session_reused,
+                ticket=get_ticket_bytes(sock.session),
                 cert=sock.getpeercert(True),
                 peername=sock.getpeername(),
             )

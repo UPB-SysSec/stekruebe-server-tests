@@ -1,3 +1,6 @@
+# {{comment}}
+
+### DEFAULT CONFIG
 #
 # PLAIN TEXT CONFIGURATION FILE
 #
@@ -204,6 +207,8 @@ enablePrivateCache  0
 privateExpireInSeconds 3600
   ls_enabled              1
 }
+
+### END DEFAULT CONFIG
 
 {%- for vhost in vhosts %}
 virtualhost {{ vhost.hostname }} {
