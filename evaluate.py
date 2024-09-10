@@ -15,7 +15,7 @@ from typing import Any, Optional, TypeVar, Union, Iterable
 import docker as docker_lib
 from docker.models.containers import Container
 from docker.types import Mount
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_serializer
 from pydantic_core import PydanticUndefined
 
 from util import config
@@ -105,90 +105,103 @@ class vhostTestData:
 
 
 class RemoteAlias(StrEnum):
-    UNKNOWN = "unknown"
-    TICKET_ISSUER = "ticket issuer"
-    RESUMPTION = "resumption"
+    UNKNOWN = "unknown host"
+    TICKET_ISSUER = "ticket issuer host"
+    RESUMPTION = "resumption host"
 
 
-_RemoteName_MULTIPLE = "<multiple values>"
+class RemoteRole(StrEnum):
+    SNI_VALUE = "sni value"
+    HOST_VALUE = "host header value"
 
 
-class RemoteName(BaseModel):
-    alias: RemoteAlias
-    domain: str
+_RemoteNameSummary_MULTIPLE = "<multiple values>"
+
+
+class RemoteNameSummary(BaseModel):
+    data: set[Union[RemoteAlias, RemoteRole, str]]
+
+    def __init__(self, *data):
+        if len(data) == 1 and isinstance(data[0], set):
+            data = data[0]
+        else:
+            assert not any(isinstance(d, set) for d in data)
+        super().__init__(data=data)
+
+    @model_serializer()
+    def serialize(self):
+        if len(self.data) == 0:
+            return _RemoteNameSummary_MULTIPLE
+        if len(self.data) == 1:
+            return next(iter(self.data))
+        return self.data
+
+    def __eq__(self, value: object) -> bool:
+        if isinstance(value, RemoteNameSummary):
+            return self.data == value.data
+        return self.data == value
+
+    def __contains__(self, value: object) -> bool:
+        return value in self.data
 
     @staticmethod
-    def from_body(received, ticket_issuer_host: vhostTestData, resumption_host: vhostTestData):
+    def from_body(
+        received,
+        ticket_issuer_host: vhostTestData,
+        resumption_host: vhostTestData,
+        abstract_parameters: "TestCaseParameters",
+    ):
         assert (
             ticket_issuer_host.initial_result.body != resumption_host.initial_result.body
         ), "Same body for ticket and resumption; should've been caught earlier"
         if received == ticket_issuer_host.initial_result.body:
-            return RemoteName(domain=ticket_issuer_host.remote.hostname, alias=RemoteAlias.TICKET_ISSUER)
+            return RemoteNameSummary(
+                ticket_issuer_host.remote.hostname,
+                RemoteAlias.TICKET_ISSUER,
+                *abstract_parameters.get_roles(RemoteAlias.TICKET_ISSUER),
+            )
         elif received == resumption_host.initial_result.body:
-            return RemoteName(domain=resumption_host.remote.hostname, alias=RemoteAlias.RESUMPTION)
+            return RemoteNameSummary(
+                resumption_host.remote.hostname,
+                RemoteAlias.RESUMPTION,
+                *abstract_parameters.get_roles(RemoteAlias.RESUMPTION),
+            )
         else:
-            return RemoteName(domain="<unknown>", alias=RemoteAlias.UNKNOWN)
+            return RemoteNameSummary(RemoteAlias.UNKNOWN)
 
     @staticmethod
-    def summarize(*remote_names):
-        summary = None
-        for r in remote_names:
-            if r is None:
-                continue
-            if summary is None:
-                summary = r
-                continue
+    def summarize(*remote_names: set):
+        remote_names = list(remote_names)
+        for i in range(len(remote_names)):
+            if isinstance(remote_names[i], RemoteNameSummary):
+                remote_names[i] = remote_names[i].data
+            elif not isinstance(remote_names[i], set):
+                # assume single value
+                remote_names[i] = {remote_names[i]}
 
-            r_domain = None
-            if isinstance(r, RemoteName):
-                r_domain = r.domain
-            elif isinstance(r, str):
-                r_domain = r
-
-            r_alias = None
-            if isinstance(r, RemoteName):
-                r_alias = r.alias
-            elif isinstance(r, RemoteAlias):
-                r_alias = r
-
-            if isinstance(summary, RemoteName):
-                if r_domain == summary.domain and r_alias == summary.alias:
-                    continue
-                elif r_domain == summary.domain:
-                    summary = r_domain
-                elif r_alias == summary.alias:
-                    summary = r_alias
-                else:
-                    return _RemoteName_MULTIPLE
-            elif isinstance(summary, RemoteAlias):
-                if r_alias == summary:
-                    continue
-                else:
-                    return _RemoteName_MULTIPLE
-            elif isinstance(summary, str):
-                if r_domain == summary:
-                    continue
-                else:
-                    return _RemoteName_MULTIPLE
-
-        return summary
+        ret = set(remote_names[0])
+        for r in remote_names[1:]:
+            ret.intersection_update(r)
+        return RemoteNameSummary(ret)
 
 
-RemoteNameSummary = Union[RemoteName, RemoteAlias, str]
-
-
-assert RemoteName.summarize("a", "a") == "a"
-assert RemoteName.summarize("a", "b") == _RemoteName_MULTIPLE
-assert RemoteName.summarize(RemoteAlias.RESUMPTION, RemoteAlias.RESUMPTION) == RemoteAlias.RESUMPTION
-assert RemoteName.summarize(RemoteAlias.RESUMPTION, RemoteAlias.TICKET_ISSUER) == _RemoteName_MULTIPLE
-_A_ISS = RemoteName(alias=RemoteAlias.TICKET_ISSUER, domain="a")
-_A_RES = RemoteName(alias=RemoteAlias.RESUMPTION, domain="a")
-_B_ISS = RemoteName(alias=RemoteAlias.TICKET_ISSUER, domain="b")
-_B_RES = RemoteName(alias=RemoteAlias.RESUMPTION, domain="b")
-assert RemoteName.summarize(_A_ISS, _A_ISS) == RemoteName(alias=RemoteAlias.TICKET_ISSUER, domain="a")
-assert RemoteName.summarize(_A_ISS, _A_RES) == "a"
-assert RemoteName.summarize(_A_ISS, _B_ISS) == RemoteAlias.TICKET_ISSUER
-assert RemoteName.summarize(_A_ISS, _B_RES) == _RemoteName_MULTIPLE
+assert RemoteNameSummary.summarize("a", "a").model_dump() == "a"
+assert RemoteNameSummary.summarize("a", "b").model_dump() == _RemoteNameSummary_MULTIPLE
+assert (
+    RemoteNameSummary.summarize(RemoteAlias.RESUMPTION, RemoteAlias.RESUMPTION).model_dump() == RemoteAlias.RESUMPTION
+)
+assert (
+    RemoteNameSummary.summarize(RemoteAlias.RESUMPTION, RemoteAlias.TICKET_ISSUER).model_dump()
+    == _RemoteNameSummary_MULTIPLE
+)
+_A_ISS = RemoteNameSummary(RemoteAlias.TICKET_ISSUER, "a")
+_A_RES = RemoteNameSummary(RemoteAlias.RESUMPTION, "a")
+_B_ISS = RemoteNameSummary(RemoteAlias.TICKET_ISSUER, "b")
+_B_RES = RemoteNameSummary(RemoteAlias.RESUMPTION, "b")
+assert RemoteNameSummary.summarize(_A_ISS, _A_ISS).model_dump() == RemoteNameSummary(RemoteAlias.TICKET_ISSUER, "a")
+assert RemoteNameSummary.summarize(_A_ISS, _A_RES).model_dump() == "a"
+assert RemoteNameSummary.summarize(_A_ISS, _B_ISS).model_dump() == RemoteAlias.TICKET_ISSUER
+assert RemoteNameSummary.summarize(_A_ISS, _B_RES).model_dump() == _RemoteNameSummary_MULTIPLE
 del _A_ISS, _A_RES, _B_ISS, _B_RES
 
 
@@ -256,6 +269,14 @@ class TestCaseParameters(GeneratedModel):
     sni_name: Optional[RemoteAlias] = Field(examples=[RemoteAlias.TICKET_ISSUER, RemoteAlias.RESUMPTION, None])
     host_header_name: RemoteAlias = Field(examples=[RemoteAlias.TICKET_ISSUER, RemoteAlias.RESUMPTION])
 
+    def get_roles(self, alias: RemoteAlias) -> set[RemoteRole]:
+        ret = set()
+        if alias == self.sni_name:
+            ret.add(RemoteRole.SNI_VALUE)
+        if alias == self.host_header_name:
+            ret.add(RemoteRole.HOST_VALUE)
+        return ret
+
 
 class ResultSummary(IntEnum):
     GOOD = 0
@@ -295,55 +316,68 @@ class BoolSummary(StrEnum):
 
 
 class SingleResult(BaseModel):
-    parameters: dict[str, Any]
+    parameters: dict[str, Any] = Field(exclude=True)
     summary: ResultSummary
     ticket_resumed: bool
-    body: RemoteName
+    body: RemoteNameSummary
     response_status_code: int
     response_body: bytes
     full_response_cert: RemoteNameSummary
-    full_response_body: RemoteName
+    full_response_body: RemoteNameSummary
     full_body_equals_resumption_body: bool
     full_body_equals_cert: bool
 
     @staticmethod
     def from_response(
-        parameters: dict[str, Any],
+        abstract_parameters: TestCaseParameters,
+        concrete_parameters: dict[str, Any],
         resumption_response: HttpsResponse,
         full_response: HttpsResponse,
         ticket_issuer: vhostTestData,
         resumption: vhostTestData,
     ):
-        body_remote = RemoteName.from_body(resumption_response.body, ticket_issuer, resumption)
-        full_response_body_remote = RemoteName.from_body(full_response.body, ticket_issuer, resumption)
+        body_remote = RemoteNameSummary.from_body(
+            resumption_response.body, ticket_issuer, resumption, abstract_parameters
+        )
+        full_response_body_remote = RemoteNameSummary.from_body(
+            full_response.body, ticket_issuer, resumption, abstract_parameters
+        )
 
         if full_response.cert == CERTS[ticket_issuer.remote.hostname]:
-            full_response_cert = RemoteName(alias=RemoteAlias.TICKET_ISSUER, domain=ticket_issuer.remote.hostname)
+            full_response_cert = RemoteNameSummary(
+                RemoteAlias.TICKET_ISSUER,
+                ticket_issuer.remote.hostname,
+                *abstract_parameters.get_roles(RemoteAlias.TICKET_ISSUER),
+            )
         elif full_response.cert == CERTS[resumption.remote.hostname]:
-            full_response_cert = RemoteName(alias=RemoteAlias.RESUMPTION, domain=resumption.remote.hostname)
+            full_response_cert = RemoteNameSummary(
+                RemoteAlias.RESUMPTION,
+                resumption.remote.hostname,
+                *abstract_parameters.get_roles(RemoteAlias.RESUMPTION),
+            )
         else:
             for name, cert in CERTS.items():
                 if full_response.cert == cert:
-                    full_response_cert = name
+                    full_response_cert = RemoteNameSummary(name)
                     break
             else:
-                full_response_cert = RemoteAlias.UNKNOWN
+                full_response_cert = RemoteNameSummary(RemoteAlias.UNKNOWN)
 
         summary = None
         if not resumption_response.session_reused:
             summary = ResultSummary.GOOD
         else:
             # session was reused
-            if body_remote.alias == RemoteAlias.TICKET_ISSUER:
+            if RemoteAlias.TICKET_ISSUER in body_remote:
                 summary = ResultSummary.GOOD
-            elif body_remote.alias == RemoteAlias.RESUMPTION:
+            elif RemoteAlias.RESUMPTION in body_remote:
                 summary = ResultSummary.BAD
             else:
                 # unknown body
                 summary = ResultSummary.WARN
 
         return SingleResult(
-            parameters=parameters,
+            parameters=concrete_parameters,
             ticket_resumed=resumption_response.session_reused,
             body=body_remote,
             summary=summary,
@@ -382,9 +416,9 @@ class GroupedResult(BaseModel):
         return GroupedResult(
             summary=summary,
             ticket_resumed=BoolSummary.summarize(*(r.ticket_resumed for r in result_values)),
-            body=RemoteName.summarize(*(r.body for r in result_values)),
-            full_response_cert=RemoteName.summarize(*(r.full_response_cert for r in result_values)),
-            full_response_body=RemoteName.summarize(*(r.full_response_body for r in result_values)),
+            body=RemoteNameSummary.summarize(*(r.body for r in result_values)),
+            full_response_cert=RemoteNameSummary.summarize(*(r.full_response_cert for r in result_values)),
+            full_response_body=RemoteNameSummary.summarize(*(r.full_response_body for r in result_values)),
             full_body_equals_resumption_body=BoolSummary.summarize(
                 *(r.full_body_equals_resumption_body for r in result_values)
             ),
@@ -566,7 +600,10 @@ def evaluate_request(domains: dict[str, vhostTestData], parameters: TestCasePara
         )
         full_response = request(resumption_host.remote, sni, host_header, None, parameters.tls_version)
         yield SingleResult.from_response(
-            dict(issuer=ticket_issuer_host.remote.hostname, resumption=resumption_host.remote.hostname),
+            abstract_parameters=parameters,
+            concrete_parameters=dict(
+                issuer=ticket_issuer_host.remote.hostname, resumption=resumption_host.remote.hostname
+            ),
             resumption_response=resumption_response,
             full_response=full_response,
             ticket_issuer=ticket_issuer_host,
@@ -665,9 +702,9 @@ def group_results(results: Iterable[SingleResult], *group_keys, _used_keys=None)
             grouped[identifier] = group_results(grouped[identifier], *remaining_keys, _used_keys=_used_keys)
     else:
         left_over_keys = set(result.parameters.keys()) - _used_keys
-        assert not left_over_keys, "Left over keys"  # TODO implement/handle
+        assert not left_over_keys, "Left over keys"  # minor todo: implement/handle
         for identifier in grouped:
-            assert len(grouped[identifier]) == 1  # TODO implement/handle
+            assert len(grouped[identifier]) == 1  # minor todo: implement/handle
             grouped[identifier] = grouped[identifier][0]
     return GroupedResult.from_results(grouped)
 
