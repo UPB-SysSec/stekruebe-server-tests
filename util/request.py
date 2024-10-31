@@ -76,7 +76,12 @@ class HttpsResponse:
 
 
 def request(
-    host: Remote, sni_host: Remote | None, host_header_host: Remote = ..., session=None, context=CTX_DEFAULT, timeout=2
+    host: Remote,
+    sni_host: Remote | None,
+    host_header_host: Remote = ...,  # type: ignore
+    session=None,
+    context=CTX_DEFAULT,
+    timeout=2,
 ):
     assert isinstance(host, Remote)
     assert isinstance(sni_host, (Remote, type(None)))

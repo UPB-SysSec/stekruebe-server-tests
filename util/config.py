@@ -52,11 +52,15 @@ class SoftwareConfig(BaseModel):
     config_path: str
     template: str
     stek_length: int
+    additional_vhost_ports: list[int] = []
+    supports_sni_none: bool = True
+    extra_config_vars: dict[str, Any] = {}
 
     def render_config(self, server_cfg: ServerConfig, stek_path, comment=None) -> str:
         with open(self.template) as f:
             template = jinja2.Template(f.read())
         return template.render(
+            **self.extra_config_vars,
             vhosts=server_cfg.vHosts,
             stek_path=stek_path,
             comment=comment,

@@ -5,13 +5,15 @@ import os
 import ssl
 import tempfile
 import time
+from abc import abstractmethod, ABC
 from collections import namedtuple
 from contextlib import ExitStack
 from dataclasses import dataclass
 from enum import Enum, IntEnum, StrEnum
 from pathlib import Path
-from typing import Any, Optional, TypeVar, Union, Iterable
+from typing import Any, Optional, TypeVar, Union, Iterable, overload
 
+import click
 import docker as docker_lib
 from docker.models.containers import Container
 from docker.types import Mount
@@ -31,14 +33,14 @@ SITES_DIR = TESTCASES_DIR / "sites"
 CERTS = {}
 for cert in CERTS_DIR.glob("*.crt"):
     with cert.open("r") as f:
-        cert_pem = f.readlines()
-        assert cert_pem[0] == "-----BEGIN CERTIFICATE-----\n"
-        assert cert_pem[-1] == "-----END CERTIFICATE-----\n"
-        cert_pem = "".join(cert_pem[1:-1])
+        cert_pem_lines = f.readlines()
+        assert cert_pem_lines[0] == "-----BEGIN CERTIFICATE-----\n"
+        assert cert_pem_lines[-1] == "-----END CERTIFICATE-----\n"
+        cert_pem = "".join(cert_pem_lines[1:-1])
         CERTS[cert.stem] = base64.b64decode(cert_pem)
 
 TEMP_DIR = None
-STARTED_CONTAINER_IDS = set()
+STARTED_CONTAINER_IDS: set[str] = set()
 
 T = TypeVar("T")
 
@@ -74,6 +76,7 @@ class DeployedServer:
     ip: str
     container: Container
     temp_files: list[str]
+    remotes: list[Remote] = Field(default_factory=list)
 
     def teardown(self, exc_type=None, exc_value=None, traceback=None):
         logging.debug(
@@ -119,7 +122,7 @@ _RemoteNameSummary_MULTIPLE = "<multiple values>"
 
 
 class RemoteNameSummary(BaseModel):
-    data: set[Union[RemoteAlias, RemoteRole, str]]
+    data: set[Union[RemoteAlias, RemoteRole, str, None]]
 
     def __init__(self, *data):
         if len(data) == 1 and isinstance(data[0], set):
@@ -151,9 +154,18 @@ class RemoteNameSummary(BaseModel):
         resumption_host: vhostTestData,
         abstract_parameters: "TestCaseParameters",
     ):
-        assert (
-            ticket_issuer_host.initial_result.body != resumption_host.initial_result.body
-        ), "Same body for ticket and resumption; should've been caught earlier"
+        # assert (
+        #     ticket_issuer_host.initial_result.body != resumption_host.initial_result.body
+        # ), "Same body for ticket and resumption; should've been caught earlier"
+        if ticket_issuer_host.initial_result.body == resumption_host.initial_result.body:
+            return RemoteNameSummary(
+                ticket_issuer_host.remote.hostname,
+                RemoteAlias.TICKET_ISSUER,
+                *abstract_parameters.get_roles(RemoteAlias.TICKET_ISSUER),
+                resumption_host.remote.hostname,
+                RemoteAlias.RESUMPTION,
+                *abstract_parameters.get_roles(RemoteAlias.RESUMPTION),
+            )
         if received == ticket_issuer_host.initial_result.body:
             return RemoteNameSummary(
                 ticket_issuer_host.remote.hostname,
@@ -170,7 +182,7 @@ class RemoteNameSummary(BaseModel):
             return RemoteNameSummary(RemoteAlias.UNKNOWN)
 
     @staticmethod
-    def summarize(*remote_names: set):
+    def summarize(*remote_names):
         remote_names = list(remote_names)
         for i in range(len(remote_names)):
             if isinstance(remote_names[i], RemoteNameSummary):
@@ -208,7 +220,7 @@ del _A_ISS, _A_RES, _B_ISS, _B_RES
 def request(
     host: Remote,
     sni_host: Remote | None,
-    host_header_host: Remote = ...,
+    host_header_host: Remote = ...,  # type: ignore
     session=None,
     version: Optional[TlsVersion] = None,
     timeout=2,
@@ -319,23 +331,38 @@ class SingleResult(BaseModel):
     parameters: dict[str, Any] = Field(exclude=True)
     summary: ResultSummary
     ticket_resumed: bool
-    body: RemoteNameSummary
-    response_status_code: int
-    response_body: bytes
-    full_response_cert: RemoteNameSummary
-    full_response_body: RemoteNameSummary
-    full_body_equals_resumption_body: bool
-    full_body_equals_cert: bool
+    body: Optional[RemoteNameSummary]
+    response_status_code: Optional[int]
+    response_body: Optional[bytes]
+    full_response_cert: Optional[RemoteNameSummary]
+    full_response_body: Optional[RemoteNameSummary]
+    full_body_equals_resumption_body: Optional[bool]
+    full_body_equals_cert: Optional[bool]
 
     @staticmethod
     def from_response(
         abstract_parameters: TestCaseParameters,
         concrete_parameters: dict[str, Any],
-        resumption_response: HttpsResponse,
-        full_response: HttpsResponse,
+        resumption_response: Optional[HttpsResponse],
+        full_response: Optional[HttpsResponse],
         ticket_issuer: vhostTestData,
         resumption: vhostTestData,
     ):
+        if full_response is None:
+            assert resumption_response is None
+            return SingleResult(
+                parameters=concrete_parameters,
+                summary=ResultSummary.GOOD,
+                ticket_resumed=False,
+                body=None,
+                response_status_code=None,
+                response_body=None,
+                full_response_cert=None,
+                full_response_body=None,
+                full_body_equals_resumption_body=False,
+                full_body_equals_cert=False,
+            )
+        assert resumption_response
         body_remote = RemoteNameSummary.from_body(
             resumption_response.body, ticket_issuer, resumption, abstract_parameters
         )
@@ -405,7 +432,7 @@ class GroupedResult(BaseModel):
     def from_results(results: dict[Any, Union["GroupedResult", SingleResult]]):
         result_values = list(results.values())
         while None in result_values:
-            result_values.remove(None)
+            result_values.remove(None)  # type: ignore
         if not result_values:
             return None
         assert all(isinstance(r, (SingleResult, GroupedResult)) for r in result_values)
@@ -483,7 +510,8 @@ def setup_server(
     mounts.append(Mount(source=config_file.name, target=software_cfg.config_path, read_only=True, type="bind"))
 
     container = docker.containers.run(software_cfg.image, detach=True, name=name, auto_remove=False, mounts=mounts)
-    # except:
+
+    assert container.id is not None
     STARTED_CONTAINER_IDS.add(container.id)
 
     container.reload()
@@ -510,6 +538,9 @@ def precheck_remote(remote: Remote, steks: StekRegistry):
         logging.exception("Failed to connect to %s", remote)
         raise
 
+    if remote.hostname not in CERTS:
+        logging.warning("Did not ahve prior knowledge about cert for %s, storing now", remote.hostname)
+        CERTS[remote.hostname] = initial_result.cert
     if initial_result.cert != CERTS[remote.hostname]:
         logging.error("Certificate mismatch for %s", remote)
         logging.error("Received: %s", initial_result.cert.hex())
@@ -521,8 +552,6 @@ def precheck_remote(remote: Remote, steks: StekRegistry):
         requires_sni = False
     except ssl.SSLError:
         requires_sni = True
-
-    assert not requires_sni
 
     sessions = {}
     for version in TlsVersion:
@@ -574,7 +603,15 @@ def precheck_remote(remote: Remote, steks: StekRegistry):
     )
 
 
-def _select(remote: Optional[RemoteAlias], issuer: T, resumption: T) -> T:
+@overload
+def _select(remote: None, issuer: T, resumption: T) -> None: ...
+
+
+@overload
+def _select(remote: RemoteAlias, issuer: T, resumption: T) -> T: ...
+
+
+def _select(remote: Optional[RemoteAlias], issuer: T, resumption: T) -> T | None:
     if remote is None:
         return None
     if remote == RemoteAlias.TICKET_ISSUER:
@@ -591,24 +628,38 @@ def evaluate_request(domains: dict[str, vhostTestData], parameters: TestCasePara
         sni = _select(parameters.sni_name, ticket_issuer_host.remote, resumption_host.remote)
         host_header = _select(parameters.host_header_name, ticket_issuer_host.remote, resumption_host.remote)
 
-        resumption_response = request(
-            resumption_host.remote,
-            sni,
-            host_header,
-            ticket_issuer_host.sessions[parameters.tls_version],
-            parameters.tls_version,
-        )
-        full_response = request(resumption_host.remote, sni, host_header, None, parameters.tls_version)
-        yield SingleResult.from_response(
-            abstract_parameters=parameters,
-            concrete_parameters=dict(
-                issuer=ticket_issuer_host.remote.hostname, resumption=resumption_host.remote.hostname
-            ),
-            resumption_response=resumption_response,
-            full_response=full_response,
-            ticket_issuer=ticket_issuer_host,
-            resumption=resumption_host,
-        )
+        try:
+            resumption_response = request(
+                resumption_host.remote,
+                sni,
+                host_header,
+                ticket_issuer_host.sessions[parameters.tls_version],
+                parameters.tls_version,
+            )
+        except ssl.SSLError as e:
+            logging.error("Failed to perform TLS handshake: %s", e)
+            yield SingleResult.from_response(
+                abstract_parameters=parameters,
+                concrete_parameters=dict(
+                    issuer=ticket_issuer_host.remote.hostname, resumption=resumption_host.remote.hostname
+                ),
+                resumption_response=None,
+                full_response=None,
+                ticket_issuer=ticket_issuer_host,
+                resumption=resumption_host,
+            )
+        else:
+            full_response = request(resumption_host.remote, sni, host_header, None, parameters.tls_version)
+            yield SingleResult.from_response(
+                abstract_parameters=parameters,
+                concrete_parameters=dict(
+                    issuer=ticket_issuer_host.remote.hostname, resumption=resumption_host.remote.hostname
+                ),
+                resumption_response=resumption_response,
+                full_response=full_response,
+                ticket_issuer=ticket_issuer_host,
+                resumption=resumption_host,
+            )
 
 
 def evaluate_test_case(
@@ -624,23 +675,33 @@ def evaluate_test_case(
             stack.enter_context(instance)
             server_instances.append(instance)
             logging.debug("Checking vhosts")
-            for vhost in server_cfg.vHosts:
-                assert vhost.hostname not in domains, "Duplicate domain - we do not handle this"
-                remote = Remote(vhost.hostname, ip=instance.ip, port=vhost.port)
-                domains[vhost.hostname] = precheck_remote(remote, steks)
+            vhost_remotes: list[Remote] = []
+            for vhost_cfg in server_cfg.vHosts:
+                assert vhost_cfg.hostname not in domains, "Duplicate domain - we do not handle this"
+                vhost_remotes.append(Remote(vhost_cfg.hostname, ip=instance.ip, port=vhost_cfg.port))
+            for additional_vhost_port in software_cfg.additional_vhost_ports:
+                vhost_remotes.append(
+                    Remote(f"additional_{i}_{additional_vhost_port}", ip=instance.ip, port=additional_vhost_port)
+                )
+            for remote in vhost_remotes:
+                domains[remote.hostname] = precheck_remote(remote, steks)
 
-        bodies = {}
+        bodies: dict[bytes, list[str]] = {}
         # check for duplicate bodies
         for vhost, data in domains.items():
             body = data.initial_result.body
             if body in bodies:
-                logging.error("Duplicate body for %s and %s", vhost, bodies[body])
-            bodies[body] = vhost
-        if len(bodies) != len(domains):
-            logging.error("Duplicate bodies found")
-            return
+                logging.warning("Duplicate body for %s and %s", vhost, bodies[body])
+            else:
+                bodies[body] = []
+            bodies[body].append(vhost)
+        # if len(bodies) != len(domains):
+        #     logging.error("Duplicate bodies found")
+        #     raise ValueError()
 
         for case_parameters in TestCaseParameters.generate():
+            if case_parameters.sni_name is None and not software_cfg.supports_sni_none:
+                continue
             logging.debug("Case Parameters %r", case_parameters)
             yield from _merge_identifier(
                 **case_parameters.model_dump(),
@@ -709,11 +770,80 @@ def group_results(results: Iterable[SingleResult], *group_keys, _used_keys=None)
     return GroupedResult.from_results(grouped)
 
 
-def main():
+class TestConfigCli(click.ParamType):
+    name = "testconfig"
+
+    def convert(self, value, param, ctx):
+        return config.parse_config_file(value)
+
+
+class NameCliParameter(click.ParamType, ABC):
+    def __init__(self, multiple_comma=True):
+        self.multi_comma = multiple_comma
+
+    def convert(self, value, param, ctx):
+        testconfig = ctx.parent.params["testconfig"]
+        assert isinstance(testconfig, config.TestConfig)
+        dict_to_filter = self.get_dict_to_filter(testconfig)
+
+        if self.multi_comma:
+            all_items = set(map(str.strip, value.split(",")))
+        else:
+            all_items = {value}
+
+        for item in all_items:
+            if item not in dict_to_filter:
+                raise ValueError(f"Unknown test case {item}")
+
+        for item in list(dict_to_filter.keys()):
+            if item not in all_items:
+                dict_to_filter.pop(item)
+
+        return all_items
+
+    @abstractmethod
+    def get_dict_to_filter(self, testconfig: config.TestConfig):
+        raise NotImplementedError()
+
+
+class TestCaseNameCli(NameCliParameter):
+    name = "testcase_name"
+
+    def get_dict_to_filter(self, testconfig: config.TestConfig):
+        return testconfig.test_cases
+
+
+class SoftwareNameCli(NameCliParameter):
+    name = "software_name"
+
+    def get_dict_to_filter(self, testconfig: config.TestConfig):
+        return testconfig.software_config
+
+
+@click.group()
+@click.option("--config", "testconfig", type=TestConfigCli(), default=TESTCASES_DIR / "config.yml")
+def main(**kwargs):
+    # click handles this
+    pass
+
+
+@main.command("evaluate")
+@click.pass_context
+@click.option("--software", "_software_names", type=SoftwareNameCli(), default=None)
+@click.option("--case", "_testcase_names", type=TestCaseNameCli(), default=None)
+# def main_evaluate(testconfig: config.TestConfig, _testcase_names, _software_names):
+def main_evaluate(
+    ctx: click.Context,
+    _testcase_names,
+    _software_names,
+):
     global TEMP_DIR
     import csv
 
-    testconfig = config.parse_config_file(TESTCASES_DIR / "config.yml")
+    assert ctx.parent
+    testconfig = ctx.parent.params["testconfig"]
+
+    # testconfig = config.parse_config_file(TESTCASES_DIR / "config.yml")
     with tempfile.TemporaryDirectory(delete=True, prefix="steckruebe_") as temp_dir, open("results.csv", "w") as f:
         TEMP_DIR = Path(temp_dir)
         keys = None
@@ -755,8 +885,43 @@ def main():
         f.write(grouped.model_dump_json(indent=2))
 
 
+@main.command("deploy")
+@click.pass_context
+@click.argument("_software_names", type=SoftwareNameCli(False))
+@click.argument("_testcase_names", type=TestCaseNameCli(False))
+def main_deploy(
+    ctx: click.Context,
+    _testcase_names,
+    _software_names,
+):
+    assert ctx.parent
+    testconfig = ctx.parent.params["testconfig"]
+
+    with ExitStack() as stack:
+        for software_name, software_cfg in testconfig.software_config.items():
+            for case_name, case_cfg in testconfig.test_cases.items():
+                steks = StekRegistry()
+                for i, server_cfg in enumerate(case_cfg.servers):
+                    instance = setup_server(software_name, case_name, software_cfg, server_cfg, steks, i)
+                    stack.enter_context(instance)
+                    print(f" Started {instance.container.name} at https://{instance.ip}")
+                    for vhost in server_cfg.vHosts:
+                        print(f"  - {vhost.hostname}: https://{vhost.hostname}:{vhost.port}/")
+                        print(
+                            f" curl -k --resolve '*:{vhost.port}:{instance.ip}' https://{vhost.hostname}:{vhost.port}/"
+                        )
+        try:
+            print("\nStarted all servers. Press Ctrl+C to stop.")
+            while True:
+                time.sleep(60)
+        except KeyboardInterrupt:
+            print("\rStopping...")
+
+
 if __name__ == "__main__":
-    _logging.basicConfig(level=_logging.INFO)
+    _logging.basicConfig(format="%(asctime)s %(levelname)7s | %(funcName)20s: %(message)s", level=_logging.INFO)
     logging.setLevel(_logging.INFO)
 
     main()
+    if STARTED_CONTAINER_IDS:
+        logging.warning("Some containers were not removed: %s", STARTED_CONTAINER_IDS)

@@ -111,15 +111,34 @@ software_config:
   nginx80:
     <<: *nginx
     stek_length: 80
-  apache:
+  nginx_strict_http_err:
+    <<: *nginx
+    extra_config_vars:
+      strict_sni: HTTP
+  nginx_strict_tls_err:
+    <<: *nginx
+    supports_sni_none: false
+    extra_config_vars:
+      strict_sni: TLS
+  apache: &apache
     <<: *base_software
     image: httpd:latest
     config_path: /usr/local/apache2/conf/httpd.conf
     template: apache.conf.jinja
     stek_length: 48
-  openlitespeed:
+  apache_strict:
+    <<: *apache
+    extra_config_vars:
+      strict_sni: true
+  openlitespeed: &ols
     <<: *base_software
     image: litespeedtech/openlitespeed:latest
     config_path: /usr/local/lsws/conf/httpd_config.conf
     template: openlitespeed.conf.jinja
     stek_length: 48
+  openlitespeed_w_admin:
+    # to more easily distinguish OLS with and without admin interface case
+    # this only affects the summaries, but may make it easier to get the actual results
+    <<: *ols
+    additional_vhost_ports:
+      - 7080

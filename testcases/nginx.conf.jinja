@@ -6,6 +6,26 @@ http {
     ssl_session_ticket_key {{ stek_path }};
     ssl_protocols TLSv1.2 TLSv1.3;
 
+
+    {% if strict_sni %}
+    # Catch SNIs which we do not host!
+    # Simulates Strict-SNI validation as it declines every conn with unrecognized SNI
+    server {
+        {% for port in vhosts|map(attribute="port")|unique %}
+        listen {{ port }} ssl default_server;
+        {% endfor %}
+        server_name _; # some invalid name that won't match anything
+        ssl_certificate /certs/fallback.crt;
+        ssl_certificate_key /certs/fallback.key;
+        {% if strict_sni == "HTTP" %}
+        return 404;
+        {% elif strict_sni == "TLS" %}
+        ssl_reject_handshake on;
+        {% endif %}
+    }
+    {% endif %}
+
+
     {%- for vhost in vhosts %}
     server{
         server_name {{ vhost.hostname }};

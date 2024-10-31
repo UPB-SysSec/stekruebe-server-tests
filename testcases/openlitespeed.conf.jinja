@@ -24,6 +24,11 @@ fileAccessControl  {
   restrictedPermissionMask 000
 }
 
+
+# Admin interface fails without this empty block :shrug:
+CGIRLimit{
+}
+
 ## end boilerplate
 
 tuning  {
