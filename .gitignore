@@ -6,6 +6,7 @@ __pycache__/
 
 .trash
 testcases/certs/
+results*.jsonl
 results*.json
 results*.csv
 test/

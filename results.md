@@ -1,5 +1,58 @@
 # Results
 
+## Fresh Look at results
+
+### nginx
+
+- 48B vs 80B STEK behaves same
+- content is decided on by Host header
+- Single server with multiple vHosts:
+    - resumes all tickets
+    - it does not matter if each vHost has a different STEK
+        - *bug*
+    - it matters whether vHosts use same port
+        - when using different ports, tickets are not resumed
+- configuring a default host that errors on
+    - does not make a difference in single server setting
+    - HTTP (404)
+        - actually causes more tickets to be resumed, as this vhost "bridges the gap" between the ports and even servers
+        - as there is a fallback with the same cert as on the initial (I assume the ticket is always bound to the default host cert), the ticket is resumed. Only afterwards the host header is looked at, but can diverge from the SNI
+        - only 404s for unknown Host headers
+        - means: in a two port/server setting a ticket can be resumed for b.com, which was previously not possible due to different cert
+    - TLS (alert)
+        - does not affect single server (single port) scenario
+        - causes connections with an unknown SNI to be completely rejected
+        - still only cares about the SNI, unknown Host headers result in HTTP error
+
+### apache
+
+- detects SNI!=Host header and returns HTTP 421
+- does not resume ticket if SNI mismatch
+- no SNI
+    - resumes if ticket issuer==a
+    - normal
+        - body determined by host header
+            - in 1.2 checks that host header matches the ticket issuer if ticket was resumed
+                - i.e. ticket "locks" sni to default - then it must match (else 421)
+            - if no resumption, host can be anything
+    - strict
+        - in 1.3 body is always a 403
+        - in 1.2:
+            - if resumed (i.e. ticket from a) and host=a: a.com
+            - if resumed (i.e. ticket from a) and host!=a: 421
+            - 403 otherwise
+
+
+### OLS
+
+- resumes tickets if SNI matches
+- body determined by host header (mismatch is ok)
+- only case where "unintended" resumption worked was between multiple admin interfaces
+    - we can assume if two admin interfaces share a STEK that they are on the same trust level
+
+
+
+
 ## Ticket Resumption
 
 - nginx
@@ -32,3 +85,16 @@
     - fallback (no SNI): first host (**TODO does something like `default_host` exist?**)
 - openlitespeed
     - only allows one STEK per running server (neither listeners nor vHosts can use a different stek)
+
+## DONE
+
+Es gibt bei Apache eine Option SSLStrictSNIVHostCheck On
+Wenn man dann die SNI weglässt kriegt man HTTP 403 You don't have permission to access this resource.Reason: The client software did not provide a hostname using Server Name Indication (SNI), which is required to access this server.
+
+Willst du das vllt noch mit aufnehmen? 
+
+---
+
+- Evaluate same cert on both servers
+- OLS admin interface
+

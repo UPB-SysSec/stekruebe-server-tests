@@ -104,7 +104,7 @@ software_config:
     stek_path: /stek.key
   nginx: &nginx
     <<: *base_software
-    image: nginx:latest
+    image: nginx:1.27.2
     config_path: /etc/nginx/nginx.conf
     template: nginx.conf.jinja
     stek_length: 48
@@ -122,7 +122,7 @@ software_config:
       strict_sni: TLS
   apache: &apache
     <<: *base_software
-    image: httpd:latest
+    image: httpd:2.4.62
     config_path: /usr/local/apache2/conf/httpd.conf
     template: apache.conf.jinja
     stek_length: 48
@@ -132,7 +132,7 @@ software_config:
       strict_sni: true
   openlitespeed: &ols
     <<: *base_software
-    image: litespeedtech/openlitespeed:latest
+    image: litespeedtech/openlitespeed:1.8.2-lsphp82
     config_path: /usr/local/lsws/conf/httpd_config.conf
     template: openlitespeed.conf.jinja
     stek_length: 48

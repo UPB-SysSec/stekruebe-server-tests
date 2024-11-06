@@ -5,10 +5,16 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Python Debugger: Module",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "enter-your-module-name"
+        },
+        {
             "name": "Evaluate",
             "type": "debugpy",
             "request": "launch",
-            "program": "evaluate.py",
+            "module": "evaluate",
             "console": "integratedTerminal",
             "args": [
                 "evaluate",
@@ -19,17 +25,32 @@
             ]
         },
         {
+            "name": "Postprocess",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "evaluate",
+            "console": "integratedTerminal",
+            "args": [
+                "postprocess",
+                // "--case",
+                // "one-server",
+                // "--software",
+                // "nginx_strict_tls_err",
+            ]
+        },
+        {
             "name": "Deploy",
             "type": "debugpy",
             "request": "launch",
-            "program": "evaluate.py",
+            "module": "evaluate",
             "console": "integratedTerminal",
             "args": [
                 "deploy",
                 "openlitespeed",
                 // "two-servers-same-stek",
                 "one-server",
-            ]
+            ],
+            "justMyCode": false
         }
     ]
 }
