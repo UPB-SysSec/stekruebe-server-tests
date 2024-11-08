@@ -22,7 +22,7 @@
     - TLS (alert)
         - does not affect single server (single port) scenario
         - causes connections with an unknown SNI to be completely rejected
-        - still only cares about the SNI, unknown Host headers result in HTTP error
+        - still only cares about the SNI, SNI and Host may diverge, unknown Host headers result in HTTP error
 
 ### apache
 
@@ -34,6 +34,7 @@
         - body determined by host header
             - in 1.2 checks that host header matches the ticket issuer if ticket was resumed
                 - i.e. ticket "locks" sni to default - then it must match (else 421)
+            - in 1.3 host header can diverge
             - if no resumption, host can be anything
     - strict
         - in 1.3 body is always a 403
@@ -46,7 +47,7 @@
 ### OLS
 
 - resumes tickets if SNI matches
-- body determined by host header (mismatch is ok)
+- body determined by host header (mismatch is accepted)
 - only case where "unintended" resumption worked was between multiple admin interfaces
     - we can assume if two admin interfaces share a STEK that they are on the same trust level
 

@@ -92,6 +92,10 @@ class SW:
     OPENLITESPEED_W_ADMIN = "software_name=openlitespeed_w_admin"
 
 
+_NGINX = {SW.NGINX, SW.NGINX80, SW.NGINX_STRICT_HTTP_ERR, SW.NGINX_STRICT_TLS_ERR}
+_APACHE = {SW.APACHE, SW.APACHE_STRICT}
+
+
 def check_result_assertions(results: list[SingleResult]):
     """we assert that
     - each software behaves the same in each tls version (with the exception of apache...)
@@ -204,6 +208,7 @@ def check_result_assertions(results: list[SingleResult]):
             else:
                 assert False, f"Unknown behavior group for {k1} ({sw})"
 
+    # ASSERT: two-server cases do not resume tickets
     for sw, sw_grouped in grouped.items():
         for case_name, case_grouped in sw_grouped.items():
             if case_name.startswith(CASE.ONE_SERVER):
@@ -265,3 +270,170 @@ def check_result_assertions(results: list[SingleResult]):
             print(error)
 
     assert not err, "Errors found (or expected errors were not found)"
+
+
+def _check_table_assumptions_resumes_ticket(results: list[SingleResult]):
+    # column: SNI=I : yes
+    grouped = GroupedResult.from_results(list(filter_results(results, sni_name=RemoteAlias.TICKET_ISSUER)))
+    assert grouped.ticket_resumed == BoolSummary.ALL
+
+    # column: SNI=R
+    grouped = group_results(list(filter_results(results, sni_name=RemoteAlias.RESUMPTION)), "software_name")
+    ## SNI=R [nginx] : yes
+    for sw in _NGINX:
+        assert grouped[sw].ticket_resumed == BoolSummary.ALL
+    ## SNI=R [apache, ols] : no
+    for sw in _APACHE:
+        assert grouped[sw].ticket_resumed == BoolSummary.NONE
+    assert grouped[SW.OPENLITESPEED].ticket_resumed == BoolSummary.NONE
+
+    # column: SNI=none
+    grouped = group_results(list(filter_results(results, sni_name=None)), "software_name", "issuer")
+    ## SNI=none [apache]: first host
+    for sw in _APACHE:
+        for issuer, issuer_grouped in grouped[sw].items():
+            if issuer == "issuer=a.com":
+                assert issuer_grouped.ticket_resumed == BoolSummary.ALL
+            else:
+                assert issuer_grouped.ticket_resumed == BoolSummary.NONE
+    ## SNI=none [nginx]: yes
+    ## SNI=none [nginx_strict_tls]: no
+    for sw in _NGINX:
+        if sw == SW.NGINX_STRICT_TLS_ERR:
+            # as the TLS handshake failed, there is no result stored
+            assert sw not in grouped.keys()
+        else:
+            assert grouped[sw].ticket_resumed == BoolSummary.ALL
+    ## SNI=none [OLS]: no
+    assert grouped[SW.OPENLITESPEED].ticket_resumed == BoolSummary.NONE
+
+    print("[+] Validated Table assumptions for Resumes Ticket")
+
+
+def _check_table_assumptions_resumption_content(results: list[SingleResult]):
+    results = list(filter(lambda r: r.ticket_resumed, results))
+
+    # column: SNI=I, Host=I: I
+    grouped = GroupedResult.from_results(
+        list(filter_results(results, sni_name=RemoteAlias.TICKET_ISSUER, host_header_name=RemoteAlias.TICKET_ISSUER))
+    )
+    for r in grouped.walk_results():
+        assert RemoteAlias.TICKET_ISSUER in r.body
+    assert RemoteAlias.TICKET_ISSUER in grouped.body
+
+    # column: SNI=I, Host=R
+    grouped = group_results(
+        list(filter_results(results, sni_name=RemoteAlias.TICKET_ISSUER, host_header_name=RemoteAlias.RESUMPTION)),
+        "software_name",
+    )
+    ## [apache] 421
+    for sw in _APACHE:
+        for r in grouped[sw].details:
+            assert r.response_status_code == 421
+    ## [nginx] R
+    for sw in _NGINX:
+        assert RemoteAlias.RESUMPTION in grouped[sw].body
+    ## [OLS] R
+    assert RemoteAlias.RESUMPTION in grouped[SW.OPENLITESPEED].body
+
+    # column: SNI=R, Host=I
+    grouped = group_results(
+        list(filter_results(results, sni_name=RemoteAlias.RESUMPTION, host_header_name=RemoteAlias.TICKET_ISSUER)),
+        "software_name",
+    )
+    ## [apache, ols]: not resumed
+    for sw in _APACHE:
+        assert sw not in grouped.keys()
+    assert SW.OPENLITESPEED not in grouped.keys()
+    ## [nginx]: I
+    for sw in _NGINX:
+        assert RemoteAlias.TICKET_ISSUER in grouped[sw].body
+
+    # column: SNI=R, Host=R
+    grouped = group_results(
+        list(filter_results(results, sni_name=RemoteAlias.RESUMPTION, host_header_name=RemoteAlias.RESUMPTION)),
+        "software_name",
+    )
+    ## [apache, ols]: not resumed
+    for sw in _APACHE:
+        assert sw not in grouped.keys()
+    assert SW.OPENLITESPEED not in grouped.keys()
+    ## [nginx]: I
+    for sw in _NGINX:
+        assert RemoteAlias.RESUMPTION in grouped[sw].body
+
+    # column: SNI=None, Host=I
+    grouped = group_results(
+        list(filter_results(results, sni_name=None, host_header_name=RemoteAlias.TICKET_ISSUER)),
+        "software_name",
+        "tls_version",
+    )
+    ## apache
+    for sw in _APACHE:
+        for r in grouped[sw].walk_results():
+            # others were not resumed
+            assert r.parameters["issuer"] == "a.com"
+    ### normal: I [only for first host]
+    assert RemoteAlias.TICKET_ISSUER in grouped[SW.APACHE].body
+    ### strict: 1.2: I, 1.3: 403
+    assert RemoteAlias.TICKET_ISSUER in grouped[SW.APACHE_STRICT]["tls_version=TLSv1.2"].body
+    for r in grouped[SW.APACHE_STRICT]["tls_version=TLSv1.3"].details:
+        assert r.response_status_code == 403
+    ## nginx: I
+    ### strict: not resumed
+    for sw in _NGINX:
+        if sw == SW.NGINX_STRICT_TLS_ERR:
+            # as the TLS handshake failed, there is no result stored
+            assert sw not in grouped.keys()
+        else:
+            assert RemoteAlias.TICKET_ISSUER in grouped[sw].body
+    ## OLS: not resumed
+    assert SW.OPENLITESPEED not in grouped.keys()
+
+    # column: SNI=None, Host=R
+    grouped = group_results(
+        list(filter_results(results, sni_name=None, host_header_name=RemoteAlias.RESUMPTION)),
+        "software_name",
+        "tls_version",
+    )
+    ## apache
+    for sw in _APACHE:
+        for r in grouped[sw].walk_results():
+            # others were not resumed
+            assert r.parameters["issuer"] == "a.com"
+    ### normal: 1.2: 421, 1.3: R
+    for r in grouped[SW.APACHE]["tls_version=TLSv1.2"].walk_results():
+        assert r.response_status_code == 421
+    assert RemoteAlias.RESUMPTION in grouped[SW.APACHE]["tls_version=TLSv1.3"].body
+    ### strict: 1.2: 421, 1.3: 403
+    for r in grouped[SW.APACHE_STRICT]["tls_version=TLSv1.2"].walk_results():
+        assert r.response_status_code == 421
+    for r in grouped[SW.APACHE_STRICT]["tls_version=TLSv1.3"].walk_results():
+        assert r.response_status_code == 403
+
+    ## nginx
+    for sw in _NGINX:
+        if sw == SW.NGINX_STRICT_TLS_ERR:
+            ### strict: not resumed
+            # as the TLS handshake failed, there is no result stored
+            assert sw not in grouped.keys()
+        else:
+            ### normal: R
+            assert RemoteAlias.RESUMPTION in grouped[sw].body
+    ## OLS: not resumed
+    assert SW.OPENLITESPEED not in grouped.keys()
+
+    print("[+] Validated Table assumptions for Resumption Content")
+
+
+def check_table_assumptions(results: list[SingleResult]):
+    results = list(
+        filter_results(
+            results,
+            case_name="one-server",
+            # OLS w admin behaves like multiple ports/servers
+            predicate=lambda d: d["software_name"] != "openlitespeed_w_admin",
+        )
+    )
+    _check_table_assumptions_resumes_ticket(results)
+    _check_table_assumptions_resumption_content(results)

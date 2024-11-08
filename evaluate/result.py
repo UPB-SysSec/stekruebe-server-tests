@@ -282,6 +282,17 @@ class GroupedResult(BaseModel):
     def keys(self):
         return self.details.keys()
 
+    def walk_results(self):
+        if isinstance(self.details, list):
+            iterable = self.details
+        elif isinstance(self.details, dict):
+            iterable = self.details.values()
+        for r in iterable:
+            if isinstance(r, SingleResult):
+                yield r
+            elif isinstance(r, GroupedResult):
+                yield from r.walk_results()
+
     @staticmethod
     def from_results(results: dict[Any, Union["GroupedResult", SingleResult]] | list[SingleResult]):
         result_values: list[GroupedResult | SingleResult]
@@ -385,8 +396,11 @@ def filter_results(
             # predicate does not match -> skip
             continue
         for key, value in kwargs.items():
-            if result.parameters[key] != value:
-                # skip this
+            # skip result if result parameter does not match expected value
+            if isinstance(value, set):
+                if result.parameters[key] not in value:
+                    break
+            elif result.parameters[key] != value:
                 break
         else:
             # did not break -> kwargs match

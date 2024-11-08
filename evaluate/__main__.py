@@ -210,7 +210,7 @@ def post_process(ctx: click.Context, input_file):
     for row in input_file:
         results.append(SingleResult.model_validate_json(row))
 
-    from .functionality.postprocess import check_result_assertions
+    from .functionality.postprocess import check_result_assertions, check_table_assumptions
 
     # assert ctx.parent
     # from .util.config import TestConfig
@@ -221,6 +221,8 @@ def post_process(ctx: click.Context, input_file):
     # for software_name in testconfig.software_config:
     #     print(f'{software_name.upper().replace("-","_")}="software_name={software_name}"')
     check_result_assertions(results)
+    print("\n\nChecking table assumptions")
+    check_table_assumptions(results)
 
 
 if __name__ == "__main__":
