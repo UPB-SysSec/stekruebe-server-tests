@@ -163,18 +163,32 @@ def evaluate_request(domains: dict[str, vhostTestData], parameters: TestCasePara
                 CTX=CTX,
             )
         else:
-            full_response = request(resumption_host.remote, sni, host_header, None, parameters.tls_version)
-            yield SingleResult.from_response(
-                abstract_parameters=parameters,
-                concrete_parameters=dict(
-                    issuer=ticket_issuer_host.remote.hostname, resumption=resumption_host.remote.hostname
-                ),
-                resumption_response=resumption_response,
-                full_response=full_response,
-                ticket_issuer=ticket_issuer_host,
-                resumption=resumption_host,
-                CTX=CTX,
-            )
+            try:
+                full_response = request(resumption_host.remote, sni, host_header, None, parameters.tls_version)
+                yield SingleResult.from_response(
+                    abstract_parameters=parameters,
+                    concrete_parameters=dict(
+                        issuer=ticket_issuer_host.remote.hostname, resumption=resumption_host.remote.hostname
+                    ),
+                    resumption_response=resumption_response,
+                    full_response=full_response,
+                    ticket_issuer=ticket_issuer_host,
+                    resumption=resumption_host,
+                    CTX=CTX,
+                )
+            except ssl.SSLError as e:
+                logging.error("Failed to perform full TLS handshake: %s", e)
+                yield SingleResult.from_response(
+                    abstract_parameters=parameters,
+                    concrete_parameters=dict(
+                        issuer=ticket_issuer_host.remote.hostname, resumption=resumption_host.remote.hostname
+                    ),
+                    resumption_response=None,
+                    full_response=None,
+                    ticket_issuer=ticket_issuer_host,
+                    resumption=resumption_host,
+                    CTX=CTX,
+                )
 
 
 def evaluate_test_case(

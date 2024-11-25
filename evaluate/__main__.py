@@ -73,8 +73,14 @@ _TESTCASES_DIR = Path(__file__).parent.parent / "testcases"
 
 @click.group()
 @click.option("--config", "testconfig", type=TestConfigCli(), default=_TESTCASES_DIR / "config.yml")
-def main(**kwargs):
+@click.option("--verbose", "-v", count=True)
+def main(verbose, **kwargs):
     # click handles this
+    levels = [_logging.WARNING, _logging.INFO, _logging.DEBUG]
+    level = levels[min(len(levels) - 1, verbose)]
+    _logging.basicConfig(format="%(asctime)s %(levelname)7s | %(funcName)20s: %(message)s", level=level)
+    logging.setLevel(_logging.INFO)
+
     pass
 
 
@@ -226,9 +232,6 @@ def post_process(ctx: click.Context, input_file):
 
 
 if __name__ == "__main__":
-    _logging.basicConfig(format="%(asctime)s %(levelname)7s | %(funcName)20s: %(message)s", level=_logging.INFO)
-    logging.setLevel(_logging.INFO)
-
     main()
     for CTX in _ALL_CTXS:
         if CTX.STARTED_CONTAINER_IDS:
