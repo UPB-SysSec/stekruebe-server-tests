@@ -1,0 +1,21 @@
+{
+      ocsp_stapling off #we don't need to revoke our own certificates here
+	  log default {
+		  output stdout
+		  level DEBUG
+	  }
+    {%- if not strict_sni %}
+      # Caddy includes strict SNI by default
+      servers {
+          strict_sni_host insecure_off
+      }
+    {% endif %}
+}
+{%- for vhost in vhosts %}
+{{ vhost.hostname }}:{{ vhost.port }} {
+      tls {{ vhost.cert}} {{ vhost.cert_key }}
+      file_server {
+          root {{ vhost.html_root }}
+      }
+}
+{%- endfor %}

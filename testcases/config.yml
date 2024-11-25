@@ -142,3 +142,9 @@ software_config:
     <<: *ols
     additional_vhost_ports:
       - 7080
+  caddy: &caddy
+    <<: *base_software
+    image: caddy
+    config_path: /etc/caddy/Caddyfile
+    template: caddyfile.jinja
+    stek_length: 48
