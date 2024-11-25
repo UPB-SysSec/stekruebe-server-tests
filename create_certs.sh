@@ -2,6 +2,7 @@
 
 cd "$(dirname "$0")"
 
+mkdir -p testcases/certs
 cd testcases/certs
 
 for domain in a.com b.com c.com fallback; do

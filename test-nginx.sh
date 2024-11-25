@@ -10,7 +10,7 @@ if ! [ -d test ]; then
     dd if=/dev/urandom of=test/stek80.key bs=80 count=1
 fi
 
-python -m util.config nginx one-server |  grep "# nginx" -A 9999 > test/config-nginx
+python -m evaluate.util.config nginx one-server |  grep "# nginx" -A 9999 > test/config-nginx
 
 docker run --rm \
     -v "$PWD/testcases/certs:/certs" \

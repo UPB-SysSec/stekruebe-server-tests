@@ -23,7 +23,7 @@ else
     CONF_FILE="test/config-ls"
 fi
 
-python -m util.config "$SERVER_NAME" one-server |  grep "# openlitespeed" -A 9999 > "$CONF_FILE"
+python -m evaluate.util.config "$SERVER_NAME" one-server |  grep "# openlitespeed" -A 9999 > "$CONF_FILE"
 chmod +r "$CONF_FILE"
 
 
