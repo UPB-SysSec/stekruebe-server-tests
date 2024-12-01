@@ -76,7 +76,7 @@ _TESTCASES_DIR = Path(__file__).parent.parent / "testcases"
 @click.option("--verbose", "-v", count=True)
 def main(verbose, **kwargs):
     # click handles this
-    levels = [_logging.WARNING, _logging.INFO, _logging.DEBUG]
+    levels = [_logging.INFO, _logging.DEBUG]
     level = levels[min(len(levels) - 1, verbose)]
     _logging.basicConfig(format="%(asctime)s %(levelname)7s | %(funcName)20s: %(message)s", level=level)
     logging.setLevel(_logging.INFO)
