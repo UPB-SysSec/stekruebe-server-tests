@@ -90,10 +90,13 @@ class SW:
     APACHE_STRICT = "software_name=apache_strict"
     OPENLITESPEED = "software_name=openlitespeed"
     OPENLITESPEED_W_ADMIN = "software_name=openlitespeed_w_admin"
+    CADDY = "software_name=caddy"
+    CADDY_STRICT = "software_name=caddy_strict"
 
 
 _NGINX = {SW.NGINX, SW.NGINX80, SW.NGINX_STRICT_HTTP_ERR, SW.NGINX_STRICT_TLS_ERR}
 _APACHE = {SW.APACHE, SW.APACHE_STRICT}
+_CADDY = {SW.CADDY, SW.CADDY_STRICT}
 
 
 def check_result_assertions(results: list[SingleResult]):
@@ -251,6 +254,11 @@ def check_result_assertions(results: list[SingleResult]):
     err.assert_true(
         grouped[SW.APACHE][CASE.ONE_SERVER] != grouped_w_sni[SW.APACHE_STRICT][CASE.ONE_SERVER],
         "apache one-server should be differ (for SNI=None) for default config and strict config",
+    )
+
+    err.assert_true(
+        grouped[SW.CADDY][CASE.ONE_SERVER] != grouped[SW.CADDY_STRICT][CASE.ONE_SERVER], 
+        "caddy strict should behave differently when Host header mismatch"
     )
 
     # Check that no unexpected errors were found

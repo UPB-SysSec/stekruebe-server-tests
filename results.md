@@ -51,6 +51,12 @@
 - only case where "unintended" resumption worked was between multiple admin interfaces
     - we can assume if two admin interfaces share a STEK that they are on the same trust level
 
+### Caddy
+- resumes between vhosts for same key material, even though key_name changes
+- still isolated to one "caddy config server" (multiple "servers" may be defined in one config, the one-stek-different-ports is basically that and does not work) 
+- contents determined by Host header
+- no SNI: will never be resumed, TLS alert _Internal Error_
+
 
 
 
@@ -86,6 +92,9 @@
     - fallback (no SNI): first host (**TODO does something like `default_host` exist?**)
 - openlitespeed
     - only allows one STEK per running server (neither listeners nor vHosts can use a different stek)
+- caddy
+    - STEK is seemingly configured per instance of the program
+    - HOWEVER: key_name is not used
 
 ## DONE
 

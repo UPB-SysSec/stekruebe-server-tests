@@ -147,7 +147,7 @@ software_config:
   #   image: caddy
   #   config_path: /etc/caddy/Caddyfile
   #   template: caddyfile.jinja
-  caddy:
+  caddy: &caddy
     <<: *base_software
     image: caddy
     command: ["caddy", "run", "--config", "/etc/caddy/caddy.json"]
@@ -155,3 +155,7 @@ software_config:
     template: caddy.json.jinja
     stek_path: /steks/stek.json
     stek_length: 48
+  caddy_strict:
+    <<: *caddy
+    extra_config_vars:
+      strict_sni: true

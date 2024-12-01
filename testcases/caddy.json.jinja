@@ -71,7 +71,7 @@
 						{%- if not loop.last %},{% endif %}
 						{%- endfor %}
 					],
-					"strict_sni_host": {% if strict_sni_host %}true{% else %}false{% endif %}
+					"strict_sni_host": {% if strict_sni %}true{% else %}false{% endif %}
 				{{ '}' }}
 				{%- if not loop.last %},{% endif %}
 				{%- endfor %}
