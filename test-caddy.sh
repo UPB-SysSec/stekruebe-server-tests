@@ -14,4 +14,5 @@ docker run --rm \
     -v "$PWD/test/config-caddy:/etc/caddy/Caddyfile" \
     -p 8080:80 \
     -p 8443:443 \
+    -p 8219:2019 \
     caddy

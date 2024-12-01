@@ -121,7 +121,7 @@ def setup_server(
     config_file.close()
     mounts.append(Mount(source=config_file.name, target=software_cfg.config_path, read_only=True, type="bind"))
 
-    container = docker.containers.run(software_cfg.image, detach=True, name=name, auto_remove=False, mounts=mounts)
+    container = docker.containers.run(software_cfg.image, software_cfg.command, detach=True, name=name, auto_remove=False, mounts=mounts)
 
     assert container.id is not None
     CTX.STARTED_CONTAINER_IDS.add(container.id)

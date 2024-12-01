@@ -49,6 +49,7 @@ class TestcaseConfig(BaseModel):
 
 class SoftwareConfig(BaseModel):
     image: str
+    command: Optional[str] | list[str] = None
     config_path: str
     template: str
     stek_length: int
