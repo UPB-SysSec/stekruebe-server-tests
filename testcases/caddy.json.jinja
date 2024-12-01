@@ -14,13 +14,15 @@
 	"apps": {
 		"http": {
 			"servers": {
-				"srv0": {
+{% endraw %}
+				{% set grouped_vhosts = vhosts | groupby('port') %}
+				{% for shared_port, hosts in grouped_vhosts %}
+				"srv{{ loop.index0 }}": {{ '{' }}
 					"listen": [
-						":443"
+						":{{ shared_port }}"
 					],
 					"routes": [
-{% endraw %}
-						{% for vhost in vhosts %}
+						{% for vhost in hosts %}
 						{{ '{' }}	
 							"match": [
 							{{ '{' }}	
@@ -48,12 +50,12 @@
 							{{ '}' }}	
 							],
 							"terminal": true
-						{{ '}' }}	
-						{% if not loop.last %},{% endif %}
-						{% endfor %}
+						{{ '}' }}
+						{%- if not loop.last %},{% endif %}
+						{%- endfor %}
 					],
 					"tls_connection_policies": [
-						{%- for vhost in vhosts %}
+						{% for vhost in hosts %}
 						{{ '{' }}	
 							"match": {{ '{' }} 
 								"sni": [
@@ -62,16 +64,18 @@
 							{{ '},' }}	
 							"certificate_selection": {{ '{' }} 
 								"any_tag": [
-									"cert{{ loop.index0 }}"
+									"cert{{ vhost.hostname }}"
 								]
-						{{ '}' }}	
-						{{ '},' }}	
+							{{ '}' }}	
+						{{ '}' }}
+						{%- if not loop.last %},{% endif %}
 						{%- endfor %}
-						{{ '{}' }}
 					],
 					"strict_sni_host": {% if strict_sni_host %}true{% else %}false{% endif %}
+				{{ '}' }}
+				{%- if not loop.last %},{% endif %}
+				{%- endfor %}
 {% raw %}
-				}
 			}
 		},
 		"tls": {
@@ -82,19 +86,21 @@
 						"module": "file_system",
 						"root": "/steks"
 					}
-				}
+				},
+				"max_keys": 1,
+				"disable_rotation": true
 			},
 			"certificates": {
 {% endraw %}
 				"load_files": [
 					{%- for vhost in vhosts %}
-					{
+					{{ '{' }}
 						"certificate": "{{ vhost.cert }}",
 						"key": "{{ vhost.cert_key }}",
 						"tags": [
-							"cert{{ loop.index0 }}"
+							"cert{{ vhost.hostname }}"
 						]
-					}
+					{{ '}' }}
 					{%- if not loop.last %},{% endif %}
 					{%- endfor %}
 {% raw %}
