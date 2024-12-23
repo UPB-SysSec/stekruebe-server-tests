@@ -3,6 +3,7 @@ import logging as _logging
 import socket
 import ssl
 from dataclasses import dataclass
+import time
 from typing import Optional
 
 
@@ -82,6 +83,7 @@ def request(
     session=None,
     context=CTX_DEFAULT,
     timeout=2,
+    post_handshake_ticket_wait=0
 ):
     assert isinstance(host, Remote)
     assert isinstance(sni_host, (Remote, type(None)))
@@ -100,6 +102,12 @@ def request(
     with socket.create_connection(host.get_connectable(), timeout=timeout) as tcp_sock:
         logging.debug("Wrapping into TLS")
         with context.wrap_socket(tcp_sock, server_hostname=sni_name, session=session) as sock:
+
+            if post_handshake_ticket_wait:
+                # this is really hacky, but one time the server did not send anything after too long, so we split it up pre- and post-handshake
+                logging.warning("Waiting for %d seconds for post_handshake_tickets", post_handshake_ticket_wait)
+                time.sleep(post_handshake_ticket_wait)
+
             logging.debug("Sending HTTP request")
             sock.write(request)
 

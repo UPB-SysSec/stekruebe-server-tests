@@ -130,6 +130,29 @@ software_config:
     <<: *apache
     extra_config_vars:
       strict_sni: true
+  closedlitespeed: &ls
+    <<: *base_software
+    image: litespeedtech/litespeed
+    config_path: /usr/local/lsws/conf/httpd_config.xml
+    template: closedlitespeed.xml.jinja
+    stek_length: 48
+    supports_tls_1_3: false
+    additional_mounts:
+      - source: closedlitespeed/domains/config/conf/vhosts/a.com/vhconf.xml
+        target: /usr/local/lsws/conf/vhosts/a.com/vhconf.xml
+        read_only: false
+      - source: closedlitespeed/domains/config/conf/vhosts/b.com/vhconf.xml
+        target: /usr/local/lsws/conf/vhosts/b.com/vhconf.xml
+        read_only: false
+      - source: closedlitespeed/domains/config/conf/vhosts/c.com/vhconf.xml
+        target: /usr/local/lsws/conf/vhosts/c.com/vhconf.xml
+        read_only: false
+  closedlitespeed_w_admin:
+    # to more easily distinguish OLS with and without admin interface case
+    # this only affects the summaries, but may make it easier to get the actual results
+    <<: *ls
+    additional_vhost_ports:
+      - 7080
   openlitespeed: &ols
     <<: *base_software
     image: litespeedtech/openlitespeed:1.8.2-lsphp82

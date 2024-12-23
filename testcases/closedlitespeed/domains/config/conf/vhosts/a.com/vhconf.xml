@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<virtualHostConfig>
+  <docRoot>/sites/a.com/</docRoot>
+  <vhssl>
+    <keyFile>/certs/a.com.key</keyFile>
+    <certFile>/certs/a.com.crt</certFile>
+  </vhssl>
+</virtualHostConfig>
+

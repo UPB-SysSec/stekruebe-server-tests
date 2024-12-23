@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<httpServerConfig>
+  <serverName>$HOSTNAME</serverName>
+  <user>nobody</user>
+  <group>nogroup</group>
+  
+  <mime>$SERVER_ROOT/conf/mime.properties</mime>
+  <logging>
+    <log>
+      <fileName>$SERVER_ROOT/logs/error.log</fileName>
+    </log>
+    <accessLog></accessLog>
+  </logging>
+  <indexFiles>index.html, index.php</indexFiles>
+  <htAccess></htAccess>
+  <expires></expires>
+  <tuning></tuning>
+  <security><CGIRLimit></CGIRLimit><accessControl></accessControl></security>
+  <phpConfig></phpConfig>
+  <railsDefaults></railsDefaults>
+
+  <virtualHostList>
+    <virtualHost>
+      <name>siteA</name>
+      <vhRoot>$SERVER_ROOT/conf/vhosts/siteA</vhRoot>
+      <configFile>$VH_ROOT/vhconf.xml</configFile>
+    </virtualHost>
+
+    <virtualHost>
+      <name>siteB</name>
+      <vhRoot>$SERVER_ROOT/conf/vhosts/siteB</vhRoot>
+      <configFile>$VH_ROOT/vhconf.xml</configFile>
+    </virtualHost>
+  </virtualHostList>
+
+  <listenerList>
+    <listener>
+      <name>HTTPS</name>
+      <address>*:443</address>
+      <secure>1</secure>
+      <vhostMapList>
+        <vhostMap>
+          <vhost>siteA</vhost>
+          <domain>sitea.org</domain>
+        </vhostMap>
+
+        <vhostMap>
+          <vhost>siteB</vhost>
+          <domain>siteb.org</domain>
+        </vhostMap>
+
+      </vhostMapList>
+
+      <keyFile>/usr/local/lsws/admin/conf/webadmin.key</keyFile>
+      <certFile>/usr/local/lsws/admin/conf/webadmin.crt</certFile>
+    </listener>
+  </listenerList>
+  
+  <vhTemplateList></vhTemplateList>
+</httpServerConfig>

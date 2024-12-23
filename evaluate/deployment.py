@@ -1,6 +1,7 @@
 import logging as _logging
 import os
 import tempfile
+import time
 from typing import Union
 from dataclasses import dataclass
 
@@ -119,7 +120,12 @@ def setup_server(
     config_file = create_temp_file(".server.conf", mode="w")
     config_file.write(software_cfg.render_config(server_cfg, "/stek.key", comment=f"Config for container {name}"))
     config_file.close()
-    mounts.append(Mount(source=config_file.name, target=software_cfg.config_path, read_only=True, type="bind"))
+    # lwsw needs the config file to be writable
+    mounts.append(Mount(source=config_file.name, target=software_cfg.config_path, read_only=False, type="bind"))
+
+    for mount in software_cfg.additional_mounts:
+        path = CTX.TESTCASES_DIR / mount.source
+        mounts.append(Mount(source=str(path), target=mount.target, read_only=mount.read_only, type=mount.type))
 
     container = docker.containers.run(software_cfg.image, software_cfg.command, detach=True, name=name, auto_remove=False, mounts=mounts)
 
@@ -130,5 +136,8 @@ def setup_server(
     ip = container.attrs["NetworkSettings"]["IPAddress"]
     assert ip is not None
     logging.debug("started container id=%s name=%s", container.id, name)
+
+    if "litespeed" in software_name:
+        time.sleep(5) # some servers (LiteSpeed) take a while to get going
 
     return DeployedServer(ip=ip, container=container, temp_files=tmp_files, CTX=CTX)

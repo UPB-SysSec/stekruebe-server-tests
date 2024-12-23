@@ -1,0 +1,12 @@
+FROM litespeedtech/litespeed
+
+
+# ------ COPY CONFIG ------
+RUN rm -rf /usr/local/lsws/conf/templates
+RUN rm -rf /usr/local/lsws/conf/cert
+
+COPY openlitespeed/domains/config/conf /usr/local/lsws/conf
+
+# ------ COPY KEYS AND CONTENT ------
+COPY shared/cert/keys /keys
+COPY site-content /srv

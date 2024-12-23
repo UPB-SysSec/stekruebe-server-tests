@@ -26,27 +26,28 @@ def request(
     session=None,
     version: Optional[TlsVersion] = None,
     timeout=2,
+    post_handshake_wait=0
 ):
     ctx = CTX_DEFAULT
     if version is TlsVersion.TLSv1_2:
         ctx = CTX_TLS12
     elif version is TlsVersion.TLSv1_3:
         ctx = CTX_TLS13
-    return _request(host, sni_host, host_header_host, session, ctx, timeout)
+    return _request(host, sni_host, host_header_host, session, ctx, timeout, post_handshake_wait)
 
 
-def precheck_remote(remote: Remote, steks: StekRegistry, CTX: EvalContext):
+def precheck_remote(remote: Remote, steks: StekRegistry, CTX: EvalContext, post_handshake_wait=0):
     logging.debug("Checking %s", remote)
     try:
         for _ in range(15):
             try:
-                initial_result = request(remote, remote, remote, timeout=1)
+                initial_result = request(remote, remote, remote, timeout=1, post_handshake_wait=post_handshake_wait)
                 break
             except (ConnectionRefusedError, TimeoutError, OSError):
                 time.sleep(0.1)
         else:
             # last attempt; will probably fail and raise the exception outwards
-            initial_result = request(remote, remote, remote)
+            initial_result = request(remote, remote, remote, post_handshake_wait=post_handshake_wait)
     except:
         logging.exception("Failed to connect to %s", remote)
         raise
@@ -61,7 +62,7 @@ def precheck_remote(remote: Remote, steks: StekRegistry, CTX: EvalContext):
         raise AssertionError("Certificate mismatch")
 
     try:
-        request(remote, None, remote)
+        request(remote, None, remote, post_handshake_wait=post_handshake_wait)
         requires_sni = False
     except ssl.SSLError:
         requires_sni = True
@@ -69,7 +70,7 @@ def precheck_remote(remote: Remote, steks: StekRegistry, CTX: EvalContext):
     sessions = {}
     for version in TlsVersion:
         # for each version get a session
-        response = request(remote, remote, remote, version=version)
+        response = request(remote, remote, remote, version=version, post_handshake_wait=post_handshake_wait)
         sessions[version] = response.session
 
         stek = steks.lookup_stek(response.ticket)
@@ -101,9 +102,9 @@ def precheck_remote(remote: Remote, steks: StekRegistry, CTX: EvalContext):
 
         # validate that the tickets can be resumed multiple times (i.e. no single use tickets; we assume that we can simply reuse the same ticket again and again)
         resumption_working = True
-        r = request(remote, remote, remote, response.session, version=version)
+        r = request(remote, remote, remote, response.session, version=version, post_handshake_wait=post_handshake_wait) # note no post_handshake_wait here, as we want to test resumption
         resumption_working = resumption_working and r.session_reused
-        r = request(remote, remote, remote, response.session, version=version)
+        r = request(remote, remote, remote, response.session, version=version, post_handshake_wait=post_handshake_wait)
         resumption_working = resumption_working and r.session_reused
         assert resumption_working, "Resumption did not work"
 
@@ -135,7 +136,7 @@ def _select(remote: Optional[RemoteAlias], issuer: T, resumption: T) -> T | None
         raise ValueError("Unknown remote name")
 
 
-def evaluate_request(domains: dict[str, vhostTestData], parameters: TestCaseParameters, CTX: EvalContext):
+def evaluate_request(domains: dict[str, vhostTestData], parameters: TestCaseParameters, CTX: EvalContext, post_handshake_wait=0):
     for ticket_issuer_host, resumption_host in itertools.permutations(domains.values(), 2):
         assert ticket_issuer_host != resumption_host, "Same host; should not happen"
         sni = _select(parameters.sni_name, ticket_issuer_host.remote, resumption_host.remote)
@@ -148,6 +149,7 @@ def evaluate_request(domains: dict[str, vhostTestData], parameters: TestCasePara
                 host_header,
                 ticket_issuer_host.sessions[parameters.tls_version],
                 parameters.tls_version,
+                post_handshake_wait
             )
         except ssl.SSLError as e:
             logging.error("Failed to perform TLS handshake: %s", e)
@@ -164,7 +166,7 @@ def evaluate_request(domains: dict[str, vhostTestData], parameters: TestCasePara
             )
         else:
             try:
-                full_response = request(resumption_host.remote, sni, host_header, None, parameters.tls_version)
+                full_response = request(resumption_host.remote, sni, host_header, None, parameters.tls_version, post_handshake_wait)
                 yield SingleResult.from_response(
                     abstract_parameters=parameters,
                     concrete_parameters=dict(
@@ -202,6 +204,10 @@ def evaluate_test_case(
     server_instances = []
     domains: dict[str, vhostTestData] = {}
     steks = StekRegistry()
+    if "closedlitespeed" in software_name:
+        post_handshake_wait = 30
+    else :
+        post_handshake_wait = 0
     with ExitStack() as stack:
         for i, server_cfg in enumerate(case_cfg.servers):
             instance = setup_server(software_name, case_name, software_cfg, server_cfg, steks, i, CTX)
@@ -217,7 +223,7 @@ def evaluate_test_case(
                     Remote(f"additional_{i}_{additional_vhost_port}", ip=instance.ip, port=additional_vhost_port)
                 )
             for remote in vhost_remotes:
-                domains[remote.hostname] = precheck_remote(remote, steks, CTX=CTX)
+                domains[remote.hostname] = precheck_remote(remote, steks, CTX=CTX, post_handshake_wait=post_handshake_wait)
 
         bodies: dict[bytes, list[str]] = {}
         # check for duplicate bodies
@@ -235,10 +241,11 @@ def evaluate_test_case(
         for case_parameters in TestCaseParameters.generate():
             if case_parameters.sni_name is None and not software_cfg.supports_sni_none:
                 continue
+
             logging.debug("Case Parameters %r", case_parameters)
             yield from _merge_identifier(
                 **case_parameters.model_dump(),
-                _from=evaluate_request(domains, case_parameters, CTX),
+                _from=evaluate_request(domains, case_parameters, CTX, post_handshake_wait=post_handshake_wait),
             )
 
 

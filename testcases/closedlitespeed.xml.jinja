@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<httpServerConfig>
+  <serverName>$HOSTNAME</serverName>
+  <user>nobody</user>
+  <group>nogroup</group>
+  
+  <mime>$SERVER_ROOT/conf/mime.properties</mime>
+  <logging>
+    <log>
+      <fileName>$SERVER_ROOT/logs/error.log</fileName>
+      <logLevel>INFO</logLevel>
+    </log>
+    <accessLog>
+      <filename>$SERVER_ROOT/logs/access.log</filename>
+      <logLevel>INFO</logLevel>
+    </accessLog>
+  </logging>
+  <indexFiles>index.html, index.php</indexFiles>
+  <htAccess></htAccess>
+  <expires></expires>
+  <tuning></tuning>
+  <security><CGIRLimit></CGIRLimit><accessControl></accessControl></security>
+  <phpConfig></phpConfig>
+  <railsDefaults></railsDefaults>
+
+  <virtualHostList>
+{%- for vhost in vhosts %}
+    <virtualHost>
+      <name>{{ vhost.hostname }}</name>
+      <vhRoot>$SERVER_ROOT/conf/vhosts/{{ vhost.hostname }}</vhRoot>
+        <configFile>$VH_ROOT/vhconf.xml</configFile>
+    </virtualHost>
+{%- endfor %}
+</virtualHostList>
+
+  <listenerList>
+    <listener>
+      <name>HTTPS</name>
+      <address>*:443</address>
+      <secure>1</secure>
+      <vhostMapList>
+{%- for vhost in vhosts %}
+        <vhostMap>
+          <vhost>{{ vhost.hostname }}</vhost>
+          <domain>{{ vhost.hostname }}</domain>
+        </vhostMap>
+{%- endfor %}
+      </vhostMapList>
+
+      <keyFile>/usr/local/lsws/admin/conf/webadmin.key</keyFile>
+      <certFile>/usr/local/lsws/admin/conf/webadmin.crt</certFile>
+    </listener>
+  </listenerList>
+  
+  <vhTemplateList></vhTemplateList>
+</httpServerConfig>

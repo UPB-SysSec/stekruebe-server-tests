@@ -1,6 +1,6 @@
 from pydantic import BaseModel, field_validator, model_validator
 import yaml
-from typing import Any, Union
+from typing import Any, List, Union
 import jinja2
 import os.path as op
 from typing import Optional
@@ -29,8 +29,14 @@ class VirtualHostConfig(BaseModel):
         return self
 
 
+class MountConfig(BaseModel):
+    source: str # relative to testcases dir
+    target: str # absolute path in container
+    read_only: bool = True
+    type: str = "bind"
+
 class ServerConfig(BaseModel):
-    vHosts: list[VirtualHostConfig]
+    vHosts: List[VirtualHostConfig]
     stek_id: str
 
 
@@ -55,7 +61,9 @@ class SoftwareConfig(BaseModel):
     stek_length: int
     additional_vhost_ports: list[int] = []
     supports_sni_none: bool = True
+    supports_tls_1_3: bool = True
     extra_config_vars: dict[str, Any] = {}
+    additional_mounts: Optional[List[MountConfig]] = []
 
     def render_config(self, server_cfg: ServerConfig, stek_path, comment=None) -> str:
         with open(self.template) as f:
