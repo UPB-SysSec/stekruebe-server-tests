@@ -1,12 +1,13 @@
 import ssl
 from dataclasses import dataclass
-from typing import Any, Optional, Union, Iterable, Callable
+from typing import Any, Callable, Iterable, Optional, Union
 
 from pydantic import BaseModel, field_validator, model_serializer, model_validator
 
 from .context import EvalContext
 from .enums import BoolSummary, RemoteAlias, RemoteRole, ResultSummary, TlsVersion
 from .parameters import TestCaseParameters
+from .util.contextmanagedvars import ContextManagedVar
 from .util.request import HttpsResponse, Remote
 
 
@@ -176,8 +177,9 @@ class SingleResult(BaseModel):
     def __eq__(self, value: object) -> bool:
         if not isinstance(value, SingleResult):
             return False
+        ignored_fields = SingleResult.__eq__.ignoredFields.get()  # type: ignore[attr-defined]
         for field in self.model_fields:
-            if field == "parameters":
+            if field in ignored_fields:
                 continue
             if getattr(self, field) != getattr(value, field):
                 return False
@@ -260,6 +262,9 @@ class SingleResult(BaseModel):
             full_body_equals_resumption_body=full_response.body == resumption_response.body,
             full_body_equals_cert=full_response_cert == full_response_body_remote,
         )
+
+
+SingleResult.__eq__.ignoredFields = ContextManagedVar("SingleResultEqualityIgnoredFields", default={"parameters"})  # type: ignore[attr-defined]
 
 
 class GroupedResult(BaseModel):
@@ -405,3 +410,26 @@ def filter_results(
         else:
             # did not break -> kwargs match
             yield result
+
+
+if __name__ == "__main__":
+    a = SingleResult(
+        parameters={"a": 1},
+        summary=ResultSummary.GOOD,
+        ticket_resumed=False,
+        body=None,
+        response_status_code=None,
+        response_body=None,
+        full_response_cert=None,
+        full_response_body=None,
+        full_body_equals_resumption_body=False,
+        full_body_equals_cert=False,
+    )
+    _b = a.model_dump()
+    _b["ticket_resumed"] = True
+    b = SingleResult(**_b)
+
+    assert a != b
+    with SingleResult.__eq__.ignoredFields.add("ticket_resumed"):  # type: ignore[attr-defined]
+        assert a == b
+    assert a != b

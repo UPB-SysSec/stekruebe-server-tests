@@ -21,7 +21,7 @@ except:
         return None
 
 
-def create_ssl_context(minimum_version=None, maximum_version=None, keylogfile=False):
+def create_ssl_context(minimum_version=None, maximum_version=None, keylogfile=True):
     context = ssl.create_default_context()  # NOSONAR
     context.check_hostname = False
     context.verify_mode = ssl.CERT_NONE  # NOSONAR

@@ -90,6 +90,8 @@ class SW:
     APACHE_STRICT = "software_name=apache_strict"
     OPENLITESPEED = "software_name=openlitespeed"
     OPENLITESPEED_W_ADMIN = "software_name=openlitespeed_w_admin"
+    CLOSEDLITESPEED = "software_name=closedlitespeed"
+    CLOSEDLITESPEED_W_ADMIN = "software_name=closedlitespeed_w_admin"
     CADDY = "software_name=caddy"
     CADDY_STRICT = "software_name=caddy_strict"
 
@@ -109,14 +111,18 @@ def check_result_assertions(results: list[SingleResult]):
     """
     err = ErrorHolder(
         [
-            "issuer=additional_0_7080, resumption=additional_1_7080: openlitespeed Admin interface should not resume",
-            "issuer=additional_1_7080, resumption=additional_0_7080: openlitespeed Admin interface should not resume",
+            "issuer=openlitespeed_w_admin_additional_0_7080, resumption=openlitespeed_w_admin_additional_1_7080: litespeed Admin interface should not resume",
+            "issuer=openlitespeed_w_admin_additional_1_7080, resumption=openlitespeed_w_admin_additional_0_7080: litespeed Admin interface should not resume",
+            "issuer=closedlitespeed_w_admin_additional_0_7080, resumption=closedlitespeed_w_admin_additional_1_7080: litespeed Admin interface should not resume",
+            "issuer=closedlitespeed_w_admin_additional_1_7080, resumption=closedlitespeed_w_admin_additional_0_7080: litespeed Admin interface should not resume",
             (SW.APACHE, EXPECT.SAME, "tls_version=TLSv1.2", "tls_version=TLSv1.3"),
             (SW.APACHE_STRICT, EXPECT.SAME, "tls_version=TLSv1.2", "tls_version=TLSv1.3"),
             "software_name=nginx_strict_http_err case_name=two-servers-same-stek should not resume tickets",
             "software_name=nginx_strict_http_err case_name=two-servers-same-stek-different-ports should not resume tickets",
             "software_name=openlitespeed_w_admin case_name=two-servers-same-stek should not resume tickets",
             "software_name=openlitespeed_w_admin case_name=two-servers-same-stek-different-ports should not resume tickets",
+            "software_name=closedlitespeed_w_admin case_name=two-servers-same-stek should not resume tickets",
+            "software_name=closedlitespeed_w_admin case_name=two-servers-same-stek-different-ports should not resume tickets",
         ]
     )
 
@@ -130,14 +136,15 @@ def check_result_assertions(results: list[SingleResult]):
     grouped = group_results(results, "software_name")
     err.assert_same_results(grouped, "Software", SW.NGINX, SW.NGINX80)
 
-    # ASSERT: OLS Admin interface does not resume tickets from other hosts
-    grouped = group_results(filter_results(results, software_name="openlitespeed_w_admin"), ("issuer", "resumption"))
-    for k in grouped.keys():
-        if "resumption=additional_" not in k:
-            continue
-        err.assert_true(
-            grouped[k].ticket_resumed == BoolSummary.NONE, f"{k}: openlitespeed Admin interface should not resume"
-        )
+    # ASSERT: OLS/CLS Admin interface does not resume tickets from other hosts
+    for sw in ("openlitespeed_w_admin", "closedlitespeed_w_admin"):
+        grouped = group_results(filter_results(results, software_name=sw), ("issuer", "resumption"))
+        for k in grouped.keys():
+            if f"resumption={sw}_additional_" not in k:
+                continue
+            err.assert_true(
+                grouped[k].ticket_resumed == BoolSummary.NONE, f"{k}: litespeed Admin interface should not resume"
+            )
 
     # ASSERT: We can group tests that cause the same results
     grouped = group_results(results, "software_name", "case_name")
@@ -175,6 +182,25 @@ def check_result_assertions(results: list[SingleResult]):
             },
         ],
         SW.OPENLITESPEED_W_ADMIN: [
+            # here it makes a difference whether two servers share a stek as the admin interface allows resumptions with the same stek
+            # also: one and two server scenarios are not comparable as each server adds a new vhost
+            {
+                CASE.ONE_SERVER,
+                CASE.ONE_SERVER_DIFFERENT_STEKS,  # not supported; is just ONE_SERVER
+            },
+            {
+                CASE.ONE_SERVER_DIFFERENT_PORTS,
+            },
+            {
+                CASE.TWO_SERVERS_SAME_STEK,
+                CASE.TWO_SERVERS_SAME_STEK_DIFFERENT_PORTS,
+            },
+            {
+                CASE.TWO_SERVERS_DISTINCT_STEK,
+                CASE.TWO_SERVERS_DISTINCT_STEK_DIFFERENT_PORTS,
+            },
+        ],
+        SW.CLOSEDLITESPEED_W_ADMIN: [
             # here it makes a difference whether two servers share a stek as the admin interface allows resumptions with the same stek
             # also: one and two server scenarios are not comparable as each server adds a new vhost
             {
@@ -256,9 +282,16 @@ def check_result_assertions(results: list[SingleResult]):
         "apache one-server should be differ (for SNI=None) for default config and strict config",
     )
 
+    with SingleResult.__eq__.ignoredFields.add("response_body"):  # type: ignore[attr-defined]
+        # they slightly changed the 404 body
+        err.assert_true(
+            grouped[SW.OPENLITESPEED] == grouped[SW.CLOSEDLITESPEED],
+            "OLS and CLS should behave the same",
+        )
+
     err.assert_true(
-        grouped[SW.CADDY][CASE.ONE_SERVER] != grouped[SW.CADDY_STRICT][CASE.ONE_SERVER], 
-        "caddy strict should behave differently when Host header mismatch"
+        grouped[SW.CADDY][CASE.ONE_SERVER] != grouped[SW.CADDY_STRICT][CASE.ONE_SERVER],
+        "caddy strict should behave differently when Host header mismatch",
     )
 
     # Check that no unexpected errors were found
@@ -290,10 +323,11 @@ def _check_table_assumptions_resumes_ticket(results: list[SingleResult]):
     ## SNI=R [nginx] : yes
     for sw in _NGINX:
         assert grouped[sw].ticket_resumed == BoolSummary.ALL
-    ## SNI=R [apache, ols] : no
+    ## SNI=R [apache, ols, cls] : no
     for sw in _APACHE:
         assert grouped[sw].ticket_resumed == BoolSummary.NONE
     assert grouped[SW.OPENLITESPEED].ticket_resumed == BoolSummary.NONE
+    assert grouped[SW.CLOSEDLITESPEED].ticket_resumed == BoolSummary.NONE
 
     # column: SNI=none
     grouped = group_results(list(filter_results(results, sni_name=None)), "software_name", "issuer")
@@ -314,6 +348,7 @@ def _check_table_assumptions_resumes_ticket(results: list[SingleResult]):
             assert grouped[sw].ticket_resumed == BoolSummary.ALL
     ## SNI=none [OLS]: no
     assert grouped[SW.OPENLITESPEED].ticket_resumed == BoolSummary.NONE
+    assert grouped[SW.CLOSEDLITESPEED].ticket_resumed == BoolSummary.NONE
 
     print("[+] Validated Table assumptions for Resumes Ticket")
 
@@ -343,6 +378,7 @@ def _check_table_assumptions_resumption_content(results: list[SingleResult]):
         assert RemoteAlias.RESUMPTION in grouped[sw].body
     ## [OLS] R
     assert RemoteAlias.RESUMPTION in grouped[SW.OPENLITESPEED].body
+    assert RemoteAlias.RESUMPTION in grouped[SW.CLOSEDLITESPEED].body
 
     # column: SNI=R, Host=I
     grouped = group_results(
@@ -353,6 +389,7 @@ def _check_table_assumptions_resumption_content(results: list[SingleResult]):
     for sw in _APACHE:
         assert sw not in grouped.keys()
     assert SW.OPENLITESPEED not in grouped.keys()
+    assert SW.CLOSEDLITESPEED not in grouped.keys()
     ## [nginx]: I
     for sw in _NGINX:
         assert RemoteAlias.TICKET_ISSUER in grouped[sw].body
@@ -366,6 +403,7 @@ def _check_table_assumptions_resumption_content(results: list[SingleResult]):
     for sw in _APACHE:
         assert sw not in grouped.keys()
     assert SW.OPENLITESPEED not in grouped.keys()
+    assert SW.CLOSEDLITESPEED not in grouped.keys()
     ## [nginx]: I
     for sw in _NGINX:
         assert RemoteAlias.RESUMPTION in grouped[sw].body
@@ -397,6 +435,7 @@ def _check_table_assumptions_resumption_content(results: list[SingleResult]):
             assert RemoteAlias.TICKET_ISSUER in grouped[sw].body
     ## OLS: not resumed
     assert SW.OPENLITESPEED not in grouped.keys()
+    assert SW.CLOSEDLITESPEED not in grouped.keys()
 
     # column: SNI=None, Host=R
     grouped = group_results(
@@ -430,17 +469,25 @@ def _check_table_assumptions_resumption_content(results: list[SingleResult]):
             assert RemoteAlias.RESUMPTION in grouped[sw].body
     ## OLS: not resumed
     assert SW.OPENLITESPEED not in grouped.keys()
+    assert SW.CLOSEDLITESPEED not in grouped.keys()
 
     print("[+] Validated Table assumptions for Resumption Content")
 
 
 def check_table_assumptions(results: list[SingleResult]):
+    try:
+        assert False
+    except AssertionError:
+        pass
+    else:
+        raise Exception("Assertions are disabled")
+
     results = list(
         filter_results(
             results,
             case_name="one-server",
             # OLS w admin behaves like multiple ports/servers
-            predicate=lambda d: d["software_name"] != "openlitespeed_w_admin",
+            predicate=lambda d: d["software_name"] not in ("openlitespeed_w_admin", "closedlitespeed_w_admin"),
         )
     )
     _check_table_assumptions_resumes_ticket(results)
