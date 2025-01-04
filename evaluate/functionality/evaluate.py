@@ -56,14 +56,14 @@ def precheck_remote(remote: Remote, steks: StekRegistry, CTX: EvalContext):
         CTX.CERTS[remote.hostname] = initial_result.cert
     if initial_result.cert != CTX.CERTS[remote.hostname]:
         logging.error("Certificate mismatch for %s", remote)
+        logging.error("Received: %s", initial_result.cert.hex())
         for k, v in CTX.CERTS.items():
             if v == initial_result.cert:
-                logging.error("Matched with %s", k)
-                break
-        else:
-            logging.error("Unknown certificate")
-        logging.error("Received: %s", initial_result.cert.hex())
+                logging.error("Received matched with %s", k)
         logging.error("Expected: %s", CTX.CERTS[remote.hostname].hex())
+        for k, v in CTX.CERTS.items():
+            if v == CTX.CERTS[remote.hostname]:
+                logging.error("Expected matched with %s", k)
         raise AssertionError("Certificate mismatch")
 
     try:
@@ -220,7 +220,11 @@ def evaluate_test_case(
                 vhost_remotes.append(Remote(vhost_cfg.hostname, ip=instance.ip, port=vhost_cfg.port))
             for additional_vhost_port in software_cfg.additional_vhost_ports:
                 vhost_remotes.append(
-                    Remote(f"additional_{i}_{additional_vhost_port}", ip=instance.ip, port=additional_vhost_port)
+                    Remote(
+                        f"{software_name}_additional_{i}_{additional_vhost_port}",
+                        ip=instance.ip,
+                        port=additional_vhost_port,
+                    )
                 )
             for remote in vhost_remotes:
                 domains[remote.hostname] = precheck_remote(remote, steks, CTX=CTX)
