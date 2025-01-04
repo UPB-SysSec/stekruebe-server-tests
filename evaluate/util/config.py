@@ -59,19 +59,20 @@ class SoftwareConfig(BaseModel):
     config_path: str
     template: str
     stek_length: int
+    stek_path: str
     additional_vhost_ports: list[int] = []
     supports_sni_none: bool = True
     supports_tls_1_3: bool = True
     extra_config_vars: dict[str, Any] = {}
     additional_mounts: Optional[List[MountConfig]] = []
 
-    def render_config(self, server_cfg: ServerConfig, stek_path, comment=None) -> str:
+    def render_config(self, server_cfg: ServerConfig, comment=None) -> str:
         with open(self.template) as f:
             template = jinja2.Template(f.read())
         return template.render(
             **self.extra_config_vars,
             vhosts=server_cfg.vHosts,
-            stek_path=stek_path,
+            stek_path=self.stek_path,
             comment=comment,
         )
 
@@ -128,7 +129,7 @@ if __name__ == "__main__":
                 print("##", testcase)
                 for i, server in enumerate(testcase_cfg.servers):
                     print("###", i)
-                    print(sw_cfg.render_config(server, "/stek.key"))
+                    print(sw_cfg.render_config(server))
     elif len(sys.argv) == 2:
         sw = sys.argv[1]
         print("#", sw)
@@ -137,7 +138,7 @@ if __name__ == "__main__":
             print("##", testcase)
             for i, server in enumerate(testcase_cfg.servers):
                 print("###", i)
-                print(sw_cfg.render_config(server, "/stek.key"))
+                print(sw_cfg.render_config(server))
     elif len(sys.argv) == 3:
         sw = sys.argv[1]
         testcase = sys.argv[2]
@@ -147,4 +148,4 @@ if __name__ == "__main__":
         print("##", testcase)
         for i, server in enumerate(testcase_cfg.servers):
             print("###", i)
-            print(sw_cfg.render_config(server, "/stek.key"))
+            print(sw_cfg.render_config(server))

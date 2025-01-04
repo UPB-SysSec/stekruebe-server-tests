@@ -168,7 +168,7 @@ def main_print_config(
             print("## Case", case_name)
             for i, server_cfg in enumerate(case_cfg.servers):
                 print("### Server", i)
-                print(software_cfg.render_config(server_cfg, "/stek.key", comment=f"Config No {i}"))
+                print(software_cfg.render_config(server_cfg, comment=f"Config No {i}"))
 
 
 @main.command("deploy")
