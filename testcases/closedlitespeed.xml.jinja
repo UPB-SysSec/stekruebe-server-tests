@@ -18,7 +18,9 @@
   <indexFiles>index.html, index.php</indexFiles>
   <htAccess></htAccess>
   <expires></expires>
-  <tuning></tuning>
+  <tuning>
+    <sslSessionTicketKeyFile>{{ stek_path }}</sslSessionTicketKeyFile>
+  </tuning>
   <security><CGIRLimit></CGIRLimit><accessControl></accessControl></security>
   <phpConfig></phpConfig>
   <railsDefaults></railsDefaults>
@@ -28,28 +30,32 @@
     <virtualHost>
       <name>{{ vhost.hostname }}</name>
       <vhRoot>$SERVER_ROOT/conf/vhosts/{{ vhost.hostname }}</vhRoot>
-        <configFile>$VH_ROOT/vhconf.xml</configFile>
+      <configFile>$VH_ROOT/vhconf.xml</configFile>
     </virtualHost>
 {%- endfor %}
 </virtualHostList>
 
   <listenerList>
+    {% for port in vhosts|map(attribute="port")|unique %}
     <listener>
-      <name>HTTPS</name>
-      <address>*:443</address>
+      <name>HTTPS{{port}}</name>
+      <address>*:{{port}}</address>
       <secure>1</secure>
       <vhostMapList>
-{%- for vhost in vhosts %}
+        {%- for vhost in vhosts %}
+        {%-if vhost.port == port-%}
         <vhostMap>
           <vhost>{{ vhost.hostname }}</vhost>
           <domain>{{ vhost.hostname }}</domain>
         </vhostMap>
-{%- endfor %}
+        {%-endif %}
+        {%- endfor %}
       </vhostMapList>
 
-      <keyFile>/usr/local/lsws/admin/conf/webadmin.key</keyFile>
-      <certFile>/usr/local/lsws/admin/conf/webadmin.crt</certFile>
+      <keyFile>/certs/fallback.key</keyFile>
+      <certFile>/certs/fallback.crt</certFile>
     </listener>
+    {% endfor %}
   </listenerList>
   
   <vhTemplateList></vhTemplateList>

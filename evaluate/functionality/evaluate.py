@@ -56,6 +56,12 @@ def precheck_remote(remote: Remote, steks: StekRegistry, CTX: EvalContext):
         CTX.CERTS[remote.hostname] = initial_result.cert
     if initial_result.cert != CTX.CERTS[remote.hostname]:
         logging.error("Certificate mismatch for %s", remote)
+        for k, v in CTX.CERTS.items():
+            if v == initial_result.cert:
+                logging.error("Matched with %s", k)
+                break
+        else:
+            logging.error("Unknown certificate")
         logging.error("Received: %s", initial_result.cert.hex())
         logging.error("Expected: %s", CTX.CERTS[remote.hostname].hex())
         raise AssertionError("Certificate mismatch")
