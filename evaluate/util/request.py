@@ -83,7 +83,7 @@ def request(
     session=None,
     context=CTX_DEFAULT,
     timeout=2,
-    post_handshake_ticket_wait=0
+    post_handshake_ticket_wait=0,
 ):
     assert isinstance(host, Remote)
     assert isinstance(sni_host, (Remote, type(None)))
@@ -92,22 +92,22 @@ def request(
     assert isinstance(host_header_host, Remote)
 
     sni_name = sni_host.hostname if sni_host is not None else None
-    request = (
-        b"GET / HTTP/1.1\r\nHost: "
-        + host_header_host.hostname.encode()
-        + b"\r\nUser-Agent: cli/1\r\nAccept: */*\r\n\r\n"
-    )
+    request = f"""GET / HTTP/1.1
+Host: {host_header_host.hostname}
+User-Agent: cli/1
+Accept: */*
+Connection: close
+
+""".replace(
+        "\n", "\r\n"
+    ).encode()
+    while not request.endswith(b"\r\n\r\n"):
+        request += b"\r\n"
 
     logging.debug("Connecting to %s", host)
     with socket.create_connection(host.get_connectable(), timeout=timeout) as tcp_sock:
         logging.debug("Wrapping into TLS")
         with context.wrap_socket(tcp_sock, server_hostname=sni_name, session=session) as sock:
-
-            if post_handshake_ticket_wait:
-                # this is really hacky, but one time the server did not send anything after too long, so we split it up pre- and post-handshake
-                logging.warning("Waiting for %d seconds for post_handshake_tickets", post_handshake_ticket_wait)
-                time.sleep(post_handshake_ticket_wait)
-
             logging.debug("Sending HTTP request")
             sock.write(request)
 
@@ -115,6 +115,11 @@ def request(
             response.begin()
             logging.debug("Reading HTTP response")
             body = response.read()
+
+            # do another receive to catch any trailing data
+            # for closed lite speed we expect the ticket to come in the same flight of the close notify, this receive should cause the ticket and close notify to be parsed
+            _trailing_data = sock.recv(4096)
+            assert not _trailing_data, f"Received trailing data after response {_trailing_data!r}"
 
             # print("[ ]", host)
             # print("[ ]", request)
