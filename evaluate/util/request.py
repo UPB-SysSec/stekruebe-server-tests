@@ -83,7 +83,6 @@ def request(
     session=None,
     context=CTX_DEFAULT,
     timeout=2,
-    post_handshake_ticket_wait=0,
 ):
     assert isinstance(host, Remote)
     assert isinstance(sni_host, (Remote, type(None)))
