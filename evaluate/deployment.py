@@ -107,7 +107,7 @@ def setup_server(
     stek_file = create_temp_file("stek.key.")
     stek_file.write(steks.get_stek(server_cfg.stek_id, software_cfg.stek_length))
     stek_file.close()
-    mounts.append(Mount(source=stek_file.name, target="/stek.key", read_only=True, type="bind"))
+    mounts.append(Mount(source=stek_file.name, target=software_cfg.stek_path, read_only=True, type="bind"))
 
     for vhost in server_cfg.vHosts:
         if vhost.stek_id:
@@ -118,7 +118,7 @@ def setup_server(
             mounts.append(Mount(source=vhost_stek_file.name, target=vhost.stek_path, read_only=True, type="bind"))
 
     config_file = create_temp_file(".server.conf", mode="w")
-    config_file.write(software_cfg.render_config(server_cfg, "/stek.key", comment=f"Config for container {name}"))
+    config_file.write(software_cfg.render_config(server_cfg, comment=f"Config for container {name}"))
     config_file.close()
     # lwsw needs the config file to be writable
     mounts.append(Mount(source=config_file.name, target=software_cfg.config_path, read_only=False, type="bind"))
