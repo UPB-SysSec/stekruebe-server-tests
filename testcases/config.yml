@@ -186,7 +186,3 @@ software_config:
     template: caddy.json.jinja
     stek_path: /stek/stek.bin
     stek_length: 48
-  caddy_strict:
-    <<: *caddy
-    extra_config_vars:
-      strict_sni: true
