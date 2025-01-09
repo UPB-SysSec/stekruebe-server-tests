@@ -70,12 +70,15 @@
 									"cert{{ vhost.hostname }}"
 								]
 							{{ '}' }}	
+							{% if loop.first %}
+							,
+							"default_sni": "{{ vhosts[0].hostname }}",
+							"fallback_sni": "{{ vhosts[0].hostname }}"
+							{% endif %}
 						{{ '}' }}
 						{%- if not loop.last %},{% endif %}
 						{%- endfor %}
 					],
-					"default_sni": "{{ vhosts[0].hostname }}",
-					"fallback_sni": "{{ vhosts[0].hostname }}",
 					"strict_sni_host": true
 				{{ '}' }}
 				{%- if not loop.last %},{% endif %}
@@ -93,7 +96,7 @@
 					}
 				},
 				"max_keys": 1,
-				"disable_rotation": true,
+				"disable_rotation": true
 			},
 			"certificates": {
 {% endraw %}
