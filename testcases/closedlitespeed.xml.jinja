@@ -46,7 +46,12 @@
         {%-if vhost.port == port-%}
         <vhostMap>
           <vhost>{{ vhost.hostname }}</vhost>
+          {# if the vhost is the first in the list, it is the default vhost #}
+          {%- if loop.first %}
+          <domain>*</domain>
+          {%- else %}
           <domain>{{ vhost.hostname }}</domain>
+          {%- endif %}
         </vhostMap>
         {%-endif %}
         {%- endfor %}

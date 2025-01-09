@@ -11,21 +11,19 @@
 			}
 		}
 	},
-	"admin": {
-		"listen": ":2019"
-	},
 	"apps": {
 		"http": {
 			"servers": {
-{% endraw %}
-				{% set grouped_vhosts = vhosts | groupby('port') %}
-				{% for shared_port, hosts in grouped_vhosts %}
-				"srv{{ loop.index0 }}": {{ '{' }}
+				"srv0": {
 					"listen": [
-						":{{ shared_port }}"
+						{% for vhost in vhosts %}
+						":{{ vhost.port }}"
+						{% if not loop.last %},{% endif %}
+						{% endfor %}
 					],
 					"routes": [
-						{% for vhost in hosts %}
+{% endraw %}
+						{% for vhost in vhosts %}
 						{{ '{' }}	
 							"match": [
 							{{ '{' }}	
@@ -53,12 +51,12 @@
 							{{ '}' }}	
 							],
 							"terminal": true
-						{{ '}' }}
-						{%- if not loop.last %},{% endif %}
-						{%- endfor %}
+						{{ '}' }}	
+						{% if not loop.last %},{% endif %}
+						{% endfor %}
 					],
 					"tls_connection_policies": [
-						{% for vhost in hosts %}
+						{%- for vhost in vhosts %}
 						{{ '{' }}	
 							"match": {{ '{' }} 
 								"sni": [
@@ -67,20 +65,16 @@
 							{{ '},' }}	
 							"certificate_selection": {{ '{' }} 
 								"any_tag": [
-									"cert{{ vhost.hostname }}"
+									"cert{{ loop.index0 }}"
 								]
-							{{ '}' }}	
-						{{ '}' }}
-						{%- if not loop.last %},{% endif %}
+						{{ '}' }}	
+						{{ '},' }}	
 						{%- endfor %}
+						{{ '{}' }}
 					],
-					"default_sni": "{{ vhosts[0].hostname }}",
-					"fallback_sni": "{{ vhosts[0].hostname }}",
-					"strict_sni_host": {% if strict_sni %}true{% else %}false{% endif %}
-				{{ '}' }}
-				{%- if not loop.last %},{% endif %}
-				{%- endfor %}
+					"strict_sni_host": {% if strict_sni_host %}true{% else %}false{% endif %}
 {% raw %}
+				}
 			}
 		},
 		"tls": {
@@ -89,24 +83,23 @@
 					"provider": "distributed",
 					"storage": {
 						"module": "file_system",
-						"root": "/bla"
+						"root": "/steks"
 					}
 				},
-				"max_keys": 2,
-				"disable_rotation": false,
-				"rotation_interval": "10s"
+				"max_keys": 1,
+				"disable_rotation": true
 			},
 			"certificates": {
 {% endraw %}
 				"load_files": [
 					{%- for vhost in vhosts %}
-					{{ '{' }}
+					{
 						"certificate": "{{ vhost.cert }}",
 						"key": "{{ vhost.cert_key }}",
 						"tags": [
-							"cert{{ vhost.hostname }}"
+							"cert{{ loop.index0 }}"
 						]
-					{{ '}' }}
+					}
 					{%- if not loop.last %},{% endif %}
 					{%- endfor %}
 {% raw %}

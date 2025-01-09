@@ -60,6 +60,14 @@ test_cases:
         - *a
         - <<: *b
           port: 444
+  # two-identical-servers:
+  #   servers:
+  #     - <<: *default_server
+  #       vHosts:
+  #       - *a
+  #     - <<: *default_server
+  #       vHosts:
+  #       - *a
   two-servers-same-stek:
     servers:
       - <<: *default_server
@@ -176,7 +184,7 @@ software_config:
     command: ["caddy", "run", "--config", "/etc/caddy/caddy.json"]
     config_path: /etc/caddy/caddy.json
     template: caddy.json.jinja
-    stek_path: /steks/stek.json
+    stek_path: /stek/stek.bin
     stek_length: 48
   caddy_strict:
     <<: *caddy
