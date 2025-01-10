@@ -105,9 +105,9 @@ Connection: close
 
     logging.debug("Connecting to %s", host)
     with socket.create_connection(host.get_connectable(), timeout=timeout) as tcp_sock:
-        logging.debug("Wrapping into TLS")
+        logging.debug("Wrapping into TLS (sni=%s)%s", sni_name, " with session" if session else "")
         with context.wrap_socket(tcp_sock, server_hostname=sni_name, session=session) as sock:
-            logging.debug("Sending HTTP request")
+            logging.debug("Sending HTTP request (%s)", host_header_host)
             sock.write(request)
 
             response = http.client.HTTPResponse(sock)
@@ -123,6 +123,7 @@ Connection: close
             # print("[ ]", host)
             # print("[ ]", request)
             # print("[ ]", response.status, response.reason)
+            logging.debug("Response: %s %s; Was resumed: %r", response.status, response.reason, sock.session_reused)
             return HttpsResponse(
                 session=sock.session,
                 response=response,

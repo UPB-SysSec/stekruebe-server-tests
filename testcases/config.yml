@@ -125,7 +125,6 @@ software_config:
       strict_sni: HTTP
   nginx_strict_tls_err:
     <<: *nginx
-    supports_sni_none: false
     extra_config_vars:
       strict_sni: TLS
   apache: &apache

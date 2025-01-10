@@ -102,6 +102,9 @@ class RemoteNameSummary(BaseModel):
         # assert (
         #     ticket_issuer_host.initial_result.body != resumption_host.initial_result.body
         # ), "Same body for ticket and resumption; should've been caught earlier"
+        if received is None:
+            return None
+
         if ticket_issuer_host.initial_result.body == resumption_host.initial_result.body:
             return RemoteNameSummary(
                 ticket_issuer_host.remote.hostname,
@@ -195,8 +198,7 @@ class SingleResult(BaseModel):
         resumption: vhostTestData,
         CTX: EvalContext,
     ):
-        if full_response is None:
-            assert resumption_response is None
+        if resumption_response is None:
             return SingleResult(
                 parameters=concrete_parameters,
                 summary=ResultSummary.GOOD,
@@ -213,29 +215,35 @@ class SingleResult(BaseModel):
         body_remote = RemoteNameSummary.from_body(
             resumption_response.body, ticket_issuer, resumption, abstract_parameters
         )
-        full_response_body_remote = RemoteNameSummary.from_body(
-            full_response.body, ticket_issuer, resumption, abstract_parameters
-        )
-
-        if full_response.cert == CTX.CERTS[ticket_issuer.remote.hostname]:
-            full_response_cert = RemoteNameSummary(
-                RemoteAlias.TICKET_ISSUER,
-                ticket_issuer.remote.hostname,
-                *abstract_parameters.get_roles(RemoteAlias.TICKET_ISSUER),
-            )
-        elif full_response.cert == CTX.CERTS[resumption.remote.hostname]:
-            full_response_cert = RemoteNameSummary(
-                RemoteAlias.RESUMPTION,
-                resumption.remote.hostname,
-                *abstract_parameters.get_roles(RemoteAlias.RESUMPTION),
-            )
+        if full_response is None:
+            full_response_body = None
+            full_response_body_remote = None
+            full_response_cert = None
         else:
-            for name, cert in CTX.CERTS.items():
-                if full_response.cert == cert:
-                    full_response_cert = RemoteNameSummary(name)
-                    break
+            full_response_body = full_response.body
+            full_response_body_remote = RemoteNameSummary.from_body(
+                full_response_body, ticket_issuer, resumption, abstract_parameters
+            )
+
+            if full_response.cert == CTX.CERTS[ticket_issuer.remote.hostname]:
+                full_response_cert = RemoteNameSummary(
+                    RemoteAlias.TICKET_ISSUER,
+                    ticket_issuer.remote.hostname,
+                    *abstract_parameters.get_roles(RemoteAlias.TICKET_ISSUER),
+                )
+            elif full_response.cert == CTX.CERTS[resumption.remote.hostname]:
+                full_response_cert = RemoteNameSummary(
+                    RemoteAlias.RESUMPTION,
+                    resumption.remote.hostname,
+                    *abstract_parameters.get_roles(RemoteAlias.RESUMPTION),
+                )
             else:
-                full_response_cert = RemoteNameSummary(RemoteAlias.UNKNOWN)
+                for name, cert in CTX.CERTS.items():
+                    if full_response.cert == cert:
+                        full_response_cert = RemoteNameSummary(name)
+                        break
+                else:
+                    full_response_cert = RemoteNameSummary(RemoteAlias.UNKNOWN)
 
         summary = None
         if not resumption_response.session_reused:
@@ -259,7 +267,7 @@ class SingleResult(BaseModel):
             response_body=resumption_response.body,
             full_response_cert=full_response_cert,
             full_response_body=full_response_body_remote,
-            full_body_equals_resumption_body=full_response.body == resumption_response.body,
+            full_body_equals_resumption_body=full_response_body == resumption_response.body,
             full_body_equals_cert=full_response_cert == full_response_body_remote,
         )
 
