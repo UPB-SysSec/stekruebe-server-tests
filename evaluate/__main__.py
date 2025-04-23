@@ -88,11 +88,13 @@ def main(verbose, **kwargs):
 @click.pass_context
 @click.option("--software", "_software_names", type=SoftwareNameCli(), default=None)
 @click.option("--case", "_testcase_names", type=TestCaseNameCli(), default=None)
+@click.option("--outdir", "_outdir", type=click.Path(exists=True, writable=True, path_type=Path), default=".")
 # def main_evaluate(testconfig: config.TestConfig, _testcase_names, _software_names):
 def main_evaluate(
     ctx: click.Context,
     _testcase_names,
     _software_names,
+    _outdir: Path,
 ):
     from .functionality.evaluate import evaluate
 
@@ -101,8 +103,8 @@ def main_evaluate(
 
     # testconfig = config.parse_config_file(TESTCASES_DIR / "config.yml")
     with tempfile.TemporaryDirectory(delete=True, prefix="steckruebe_") as temp_dir, open(
-        "results.csv", "w"
-    ) as f, open("results.jsonl", "w") as f_jsonl:
+        _outdir / "results.csv", "w"
+    ) as f, open(_outdir / "results.jsonl", "w") as f_jsonl:
 
         TEMP_DIR = Path(temp_dir)
         CTX = EvalContext.make(_TESTCASES_DIR, TEMP_DIR)
@@ -147,7 +149,7 @@ def main_evaluate(
         ("issuer", "resumption"),
     )
     grouped = group_results(results, *group_keys)
-    with open("results.json", "w") as f:
+    with open(_outdir / "results.json", "w") as f:
         f.write(grouped.model_dump_json(indent=2))
 
 
