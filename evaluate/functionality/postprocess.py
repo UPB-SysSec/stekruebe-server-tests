@@ -93,12 +93,12 @@ class SW:
     CLOSEDLITESPEED = "software_name=closedlitespeed"
     CLOSEDLITESPEED_W_ADMIN = "software_name=closedlitespeed_w_admin"
     CADDY = "software_name=caddy"
-    CADDY_STRICT = "software_name=caddy_strict"
+    # CADDY_STRICT = "software_name=caddy_strict"
 
 
 _NGINX = {SW.NGINX, SW.NGINX80, SW.NGINX_STRICT_HTTP_ERR, SW.NGINX_STRICT_TLS_ERR}
 _APACHE = {SW.APACHE, SW.APACHE_STRICT}
-_CADDY = {SW.CADDY, SW.CADDY_STRICT}
+# _CADDY = {SW.CADDY, SW.CADDY_STRICT}
 
 
 def check_result_assertions(results: list[SingleResult]):
@@ -117,6 +117,7 @@ def check_result_assertions(results: list[SingleResult]):
             "issuer=closedlitespeed_w_admin_additional_1_7080, resumption=closedlitespeed_w_admin_additional_0_7080: litespeed Admin interface should not resume",
             (SW.APACHE, EXPECT.SAME, "tls_version=TLSv1.2", "tls_version=TLSv1.3"),
             (SW.APACHE_STRICT, EXPECT.SAME, "tls_version=TLSv1.2", "tls_version=TLSv1.3"),
+            (SW.NGINX_STRICT_TLS_ERR, EXPECT.SAME, "tls_version=TLSv1.2", "tls_version=TLSv1.3"),
             "software_name=nginx_strict_http_err case_name=two-servers-same-stek should not resume tickets",
             "software_name=nginx_strict_http_err case_name=two-servers-same-stek-different-ports should not resume tickets",
             "software_name=openlitespeed_w_admin case_name=two-servers-same-stek should not resume tickets",
@@ -289,10 +290,11 @@ def check_result_assertions(results: list[SingleResult]):
             "OLS and CLS should behave the same",
         )
 
-    err.assert_true(
-        grouped[SW.CADDY][CASE.ONE_SERVER] != grouped[SW.CADDY_STRICT][CASE.ONE_SERVER],
-        "caddy strict should behave differently when Host header mismatch",
-    )
+    # We no longer have a strict caddy version, because formerly "normal" caddy was more like a weakend one
+    #err.assert_true(
+    #    grouped[SW.CADDY][CASE.ONE_SERVER] != grouped[SW.CADDY_STRICT][CASE.ONE_SERVER],
+    #    "caddy strict should behave differently when Host header mismatch",
+    #)
 
     # Check that no unexpected errors were found
     if err.found_expected_errors:
@@ -320,9 +322,10 @@ def _check_table_assumptions_resumes_ticket(results: list[SingleResult]):
 
     # column: SNI=R
     grouped = group_results(list(filter_results(results, sni_name=RemoteAlias.RESUMPTION)), "software_name")
-    ## SNI=R [nginx] : yes
+    ## SNI=R [nginx,caddy] : yes
     for sw in _NGINX:
         assert grouped[sw].ticket_resumed == BoolSummary.ALL
+    assert grouped[SW.CADDY].ticket_resumed == BoolSummary.ALL
     ## SNI=R [apache, ols, cls] : no
     for sw in _APACHE:
         assert grouped[sw].ticket_resumed == BoolSummary.NONE
@@ -349,6 +352,8 @@ def _check_table_assumptions_resumes_ticket(results: list[SingleResult]):
     ## SNI=none [OLS]: no
     assert grouped[SW.OPENLITESPEED].ticket_resumed == BoolSummary.NONE
     assert grouped[SW.CLOSEDLITESPEED].ticket_resumed == BoolSummary.NONE
+    ## SNI=none [caddy]: no
+    assert grouped[SW.CADDY].ticket_resumed == BoolSummary.NONE
 
     print("[+] Validated Table assumptions for Resumes Ticket")
 
@@ -369,10 +374,11 @@ def _check_table_assumptions_resumption_content(results: list[SingleResult]):
         list(filter_results(results, sni_name=RemoteAlias.TICKET_ISSUER, host_header_name=RemoteAlias.RESUMPTION)),
         "software_name",
     )
-    ## [apache] 421
+    ## [apache, caddy] 421
     for sw in _APACHE:
         for r in grouped[sw].details:
             assert r.response_status_code == 421
+    assert grouped[SW.CADDY].details.response_status_code == 421
     ## [nginx] R
     for sw in _NGINX:
         assert RemoteAlias.RESUMPTION in grouped[sw].body
@@ -390,6 +396,8 @@ def _check_table_assumptions_resumption_content(results: list[SingleResult]):
         assert sw not in grouped.keys()
     assert SW.OPENLITESPEED not in grouped.keys()
     assert SW.CLOSEDLITESPEED not in grouped.keys()
+    ## [caddy]: 421
+    assert grouped[SW.CADDY].details.response_status_code == 421
     ## [nginx]: I
     for sw in _NGINX:
         assert RemoteAlias.TICKET_ISSUER in grouped[sw].body
@@ -404,9 +412,10 @@ def _check_table_assumptions_resumption_content(results: list[SingleResult]):
         assert sw not in grouped.keys()
     assert SW.OPENLITESPEED not in grouped.keys()
     assert SW.CLOSEDLITESPEED not in grouped.keys()
-    ## [nginx]: I
+    ## [nginx, caddy]: R
     for sw in _NGINX:
         assert RemoteAlias.RESUMPTION in grouped[sw].body
+    assert RemoteAlias.RESUMPTION in grouped[SW.CADDY].body
 
     # column: SNI=None, Host=I
     grouped = group_results(
@@ -425,6 +434,8 @@ def _check_table_assumptions_resumption_content(results: list[SingleResult]):
     assert RemoteAlias.TICKET_ISSUER in grouped[SW.APACHE_STRICT]["tls_version=TLSv1.2"].body
     for r in grouped[SW.APACHE_STRICT]["tls_version=TLSv1.3"].details:
         assert r.response_status_code == 403
+    ## caddy: not resumed
+    assert SW.CADDY not in grouped.keys()
     ## nginx: I
     ### strict: not resumed
     for sw in _NGINX:
@@ -457,6 +468,9 @@ def _check_table_assumptions_resumption_content(results: list[SingleResult]):
         assert r.response_status_code == 421
     for r in grouped[SW.APACHE_STRICT]["tls_version=TLSv1.3"].walk_results():
         assert r.response_status_code == 403
+
+    ## caddy: not resumed
+    assert SW.CADDY not in grouped.keys()
 
     ## nginx
     for sw in _NGINX:
