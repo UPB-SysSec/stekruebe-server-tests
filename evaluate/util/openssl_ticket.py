@@ -3,8 +3,6 @@ import ssl
 import sys
 import os.path as op
 
-__DISABLED = False
-
 _FFI = cffi.FFI()
 
 
@@ -25,7 +23,7 @@ try:
         )
 except cffi.VerificationError as e:
     print("OpenSSL CFFI not available, falling back to pure Python")
-    raise ImportError("OpenSSL CFFI not available") from e
+    raise ImportError("OpenSSL CFFI not available")
 
 
 def get_ticket_bytes(session) -> bytes:
