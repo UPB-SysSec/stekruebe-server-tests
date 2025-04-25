@@ -117,35 +117,42 @@ def main_evaluate(
         CTX = EvalContext.make(_TESTCASES_DIR, TEMP_DIR)
         keys = None
         results = []
-        for result in evaluate(testconfig, CTX):
-            assert isinstance(result, SingleResult)
-            results.append(result)
+        try:
+            for result in evaluate(testconfig, CTX):
+                assert isinstance(result, SingleResult)
+                results.append(result)
 
-            # jsonl dump
-            f_jsonl.write(result.model_dump_json(indent=None))
-            f_jsonl.write("\n")
-            f_jsonl.flush()
+                # jsonl dump
+                f_jsonl.write(result.model_dump_json(indent=None))
+                f_jsonl.write("\n")
+                f_jsonl.flush()
 
-            # csv dump
-            parameters = result.parameters
-            assert isinstance(parameters, dict)
-            result = result.model_dump()
-            # parameters = {f"parameters.{k}": v for k, v in parameters.items()}
-            result = {f"result.{k}": v for k, v in result.items() if k != "parameters"}
+                # csv dump
+                parameters = result.parameters
+                assert isinstance(parameters, dict)
+                result = result.model_dump()
+                # parameters = {f"parameters.{k}": v for k, v in parameters.items()}
+                result = {f"result.{k}": v for k, v in result.items() if k != "parameters"}
 
-            if keys is None:
-                # first result
-                keys = parameters.keys()
-                writer = csv.DictWriter(f, fieldnames=[*keys, *result.keys()])
-                writer.writeheader()
-            else:
-                assert keys == parameters.keys(), "Different keys"
-            writer.writerow(
-                {
-                    **parameters,
-                    **result,
-                }
+                if keys is None:
+                    # first result
+                    keys = parameters.keys()
+                    writer = csv.DictWriter(f, fieldnames=[*keys, *result.keys()])
+                    writer.writeheader()
+                else:
+                    assert keys == parameters.keys(), "Different keys"
+                writer.writerow(
+                    {
+                        **parameters,
+                        **result,
+                    }
+                )
+        except Exception as e:
+            click.secho(
+                "An error occurred during evaluation. Please check the logs for more details or check with the authors.",
+                fg="red",
             )
+            exit(1)
 
     # group results
     group_keys = (
