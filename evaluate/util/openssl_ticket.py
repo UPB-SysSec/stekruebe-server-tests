@@ -3,6 +3,8 @@ import ssl
 import sys
 import os.path as op
 
+__DISABLED = False
+
 _FFI = cffi.FFI()
 
 
@@ -13,13 +15,17 @@ int get_ticket_bytes(const void* pysession, const unsigned char** out, size_t of
 )
 
 
-with open(op.join(op.dirname(__file__), "openssl_ticket.c")) as f:
-    _C = _FFI.verify(
-        f.read(),
-        "/tmp/openssl_ticket",
-        include_dirs=["/usr/include/python-3.12"],
-        libraries=["ssl"],
-    )
+try:
+    with open(op.join(op.dirname(__file__), "openssl_ticket.c")) as f:
+        _C = _FFI.verify(
+            f.read(),
+            "/tmp/openssl_ticket",
+            include_dirs=["/usr/include/python-3.12"],
+            libraries=["ssl"],
+        )
+except cffi.VerificationError as e:
+    print("OpenSSL CFFI not available, falling back to pure Python")
+    raise ImportError("OpenSSL CFFI not available") from e
 
 
 def get_ticket_bytes(session) -> bytes:
