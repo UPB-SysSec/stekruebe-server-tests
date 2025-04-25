@@ -9,4 +9,7 @@ testcases/certs/
 results*.jsonl
 results*.json
 results*.csv
+results*.log
 test/
+
+!final-results/*

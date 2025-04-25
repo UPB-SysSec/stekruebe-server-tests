@@ -4,12 +4,6 @@
 		  output stdout
 		  level DEBUG
 	  }
-    {%- if not strict_sni %}
-      # Caddy includes strict SNI by default
-      servers {
-          strict_sni_host insecure_off
-      }
-    {% endif %}
 }
 {%- for vhost in vhosts %}
 {{ vhost.hostname }}:{{ vhost.port }} {

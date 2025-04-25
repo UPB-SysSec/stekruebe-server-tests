@@ -20,6 +20,9 @@
   <expires></expires>
   <tuning>
     <sslSessionTicketKeyFile>{{ stek_path }}</sslSessionTicketKeyFile>
+    {% if strict_sni %}
+    <sslstrictsni>1</sslstrictsni>
+    {% endif %}
   </tuning>
   <security><CGIRLimit></CGIRLimit><accessControl></accessControl></security>
   <phpConfig></phpConfig>

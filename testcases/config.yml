@@ -154,6 +154,10 @@ software_config:
       - source: closedlitespeed/domains/config/conf/vhosts/c.com/vhconf.xml
         target: /usr/local/lsws/conf/vhosts/c.com/vhconf.xml
         read_only: false
+  closedlitespeed_strict:
+    <<: *ls
+    extra_config_vars:
+      strict_sni: true
   closedlitespeed_w_admin:
     # to more easily distinguish OLS with and without admin interface case
     # this only affects the summaries, but may make it easier to get the actual results
@@ -166,17 +170,23 @@ software_config:
     config_path: /usr/local/lsws/conf/httpd_config.conf
     template: openlitespeed.conf.jinja
     stek_length: 48
+  openlitespeed_strict:
+    <<: *ols
+    extra_config_vars:
+      strict_sni: true
   openlitespeed_w_admin:
     # to more easily distinguish OLS with and without admin interface case
     # this only affects the summaries, but may make it easier to get the actual results
     <<: *ols
     additional_vhost_ports:
       - 7080
-  # caddy: &caddy
+  # caddy_caddyfile: &caddy_caddyfile
   #   <<: *base_software
   #   image: caddy
   #   config_path: /etc/caddy/Caddyfile
   #   template: caddyfile.jinja
+  #   stek_path: /stek/stek.bin
+  #   stek_length: 48
   caddy: &caddy
     <<: *base_software
     image: caddy

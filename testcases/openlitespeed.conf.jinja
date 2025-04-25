@@ -33,6 +33,9 @@ CGIRLimit{
 
 tuning  {
   sslSessionTicketKeyFile {{ stek_path }}
+  {% if strict_sni %}
+  sslstrictsni 1
+  {% endif %}
   quicEnable              0
 }
 
@@ -61,7 +64,10 @@ listener HTTPS{{port}} {
 
   {% for vhost in vhosts %}
     {%-if vhost.port == port-%}
-  map                     {{ vhost.hostname }} {{ vhost.hostname }}
+      {%- if loop.first %}
+      map {{ vhost.hostname }} *
+      {%- endif %}
+      map {{ vhost.hostname }} {{ vhost.hostname }}
     {%-endif %}
   {% endfor %}
 }

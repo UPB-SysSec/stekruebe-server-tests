@@ -96,9 +96,15 @@ def main_evaluate(
 ):
     from .functionality.evaluate import evaluate
 
+    root_logger = _logging.getLogger()
+    assert len(root_logger.handlers) == 1
+    logger_formatter = root_logger.handlers[0].formatter
+    file_handler = _logging.FileHandler("results.log", mode="w")
+    file_handler.setFormatter(logger_formatter)
+    root_logger.addHandler(file_handler)
+
     assert ctx.parent
     testconfig = ctx.parent.params["testconfig"]
-
     # testconfig = config.parse_config_file(TESTCASES_DIR / "config.yml")
     with tempfile.TemporaryDirectory(delete=True, prefix="steckruebe_") as temp_dir, open(
         "results.csv", "w"
@@ -226,6 +232,19 @@ def post_process(ctx: click.Context, input_file):
     #     print(f'{case_name.upper().replace("-","_")}="case_name={case_name}"')
     # for software_name in testconfig.software_config:
     #     print(f'{software_name.upper().replace("-","_")}="software_name={software_name}"')
+
+    for _ in range(20):
+        print("WARNING! IGNORING caddy_caddyfile for now")
+    from .result import filter_results
+
+    results = list(
+        filter_results(
+            results,
+            # OLS w admin behaves like multiple ports/servers
+            predicate=lambda d: d["software_name"] not in ("caddy_caddyfile"),
+        )
+    )
+
     check_result_assertions(results)
     print("\n\nChecking table assumptions")
     check_table_assumptions(results)

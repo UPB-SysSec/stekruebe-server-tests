@@ -30,10 +30,11 @@ class VirtualHostConfig(BaseModel):
 
 
 class MountConfig(BaseModel):
-    source: str # relative to testcases dir
-    target: str # absolute path in container
+    source: str  # relative to testcases dir
+    target: str  # absolute path in container
     read_only: bool = True
     type: str = "bind"
+
 
 class ServerConfig(BaseModel):
     vHosts: List[VirtualHostConfig]
@@ -66,7 +67,7 @@ class SoftwareConfig(BaseModel):
     extra_config_vars: dict[str, Any] = {}
     additional_mounts: Optional[List[MountConfig]] = []
 
-    def render_config(self, server_cfg: ServerConfig, comment=None) -> str:
+    def render_config(self, server_cfg: ServerConfig, comment=None, server_num=0) -> str:
         with open(self.template) as f:
             template = jinja2.Template(f.read())
         return template.render(
@@ -74,6 +75,7 @@ class SoftwareConfig(BaseModel):
             vhosts=server_cfg.vHosts,
             stek_path=self.stek_path,
             comment=comment,
+            server_num=server_num
         )
 
 
