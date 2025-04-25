@@ -32,6 +32,7 @@
             "console": "integratedTerminal",
             "args": [
                 "postprocess",
+                "out/results.jsonl",
                 // "--case",
                 // "one-server",
                 // "--software",
