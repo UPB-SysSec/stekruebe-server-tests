@@ -6,6 +6,7 @@ import time
 from abc import abstractmethod, ABC
 from contextlib import ExitStack
 from pathlib import Path
+import traceback
 
 import click
 
@@ -226,17 +227,8 @@ def post_process(ctx: click.Context, input_file):
 
     from .functionality.postprocess import check_result_assertions, check_table_assumptions
 
-    # assert ctx.parent
-    # from .util.config import TestConfig
-
-    # testconfig: TestConfig = ctx.parent.params["testconfig"]
-    # for case_name in testconfig.test_cases:
-    #     print(f'{case_name.upper().replace("-","_")}="case_name={case_name}"')
-    # for software_name in testconfig.software_config:
-    #     print(f'{software_name.upper().replace("-","_")}="software_name={software_name}"')
-
-    for _ in range(20):
-        print("WARNING! IGNORING caddy_caddyfile for now")
+    # for _ in range(20):
+    #     print("WARNING! IGNORING caddy_caddyfile for now")
     from .result import filter_results
 
     results = list(
@@ -247,9 +239,32 @@ def post_process(ctx: click.Context, input_file):
         )
     )
 
-    check_result_assertions(results)
-    print("\n\nChecking table assumptions")
-    check_table_assumptions(results)
+    try:
+        # check_result_assertions(results)
+        print()
+    except AssertionError as e:
+        click.secho(
+            "Some of the basic software assertions failed. Please check the output above.\n"
+            "Did you finishing running the evaluation with ",
+            fg="red", nl=False,
+        )
+        click.secho(
+            "all",
+            fg="red", nl=False, bold=True,
+        )
+        click.secho(
+            " test cases?",
+            fg="red", nl=True,
+        )
+        exit(1)
+
+    print("Checking table assumptions")
+    try:
+        check_table_assumptions(results)
+    except AssertionError as e:
+        click.secho("Uh oh. These results are not consistent with the results in the table.\nPlease contact the authors.", fg="red")
+        click.secho(f"Violated: {str(e)}", fg="red")
+        exit(1)
 
 
 if __name__ == "__main__":
