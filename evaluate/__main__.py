@@ -242,8 +242,8 @@ def post_process(ctx: click.Context, input_file):
     results = list(
         filter_results(
             results,
-            # OLS w admin behaves like multiple ports/servers
-            predicate=lambda d: d["software_name"] not in ("caddy_caddyfile"),
+            # the subtle difference between caddy and caddy_caddyfile are ultimately not super interesting
+            predicate=lambda d: d["software_name"] not in ("caddy_caddyfile",),
         )
     )
 

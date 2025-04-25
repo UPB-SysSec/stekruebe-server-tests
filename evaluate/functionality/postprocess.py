@@ -89,8 +89,10 @@ class SW:
     APACHE = "software_name=apache"
     APACHE_STRICT = "software_name=apache_strict"
     OPENLITESPEED = "software_name=openlitespeed"
+    OPENLITESPEED_STRICT = "software_name=openlitespeed_strict"
     OPENLITESPEED_W_ADMIN = "software_name=openlitespeed_w_admin"
     CLOSEDLITESPEED = "software_name=closedlitespeed"
+    CLOSEDLITESPEED_STRICT = "software_name=closedlitespeed_strict"
     CLOSEDLITESPEED_W_ADMIN = "software_name=closedlitespeed_w_admin"
     CADDY = "software_name=caddy"
     # CADDY_STRICT = "software_name=caddy_strict"
@@ -98,7 +100,8 @@ class SW:
 
 _NGINX = {SW.NGINX, SW.NGINX80, SW.NGINX_STRICT_HTTP_ERR, SW.NGINX_STRICT_TLS_ERR}
 _APACHE = {SW.APACHE, SW.APACHE_STRICT}
-_LITESPEED = {SW.OPENLITESPEED, SW.CLOSEDLITESPEED}
+_LITESPEED = {SW.OPENLITESPEED, SW.CLOSEDLITESPEED, SW.OPENLITESPEED_STRICT, SW.CLOSEDLITESPEED_STRICT}
+_LITESPEED_W_ADMIN = {SW.OPENLITESPEED_W_ADMIN, SW.CLOSEDLITESPEED_W_ADMIN}
 # _CADDY = {SW.CADDY, SW.CADDY_STRICT}
 
 
@@ -117,13 +120,10 @@ def check_result_assertions(results: list[SingleResult]):
             "issuer=openlitespeed_w_admin_additional_1_7080, resumption=openlitespeed_w_admin_additional_0_7080: litespeed Admin interface should not resume",
             "issuer=closedlitespeed_w_admin_additional_0_7080, resumption=closedlitespeed_w_admin_additional_1_7080: litespeed Admin interface should not resume",
             "issuer=closedlitespeed_w_admin_additional_1_7080, resumption=closedlitespeed_w_admin_additional_0_7080: litespeed Admin interface should not resume",
-            # (SW.APACHE, EXPECT.SAME, "tls_version=TLSv1.2", "tls_version=TLSv1.3"),
-            # (SW.APACHE_STRICT, EXPECT.SAME, "tls_version=TLSv1.2", "tls_version=TLSv1.3"),
-            # (SW.NGINX_STRICT_TLS_ERR, EXPECT.SAME, "tls_version=TLSv1.2", "tls_version=TLSv1.3"),
             # shared hosts between nginx instances
-            "software_name=nginx_strict_http_err case_name=one-server-different-ports should not resume tickets",
-            "software_name=nginx_strict_http_err case_name=two-servers-same-stek should not resume tickets",
-            "software_name=nginx_strict_http_err case_name=two-servers-same-stek-different-ports should not resume tickets",
+            # "software_name=nginx_strict_http_err case_name=one-server-different-ports should not resume tickets",
+            # "software_name=nginx_strict_http_err case_name=two-servers-same-stek should not resume tickets",
+            # "software_name=nginx_strict_http_err case_name=two-servers-same-stek-different-ports should not resume tickets",
             # shared hosts between OLS instances
             "software_name=openlitespeed_w_admin case_name=two-servers-same-stek should not resume tickets",
             "software_name=openlitespeed_w_admin case_name=two-servers-same-stek-different-ports should not resume tickets",
@@ -191,7 +191,39 @@ def check_result_assertions(results: list[SingleResult]):
                 CASE.TWO_SERVERS_DISTINCT_STEK_DIFFERENT_PORTS,
             },
         ],
+        SW.OPENLITESPEED_STRICT: [
+            {
+                CASE.ONE_SERVER,
+                CASE.ONE_SERVER_DIFFERENT_STEKS,
+            },
+            {
+                # default hosts somehow behave different
+                CASE.ONE_SERVER_DIFFERENT_PORTS,
+            },
+            {
+                CASE.TWO_SERVERS_SAME_STEK,
+                CASE.TWO_SERVERS_SAME_STEK_DIFFERENT_PORTS,
+                CASE.TWO_SERVERS_DISTINCT_STEK,
+                CASE.TWO_SERVERS_DISTINCT_STEK_DIFFERENT_PORTS,
+            },
+        ],
         SW.CLOSEDLITESPEED: [
+            {
+                CASE.ONE_SERVER,
+                CASE.ONE_SERVER_DIFFERENT_STEKS,
+            },
+            {
+                # default hosts somehow behave different
+                CASE.ONE_SERVER_DIFFERENT_PORTS,
+            },
+            {
+                CASE.TWO_SERVERS_SAME_STEK,
+                CASE.TWO_SERVERS_SAME_STEK_DIFFERENT_PORTS,
+                CASE.TWO_SERVERS_DISTINCT_STEK,
+                CASE.TWO_SERVERS_DISTINCT_STEK_DIFFERENT_PORTS,
+            },
+        ],
+        SW.CLOSEDLITESPEED_STRICT: [
             {
                 CASE.ONE_SERVER,
                 CASE.ONE_SERVER_DIFFERENT_STEKS,
@@ -217,8 +249,8 @@ def check_result_assertions(results: list[SingleResult]):
                 CASE.ONE_SERVER_DIFFERENT_PORTS,
                 CASE.TWO_SERVERS_SAME_STEK,
                 CASE.TWO_SERVERS_SAME_STEK_DIFFERENT_PORTS,
-            },
-            {
+            # }
+            # {
                 CASE.TWO_SERVERS_DISTINCT_STEK,
                 CASE.TWO_SERVERS_DISTINCT_STEK_DIFFERENT_PORTS,
             },
@@ -324,6 +356,7 @@ def check_result_assertions(results: list[SingleResult]):
         "apache one-server should be differ (for SNI=None) for default config and strict config",
     )
 
+
     with SingleResult.__eq__.ignoredFields.add("response_body"):  # type: ignore[attr-defined]
         # they slightly changed the 404 body
         err.assert_true(
@@ -384,29 +417,14 @@ def _check_table_assumptions_resumes_ticket(results: list[SingleResult]):
             else:
                 assert issuer_grouped.ticket_resumed == BoolSummary.NONE
 
+    ## SNI=none [caddy]: no
+    assert grouped[SW.CADDY].ticket_resumed == BoolSummary.NONE
     ## SNI=none [nginx]: yes
-    todo = """
-    ## SNI=none [nginx_strict_tls]: no in TLS 1.3
     for sw in _NGINX:
         if sw == SW.NGINX_STRICT_TLS_ERR:
-            # because of the raised error sometimes
-            assert grouped[sw].ticket_resumed == BoolSummary.SOME
             continue
         else:
             assert grouped[sw].ticket_resumed == BoolSummary.ALL
-    ## SNI=none [OLS]: only on first host
-    # TODO: FIX
-    for sw in _LITESPEED:
-        for issuer, issuer_grouped in grouped[sw].items():
-            if issuer == "issuer=a.com":
-                assert issuer_grouped.ticket_resumed == BoolSummary.ALL, f"{sw} {issuer} {issuer_grouped.ticket_resumed}"
-            else:
-                assert issuer_grouped.ticket_resumed == BoolSummary.NONE, f"{sw} {issuer} {issuer_grouped.ticket_resumed}"
-    # assert grouped[SW.OPENLITESPEED].ticket_resumed == BoolSummary.SOME
-    assert grouped[SW.CLOSEDLITESPEED].ticket_resumed == BoolSummary.SOME
-    ## SNI=none [caddy]: no
-    assert grouped[SW.CADDY].ticket_resumed == BoolSummary.NONE
-    """
     ## SNI=none [nginx_strict_tls]: 1.2: yes 1.3: no
     for sw in _NGINX:
         if sw == SW.NGINX_STRICT_TLS_ERR:
@@ -428,6 +446,7 @@ def _check_table_assumptions_resumes_ticket(results: list[SingleResult]):
 
 
 def _check_table_assumptions_resumption_content(results: list[SingleResult]):
+    # IMPORTANT: all of these build on the previous "not resumed" tests, so we do not explicitly check for resumed tickets here
     results = list(filter(lambda r: r.ticket_resumed, results))
 
     # column: SNI=I, Host=I: I
@@ -452,9 +471,9 @@ def _check_table_assumptions_resumption_content(results: list[SingleResult]):
     ## [nginx] R
     for sw in _NGINX:
         assert RemoteAlias.RESUMPTION in grouped[sw].body
-    ## [OLS] R
-    assert RemoteAlias.RESUMPTION in grouped[SW.OPENLITESPEED].body
-    assert RemoteAlias.RESUMPTION in grouped[SW.CLOSEDLITESPEED].body
+    ## [cls/ols] R
+    for sw in _LITESPEED:
+        assert RemoteAlias.RESUMPTION in grouped[sw].body
 
     # column: SNI=R, Host=I
     grouped = group_results(
@@ -464,8 +483,8 @@ def _check_table_assumptions_resumption_content(results: list[SingleResult]):
     ## [apache, ols]: not resumed
     for sw in _APACHE:
         assert sw not in grouped.keys()
-    # assert SW.OPENLITESPEED not in grouped.keys()
-    # assert SW.CLOSEDLITESPEED not in grouped.keys()
+    for sw in _LITESPEED:
+        assert sw not in grouped.keys()
     ## [caddy]: 421
     for r in grouped[SW.CADDY].details:
         assert r.response_status_code == 421
@@ -481,8 +500,8 @@ def _check_table_assumptions_resumption_content(results: list[SingleResult]):
     ## [apache, ols]: not resumed
     for sw in _APACHE:
         assert sw not in grouped.keys()
-    # assert SW.OPENLITESPEED not in grouped.keys()
-    # assert SW.CLOSEDLITESPEED not in grouped.keys()
+    for sw in _LITESPEED:
+        assert sw not in grouped.keys()
     ## [nginx, caddy]: R
     for sw in _NGINX:
         assert RemoteAlias.RESUMPTION in grouped[sw].body
@@ -505,28 +524,13 @@ def _check_table_assumptions_resumption_content(results: list[SingleResult]):
     assert RemoteAlias.TICKET_ISSUER in grouped[SW.APACHE_STRICT]["tls_version=TLSv1.2"].body
     for r in grouped[SW.APACHE_STRICT]["tls_version=TLSv1.3"].details:
         assert r.response_status_code == 403
-    todo = """
-    ## caddy: not resumed
-    assert SW.CADDY not in grouped.keys()
-    ## nginx: I
-    ### strict: not resumed
-    for sw in _NGINX:
-        if sw == SW.NGINX_STRICT_TLS_ERR:
-            # as the TLS handshake failed, there is no result stored
-            # assert sw not in grouped.keys()
-            #TODO: express smth
-            continue
-        else:
-            assert RemoteAlias.TICKET_ISSUER in grouped[sw].body
-    ## OLS: not resumed
-    # assert SW.OPENLITESPEED not in grouped.keys()
-    # assert SW.CLOSEDLITESPEED not in grouped.keys()
-    """
     ## nginx: I (for any that was resumed)
+    # note that strict_tls_err 1.3 should not resume, which is tested in the previous step
     for sw in _NGINX:
         assert RemoteAlias.TICKET_ISSUER in grouped[sw].body
+
     ## OLS: I
-    for sw in (SW.OPENLITESPEED, SW.CLOSEDLITESPEED):
+    for sw in _LITESPEED:
         assert RemoteAlias.TICKET_ISSUER in grouped[sw].body
 
     # column: SNI=None, Host=R
@@ -549,30 +553,14 @@ def _check_table_assumptions_resumption_content(results: list[SingleResult]):
         assert r.response_status_code == 421
     for r in grouped[SW.APACHE_STRICT]["tls_version=TLSv1.3"].walk_results():
         assert r.response_status_code == 403
-
-    todo = """
-    ## caddy: not resumed
-    assert SW.CADDY not in grouped.keys()
-
-    ## nginx
-    for sw in _NGINX:
-        if sw == SW.NGINX_STRICT_TLS_ERR:
-            ### strict: not resumed
-            # as the TLS handshake failed, there is no result stored
-            continue
-            assert sw not in grouped.keys()
-        else:
-            ### normal: R
-            assert RemoteAlias.RESUMPTION in grouped[sw].body
-    ## OLS: not resumed
-    # assert SW.OPENLITESPEED not in grouped.keys()
-    # assert SW.CLOSEDLITESPEED not in grouped.keys()
-    """
     ## nginx: R (for any that was resumed)
+    # note that strict_tls_err 1.3 should not resume, which is tested in the previous step
     for sw in _NGINX:
         assert RemoteAlias.RESUMPTION in grouped[sw].body
+    # strict_tls_err 1.3 not resumed
+    assert "tls_version=TLSv1.3" not in grouped[SW.NGINX_STRICT_TLS_ERR].keys()
     ## OLS: R
-    for sw in (SW.OPENLITESPEED, SW.CLOSEDLITESPEED):
+    for sw in _LITESPEED:
         assert RemoteAlias.RESUMPTION in grouped[sw].body
 
     print("[+] Validated Table assumptions for Resumption Content")
