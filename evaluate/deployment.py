@@ -118,7 +118,7 @@ def setup_server(
             mounts.append(Mount(source=vhost_stek_file.name, target=vhost.stek_path, read_only=True, type="bind"))
 
     config_file = create_temp_file(".server.conf", mode="w")
-    config_file.write(software_cfg.render_config(server_cfg, comment=f"Config for container {name}"))
+    config_file.write(software_cfg.render_config(server_cfg, comment=f"Config for container {name}", server_num=number))
     config_file.close()
     # lwsw needs the config file to be writable
     mounts.append(Mount(source=config_file.name, target=software_cfg.config_path, read_only=False, type="bind"))
@@ -127,7 +127,9 @@ def setup_server(
         path = CTX.TESTCASES_DIR / mount.source
         mounts.append(Mount(source=str(path), target=mount.target, read_only=mount.read_only, type=mount.type))
 
-    container = docker.containers.run(software_cfg.image, software_cfg.command, detach=True, name=name, auto_remove=False, mounts=mounts)
+    container = docker.containers.run(
+        software_cfg.image, software_cfg.command, detach=True, name=name, auto_remove=False, mounts=mounts
+    )
 
     assert container.id is not None
     CTX.STARTED_CONTAINER_IDS.add(container.id)
@@ -138,6 +140,6 @@ def setup_server(
     logging.debug("started container id=%s name=%s", container.id, name)
 
     if "litespeed" in software_name:
-        time.sleep(5) # some servers (LiteSpeed) take a while to get going
+        time.sleep(5)  # some servers (LiteSpeed) take a while to get going
 
     return DeployedServer(ip=ip, container=container, temp_files=tmp_files, CTX=CTX)

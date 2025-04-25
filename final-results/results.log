@@ -1,0 +1,1228 @@
+2025-01-10 14:15:28,409    INFO |   evaluate_test_case: Running server nginx in case one-server
+2025-01-10 14:15:28,887    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:15:29,024    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:15:29,107    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:15:29,212    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:15:29,250    INFO |      precheck_remote: vhost c.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:15:29,372    INFO |      precheck_remote: vhost c.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:15:32,141    INFO |   evaluate_test_case: Running server nginx in case one-server-different-steks
+2025-01-10 14:15:32,584    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek a.com, no SNI results in stek a.com
+2025-01-10 14:15:32,687    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek a.com, no SNI results in stek a.com
+2025-01-10 14:15:32,720    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek a.com, no SNI results in stek a.com
+2025-01-10 14:15:32,839    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek a.com, no SNI results in stek a.com
+2025-01-10 14:15:32,900    INFO |      precheck_remote: vhost c.com (TLSv1.2) uses stek a.com, no SNI results in stek a.com
+2025-01-10 14:15:33,024    INFO |      precheck_remote: vhost c.com (TLSv1.3) uses stek a.com, no SNI results in stek a.com
+2025-01-10 14:15:35,966    INFO |   evaluate_test_case: Running server nginx in case one-server-different-ports
+2025-01-10 14:15:36,404    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:15:36,524    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:15:36,593    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:15:36,714    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:15:37,499    INFO |   evaluate_test_case: Running server nginx in case two-servers-same-stek
+2025-01-10 14:15:37,884    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:15:38,009    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:15:38,483    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:15:38,603    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:15:39,651    INFO |   evaluate_test_case: Running server nginx in case two-servers-same-stek-different-ports
+2025-01-10 14:15:40,072    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:15:40,192    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:15:40,657    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:15:40,777    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:15:41,758    INFO |   evaluate_test_case: Running server nginx in case two-servers-distinct-stek
+2025-01-10 14:15:42,232    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:15:42,351    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:15:42,850    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server2, no SNI results in stek server2
+2025-01-10 14:15:42,954    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server2, no SNI results in stek server2
+2025-01-10 14:15:43,946    INFO |   evaluate_test_case: Running server nginx in case two-servers-distinct-stek-different-ports
+2025-01-10 14:15:44,442    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:15:44,562    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:15:45,031    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server2, no SNI results in stek server2
+2025-01-10 14:15:45,150    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server2, no SNI results in stek server2
+2025-01-10 14:15:46,311    INFO |   evaluate_test_case: Running server nginx80 in case one-server
+2025-01-10 14:15:46,747    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:15:46,871    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:15:46,944    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:15:47,066    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:15:47,116    INFO |      precheck_remote: vhost c.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:15:47,237    INFO |      precheck_remote: vhost c.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:15:50,003    INFO |   evaluate_test_case: Running server nginx80 in case one-server-different-steks
+2025-01-10 14:15:50,483    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek a.com, no SNI results in stek a.com
+2025-01-10 14:15:50,604    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek a.com, no SNI results in stek a.com
+2025-01-10 14:15:50,675    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek a.com, no SNI results in stek a.com
+2025-01-10 14:15:50,797    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek a.com, no SNI results in stek a.com
+2025-01-10 14:15:50,869    INFO |      precheck_remote: vhost c.com (TLSv1.2) uses stek a.com, no SNI results in stek a.com
+2025-01-10 14:15:50,993    INFO |      precheck_remote: vhost c.com (TLSv1.3) uses stek a.com, no SNI results in stek a.com
+2025-01-10 14:15:53,806    INFO |   evaluate_test_case: Running server nginx80 in case one-server-different-ports
+2025-01-10 14:15:54,247    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:15:54,350    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:15:54,406    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:15:54,530    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:15:55,190    INFO |   evaluate_test_case: Running server nginx80 in case two-servers-same-stek
+2025-01-10 14:15:55,660    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:15:55,783    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:15:56,292    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:15:56,408    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:15:57,453    INFO |   evaluate_test_case: Running server nginx80 in case two-servers-same-stek-different-ports
+2025-01-10 14:15:57,902    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:15:58,019    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:15:58,468    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:15:58,568    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:15:59,533    INFO |   evaluate_test_case: Running server nginx80 in case two-servers-distinct-stek
+2025-01-10 14:16:00,005    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:00,104    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:00,616    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server2, no SNI results in stek server2
+2025-01-10 14:16:00,735    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server2, no SNI results in stek server2
+2025-01-10 14:16:01,911    INFO |   evaluate_test_case: Running server nginx80 in case two-servers-distinct-stek-different-ports
+2025-01-10 14:16:02,394    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:02,512    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:02,981    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server2, no SNI results in stek server2
+2025-01-10 14:16:03,095    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server2, no SNI results in stek server2
+2025-01-10 14:16:04,184    INFO |   evaluate_test_case: Running server nginx_strict_http_err in case one-server
+2025-01-10 14:16:04,627    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:04,746    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:04,819    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:04,967    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:05,035    INFO |      precheck_remote: vhost c.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:05,141    INFO |      precheck_remote: vhost c.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:07,967    INFO |   evaluate_test_case: Running server nginx_strict_http_err in case one-server-different-steks
+2025-01-10 14:16:08,365    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:08,485    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:08,555    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:08,676    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:08,729    INFO |      precheck_remote: vhost c.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:08,828    INFO |      precheck_remote: vhost c.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:11,732    INFO |   evaluate_test_case: Running server nginx_strict_http_err in case one-server-different-ports
+2025-01-10 14:16:12,165    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:12,268    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:12,302    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:12,420    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:13,628    INFO |   evaluate_test_case: Running server nginx_strict_http_err in case two-servers-same-stek
+2025-01-10 14:16:14,093    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:14,212    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:14,662    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:14,761    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:16,125    INFO |   evaluate_test_case: Running server nginx_strict_http_err in case two-servers-same-stek-different-ports
+2025-01-10 14:16:16,594    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:16,719    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:17,237    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:17,339    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:18,844    INFO |   evaluate_test_case: Running server nginx_strict_http_err in case two-servers-distinct-stek
+2025-01-10 14:16:19,318    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:19,437    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:19,900    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server2, no SNI results in stek server2
+2025-01-10 14:16:20,015    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server2, no SNI results in stek server2
+2025-01-10 14:16:21,024    INFO |   evaluate_test_case: Running server nginx_strict_http_err in case two-servers-distinct-stek-different-ports
+2025-01-10 14:16:21,479    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:21,595    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:22,038    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server2, no SNI results in stek server2
+2025-01-10 14:16:22,155    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server2, no SNI results in stek server2
+2025-01-10 14:16:23,303    INFO |   evaluate_test_case: Running server nginx_strict_tls_err in case one-server
+2025-01-10 14:16:23,724 WARNING |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, requires SNI
+2025-01-10 14:16:23,828 WARNING |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, requires SNI
+2025-01-10 14:16:23,869 WARNING |      precheck_remote: vhost b.com (TLSv1.2) uses stek server1, requires SNI
+2025-01-10 14:16:23,982 WARNING |      precheck_remote: vhost b.com (TLSv1.3) uses stek server1, requires SNI
+2025-01-10 14:16:24,039 WARNING |      precheck_remote: vhost c.com (TLSv1.2) uses stek server1, requires SNI
+2025-01-10 14:16:24,148 WARNING |      precheck_remote: vhost c.com (TLSv1.3) uses stek server1, requires SNI
+2025-01-10 14:16:25,632   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:25,678   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:25,728   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:25,775   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:25,824   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:25,868   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:25,918   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:25,965   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:26,012   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:26,058   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:26,104   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:26,147   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:26,351   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:26,351   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:26,352   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:26,352   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:26,353   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:26,353   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:26,353   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:26,354   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:26,354   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:26,355   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:26,355   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:26,355   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:26,356   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:26,356   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:26,357   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:26,357   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:26,358   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:26,358   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:26,359   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:26,359   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:26,360   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:26,360   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:26,361   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:26,361   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:26,639    INFO |   evaluate_test_case: Running server nginx_strict_tls_err in case one-server-different-steks
+2025-01-10 14:16:27,164 WARNING |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, requires SNI
+2025-01-10 14:16:27,269 WARNING |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, requires SNI
+2025-01-10 14:16:27,312 WARNING |      precheck_remote: vhost b.com (TLSv1.2) uses stek server1, requires SNI
+2025-01-10 14:16:27,418 WARNING |      precheck_remote: vhost b.com (TLSv1.3) uses stek server1, requires SNI
+2025-01-10 14:16:27,460 WARNING |      precheck_remote: vhost c.com (TLSv1.2) uses stek server1, requires SNI
+2025-01-10 14:16:27,566 WARNING |      precheck_remote: vhost c.com (TLSv1.3) uses stek server1, requires SNI
+2025-01-10 14:16:29,016   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:29,061   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:29,105   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:29,152   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:29,202   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:29,248   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:29,294   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:29,342   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:29,392   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:29,439   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:29,485   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:29,535   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:29,741   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:29,742   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:29,742   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:29,742   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:29,743   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:29,743   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:29,744   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:29,744   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:29,744   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:29,745   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:29,745   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:29,745   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:29,746   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:29,746   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:29,747   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:29,747   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:29,747   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:29,748   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:29,748   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:29,749   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:29,749   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:29,749   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:29,750   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:29,750   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:30,016    INFO |   evaluate_test_case: Running server nginx_strict_tls_err in case one-server-different-ports
+2025-01-10 14:16:30,427 WARNING |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, requires SNI
+2025-01-10 14:16:30,538 WARNING |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, requires SNI
+2025-01-10 14:16:30,584 WARNING |      precheck_remote: vhost b.com (TLSv1.2) uses stek server1, requires SNI
+2025-01-10 14:16:30,688 WARNING |      precheck_remote: vhost b.com (TLSv1.3) uses stek server1, requires SNI
+2025-01-10 14:16:30,694   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:30,695   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:30,696   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:30,697   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:30,698   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:30,699   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:30,700   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:30,701   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:30,820   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:30,821   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:30,821   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:30,822   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:30,822   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:30,823   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:30,823   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:30,823   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:30,824   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:30,825   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:30,825   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:30,826   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:30,827   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:30,828   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:30,829   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:30,829   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:30,903   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:30,904   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:30,905   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:30,905   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:30,906   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:30,907   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:30,908   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:30,908   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:31,183    INFO |   evaluate_test_case: Running server nginx_strict_tls_err in case two-servers-same-stek
+2025-01-10 14:16:31,563 WARNING |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, requires SNI
+2025-01-10 14:16:31,662 WARNING |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, requires SNI
+2025-01-10 14:16:32,083 WARNING |      precheck_remote: vhost b.com (TLSv1.2) uses stek server1, requires SNI
+2025-01-10 14:16:32,183 WARNING |      precheck_remote: vhost b.com (TLSv1.3) uses stek server1, requires SNI
+2025-01-10 14:16:32,185   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:32,186   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:32,186   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:32,187   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:32,187   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:32,187   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:32,188   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:32,188   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:32,294   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:32,295   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:32,295   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:32,296   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:32,297   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:32,297   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:32,298   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:32,298   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:32,299   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:32,299   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:32,300   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:32,300   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:32,301   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:32,301   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:32,302   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:32,302   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:32,402   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:32,403   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:32,404   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:32,404   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:32,405   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:32,406   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:32,408   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:32,409   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:32,944    INFO |   evaluate_test_case: Running server nginx_strict_tls_err in case two-servers-same-stek-different-ports
+2025-01-10 14:16:33,375 WARNING |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, requires SNI
+2025-01-10 14:16:33,470 WARNING |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, requires SNI
+2025-01-10 14:16:33,873 WARNING |      precheck_remote: vhost b.com (TLSv1.2) uses stek server1, requires SNI
+2025-01-10 14:16:33,968 WARNING |      precheck_remote: vhost b.com (TLSv1.3) uses stek server1, requires SNI
+2025-01-10 14:16:33,971   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:33,971   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:33,972   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:33,973   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:33,974   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:33,974   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:33,975   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:33,976   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:34,111   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:34,112   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:34,112   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:34,112   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:34,113   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:34,114   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:34,114   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:34,115   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:34,115   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:34,116   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:34,117   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:34,118   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:34,118   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:34,119   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:34,119   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:34,119   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:34,226   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:34,227   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:34,228   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:34,229   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:34,230   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:34,231   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:34,232   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:34,233   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:34,756    INFO |   evaluate_test_case: Running server nginx_strict_tls_err in case two-servers-distinct-stek
+2025-01-10 14:16:35,160 WARNING |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, requires SNI
+2025-01-10 14:16:35,256 WARNING |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, requires SNI
+2025-01-10 14:16:35,722 WARNING |      precheck_remote: vhost b.com (TLSv1.2) uses stek server2, requires SNI
+2025-01-10 14:16:35,821 WARNING |      precheck_remote: vhost b.com (TLSv1.3) uses stek server2, requires SNI
+2025-01-10 14:16:35,825   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:35,826   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:35,826   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:35,827   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:35,827   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:35,827   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:35,828   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:35,828   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:35,890   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:35,890   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:35,891   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:35,891   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:35,891   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:35,892   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:35,892   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:35,892   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:35,893   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:35,893   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:35,894   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:35,894   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:35,894   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:35,895   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:35,895   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:35,895   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:35,954   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:35,955   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:35,956   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:35,957   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:35,958   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:35,958   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:35,959   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:35,959   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:36,475    INFO |   evaluate_test_case: Running server nginx_strict_tls_err in case two-servers-distinct-stek-different-ports
+2025-01-10 14:16:36,899 WARNING |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, requires SNI
+2025-01-10 14:16:36,996 WARNING |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, requires SNI
+2025-01-10 14:16:37,376 WARNING |      precheck_remote: vhost b.com (TLSv1.2) uses stek server2, requires SNI
+2025-01-10 14:16:37,477 WARNING |      precheck_remote: vhost b.com (TLSv1.3) uses stek server2, requires SNI
+2025-01-10 14:16:37,480   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:37,480   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:37,481   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:37,481   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:37,482   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:37,482   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:37,482   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:37,483   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:37,556   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:37,556   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:37,557   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:37,557   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:37,558   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:37,558   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:37,558   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:37,559   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:37,559   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:37,560   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:37,560   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:37,561   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:37,561   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:37,562   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:37,562   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:37,563   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:37,627   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:37,627   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:37,628   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:37,628   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:37,629   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:37,629   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:37,629   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:37,630   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_UNRECOGNIZED_NAME] tlsv1 unrecognized name (_ssl.c:1000)
+2025-01-10 14:16:38,139    INFO |   evaluate_test_case: Running server apache in case one-server
+2025-01-10 14:16:38,536    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:38,660    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:38,842    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:38,944    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:39,121    INFO |      precheck_remote: vhost c.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:39,241    INFO |      precheck_remote: vhost c.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:42,254    INFO |   evaluate_test_case: Running server apache in case one-server-different-steks
+2025-01-10 14:16:42,607    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek a.com, no SNI results in stek a.com
+2025-01-10 14:16:42,709    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek a.com, no SNI results in stek a.com
+2025-01-10 14:16:42,870    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek b.com, no SNI results in stek a.com
+2025-01-10 14:16:42,981    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek b.com, no SNI results in stek a.com
+2025-01-10 14:16:43,107    INFO |      precheck_remote: vhost c.com (TLSv1.2) uses stek c.com, no SNI results in stek a.com
+2025-01-10 14:16:43,227    INFO |      precheck_remote: vhost c.com (TLSv1.3) uses stek c.com, no SNI results in stek a.com
+2025-01-10 14:16:46,622    INFO |   evaluate_test_case: Running server apache in case one-server-different-ports
+2025-01-10 14:16:47,079    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:47,213    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:47,373    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:47,528    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:48,239    INFO |   evaluate_test_case: Running server apache in case two-servers-same-stek
+2025-01-10 14:16:48,667    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:48,772    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:49,270    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:49,395    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:50,660    INFO |   evaluate_test_case: Running server apache in case two-servers-same-stek-different-ports
+2025-01-10 14:16:50,983    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:51,118    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:51,748    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:51,875    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:52,926    INFO |   evaluate_test_case: Running server apache in case two-servers-distinct-stek
+2025-01-10 14:16:53,340    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:53,468    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:54,085    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server2, no SNI results in stek server2
+2025-01-10 14:16:54,212    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server2, no SNI results in stek server2
+2025-01-10 14:16:55,156    INFO |   evaluate_test_case: Running server apache in case two-servers-distinct-stek-different-ports
+2025-01-10 14:16:55,457    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:55,565    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:55,974    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server2, no SNI results in stek server2
+2025-01-10 14:16:56,082    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server2, no SNI results in stek server2
+2025-01-10 14:16:57,220    INFO |   evaluate_test_case: Running server apache_strict in case one-server
+2025-01-10 14:16:57,539    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:57,674    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:57,843    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:57,967    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:58,129    INFO |      precheck_remote: vhost c.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:16:58,251    INFO |      precheck_remote: vhost c.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:17:01,430    INFO |   evaluate_test_case: Running server apache_strict in case one-server-different-steks
+2025-01-10 14:17:01,792    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek a.com, no SNI results in stek a.com
+2025-01-10 14:17:01,913    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek a.com, no SNI results in stek a.com
+2025-01-10 14:17:02,075    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek b.com, no SNI results in stek a.com
+2025-01-10 14:17:02,202    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek b.com, no SNI results in stek a.com
+2025-01-10 14:17:02,388    INFO |      precheck_remote: vhost c.com (TLSv1.2) uses stek c.com, no SNI results in stek a.com
+2025-01-10 14:17:02,501    INFO |      precheck_remote: vhost c.com (TLSv1.3) uses stek c.com, no SNI results in stek a.com
+2025-01-10 14:17:05,550    INFO |   evaluate_test_case: Running server apache_strict in case one-server-different-ports
+2025-01-10 14:17:05,944    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:17:06,052    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:17:06,182    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:17:06,291    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:17:07,090    INFO |   evaluate_test_case: Running server apache_strict in case two-servers-same-stek
+2025-01-10 14:17:07,429    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:17:07,529    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:17:08,027    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:17:08,146    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:17:09,310    INFO |   evaluate_test_case: Running server apache_strict in case two-servers-same-stek-different-ports
+2025-01-10 14:17:09,624    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:17:09,726    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:17:10,120    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:17:10,243    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:17:11,273    INFO |   evaluate_test_case: Running server apache_strict in case two-servers-distinct-stek
+2025-01-10 14:17:11,745    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:17:11,861    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:17:12,284    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server2, no SNI results in stek server2
+2025-01-10 14:17:12,389    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server2, no SNI results in stek server2
+2025-01-10 14:17:13,329    INFO |   evaluate_test_case: Running server apache_strict in case two-servers-distinct-stek-different-ports
+2025-01-10 14:17:13,642    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:17:13,767    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:17:14,239    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server2, no SNI results in stek server2
+2025-01-10 14:17:14,345    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server2, no SNI results in stek server2
+2025-01-10 14:17:15,424    INFO |   evaluate_test_case: Running server closedlitespeed in case one-server
+2025-01-10 14:17:20,857    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:17:21,055    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:17:21,258    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:17:21,455    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:17:21,673    INFO |      precheck_remote: vhost c.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:17:21,864    INFO |      precheck_remote: vhost c.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:17:27,664    INFO |   evaluate_test_case: Running server closedlitespeed in case one-server-different-steks
+2025-01-10 14:17:33,134    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:17:33,330    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:17:33,589    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:17:33,784    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:17:34,033    INFO |      precheck_remote: vhost c.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:17:34,229    INFO |      precheck_remote: vhost c.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:17:39,750    INFO |   evaluate_test_case: Running server closedlitespeed in case one-server-different-ports
+2025-01-10 14:17:45,179    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:17:45,388    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:17:45,634    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:17:45,844    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:17:47,748    INFO |   evaluate_test_case: Running server closedlitespeed in case two-servers-same-stek
+2025-01-10 14:17:53,177    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:17:53,384    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:17:58,965    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:17:59,171    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:18:01,379    INFO |   evaluate_test_case: Running server closedlitespeed in case two-servers-same-stek-different-ports
+2025-01-10 14:18:06,803    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:18:07,014    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:18:12,639    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:18:12,851    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:18:15,121    INFO |   evaluate_test_case: Running server closedlitespeed in case two-servers-distinct-stek
+2025-01-10 14:18:20,586    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:18:20,774    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:18:26,400    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server2, no SNI results in stek server2
+2025-01-10 14:18:26,588    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server2, no SNI results in stek server2
+2025-01-10 14:18:28,800    INFO |   evaluate_test_case: Running server closedlitespeed in case two-servers-distinct-stek-different-ports
+2025-01-10 14:18:34,212    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:18:34,414    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:18:39,905    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server2, no SNI results in stek server2
+2025-01-10 14:18:40,115    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server2, no SNI results in stek server2
+2025-01-10 14:18:42,380    INFO |   evaluate_test_case: Running server closedlitespeed_w_admin in case one-server
+2025-01-10 14:18:47,772    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:18:47,991    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:18:48,199    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:18:48,384    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:18:48,599    INFO |      precheck_remote: vhost c.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:18:48,791    INFO |      precheck_remote: vhost c.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:18:48,933 WARNING |      precheck_remote: Did not have prior knowledge about cert for closedlitespeed_w_admin_additional_0_7080, storing now
+2025-01-10 14:18:48,984    INFO |      precheck_remote: vhost closedlitespeed_w_admin_additional_0_7080 (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:18:49,170    INFO |      precheck_remote: vhost closedlitespeed_w_admin_additional_0_7080 (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:18:59,265    INFO |   evaluate_test_case: Running server closedlitespeed_w_admin in case one-server-different-steks
+2025-01-10 14:19:04,736    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:19:04,944    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:19:05,187    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:19:05,395    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:19:05,617    INFO |      precheck_remote: vhost c.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:19:05,824    INFO |      precheck_remote: vhost c.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:19:06,038    INFO |      precheck_remote: vhost closedlitespeed_w_admin_additional_0_7080 (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:19:06,237    INFO |      precheck_remote: vhost closedlitespeed_w_admin_additional_0_7080 (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:19:16,450    INFO |   evaluate_test_case: Running server closedlitespeed_w_admin in case one-server-different-ports
+2025-01-10 14:19:21,874    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:19:22,081    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:19:22,326    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:19:22,528    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:19:22,740    INFO |      precheck_remote: vhost closedlitespeed_w_admin_additional_0_7080 (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:19:22,939    INFO |      precheck_remote: vhost closedlitespeed_w_admin_additional_0_7080 (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:19:27,736    INFO |   evaluate_test_case: Running server closedlitespeed_w_admin in case two-servers-same-stek
+2025-01-10 14:19:33,178    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:19:33,367    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:19:33,570    INFO |      precheck_remote: vhost closedlitespeed_w_admin_additional_0_7080 (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:19:33,765    INFO |      precheck_remote: vhost closedlitespeed_w_admin_additional_0_7080 (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:19:39,317    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:19:39,528    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:19:39,679 WARNING |      precheck_remote: Did not have prior knowledge about cert for closedlitespeed_w_admin_additional_1_7080, storing now
+2025-01-10 14:19:39,745    INFO |      precheck_remote: vhost closedlitespeed_w_admin_additional_1_7080 (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:19:39,936    INFO |      precheck_remote: vhost closedlitespeed_w_admin_additional_1_7080 (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:19:40,031 WARNING |   evaluate_test_case: Duplicate body for closedlitespeed_w_admin_additional_1_7080 and ['closedlitespeed_w_admin_additional_0_7080']
+2025-01-10 14:19:49,522    INFO |   evaluate_test_case: Running server closedlitespeed_w_admin in case two-servers-same-stek-different-ports
+2025-01-10 14:19:55,036    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:19:55,244    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:19:55,472    INFO |      precheck_remote: vhost closedlitespeed_w_admin_additional_0_7080 (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:19:55,667    INFO |      precheck_remote: vhost closedlitespeed_w_admin_additional_0_7080 (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:20:01,177    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:20:01,391    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:20:01,585    INFO |      precheck_remote: vhost closedlitespeed_w_admin_additional_1_7080 (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:20:01,768    INFO |      precheck_remote: vhost closedlitespeed_w_admin_additional_1_7080 (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:20:01,863 WARNING |   evaluate_test_case: Duplicate body for closedlitespeed_w_admin_additional_1_7080 and ['closedlitespeed_w_admin_additional_0_7080']
+2025-01-10 14:20:11,905    INFO |   evaluate_test_case: Running server closedlitespeed_w_admin in case two-servers-distinct-stek
+2025-01-10 14:20:17,350    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:20:17,561    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:20:17,772    INFO |      precheck_remote: vhost closedlitespeed_w_admin_additional_0_7080 (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:20:17,964    INFO |      precheck_remote: vhost closedlitespeed_w_admin_additional_0_7080 (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:20:23,554    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server2, no SNI results in stek server2
+2025-01-10 14:20:23,747    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server2, no SNI results in stek server2
+2025-01-10 14:20:23,954    INFO |      precheck_remote: vhost closedlitespeed_w_admin_additional_1_7080 (TLSv1.2) uses stek server2, no SNI results in stek server2
+2025-01-10 14:20:24,156    INFO |      precheck_remote: vhost closedlitespeed_w_admin_additional_1_7080 (TLSv1.3) uses stek server2, no SNI results in stek server2
+2025-01-10 14:20:24,253 WARNING |   evaluate_test_case: Duplicate body for closedlitespeed_w_admin_additional_1_7080 and ['closedlitespeed_w_admin_additional_0_7080']
+2025-01-10 14:20:33,637    INFO |   evaluate_test_case: Running server closedlitespeed_w_admin in case two-servers-distinct-stek-different-ports
+2025-01-10 14:20:39,070    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:20:39,260    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:20:39,468    INFO |      precheck_remote: vhost closedlitespeed_w_admin_additional_0_7080 (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:20:39,666    INFO |      precheck_remote: vhost closedlitespeed_w_admin_additional_0_7080 (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:20:45,288    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server2, no SNI results in stek server2
+2025-01-10 14:20:45,491    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server2, no SNI results in stek server2
+2025-01-10 14:20:45,698    INFO |      precheck_remote: vhost closedlitespeed_w_admin_additional_1_7080 (TLSv1.2) uses stek server2, no SNI results in stek server2
+2025-01-10 14:20:45,896    INFO |      precheck_remote: vhost closedlitespeed_w_admin_additional_1_7080 (TLSv1.3) uses stek server2, no SNI results in stek server2
+2025-01-10 14:20:45,990 WARNING |   evaluate_test_case: Duplicate body for closedlitespeed_w_admin_additional_1_7080 and ['closedlitespeed_w_admin_additional_0_7080']
+2025-01-10 14:20:55,250    INFO |   evaluate_test_case: Running server openlitespeed in case one-server
+2025-01-10 14:21:00,695    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:21:00,895    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:21:01,134    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:21:01,348    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:21:01,568    INFO |      precheck_remote: vhost c.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:21:01,767    INFO |      precheck_remote: vhost c.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:21:07,381    INFO |   evaluate_test_case: Running server openlitespeed in case one-server-different-steks
+2025-01-10 14:21:12,806    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:21:13,004    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:21:13,235    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:21:13,448    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:21:13,697    INFO |      precheck_remote: vhost c.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:21:13,898    INFO |      precheck_remote: vhost c.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:21:19,445    INFO |   evaluate_test_case: Running server openlitespeed in case one-server-different-ports
+2025-01-10 14:21:24,899    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:21:25,131    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:21:25,380    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:21:25,595    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:21:27,702    INFO |   evaluate_test_case: Running server openlitespeed in case two-servers-same-stek
+2025-01-10 14:21:33,145    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:21:33,351    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:21:38,943    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:21:39,144    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:21:41,415    INFO |   evaluate_test_case: Running server openlitespeed in case two-servers-same-stek-different-ports
+2025-01-10 14:21:46,844    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:21:47,045    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:21:52,605    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:21:52,808    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:21:55,114    INFO |   evaluate_test_case: Running server openlitespeed in case two-servers-distinct-stek
+2025-01-10 14:22:00,581    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:22:00,791    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:22:06,363    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server2, no SNI results in stek server2
+2025-01-10 14:22:06,571    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server2, no SNI results in stek server2
+2025-01-10 14:22:09,049    INFO |   evaluate_test_case: Running server openlitespeed in case two-servers-distinct-stek-different-ports
+2025-01-10 14:22:14,554    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:22:14,761    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:22:20,302    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server2, no SNI results in stek server2
+2025-01-10 14:22:20,515    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server2, no SNI results in stek server2
+2025-01-10 14:22:22,830    INFO |   evaluate_test_case: Running server openlitespeed_w_admin in case one-server
+2025-01-10 14:22:28,240    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:22:28,454    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:22:28,723    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:22:28,928    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:22:29,186    INFO |      precheck_remote: vhost c.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:22:29,384    INFO |      precheck_remote: vhost c.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:22:29,560 WARNING |      precheck_remote: Did not have prior knowledge about cert for openlitespeed_w_admin_additional_0_7080, storing now
+2025-01-10 14:22:29,626    INFO |      precheck_remote: vhost openlitespeed_w_admin_additional_0_7080 (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:22:29,824    INFO |      precheck_remote: vhost openlitespeed_w_admin_additional_0_7080 (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:22:40,444    INFO |   evaluate_test_case: Running server openlitespeed_w_admin in case one-server-different-steks
+2025-01-10 14:22:45,852    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:22:46,068    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:22:46,317    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:22:46,521    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:22:46,767    INFO |      precheck_remote: vhost c.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:22:46,981    INFO |      precheck_remote: vhost c.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:22:47,192    INFO |      precheck_remote: vhost openlitespeed_w_admin_additional_0_7080 (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:22:47,385    INFO |      precheck_remote: vhost openlitespeed_w_admin_additional_0_7080 (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:22:57,825    INFO |   evaluate_test_case: Running server openlitespeed_w_admin in case one-server-different-ports
+2025-01-10 14:23:03,266    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:23:03,477    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:23:03,731    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:23:03,948    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:23:04,174    INFO |      precheck_remote: vhost openlitespeed_w_admin_additional_0_7080 (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:23:04,365    INFO |      precheck_remote: vhost openlitespeed_w_admin_additional_0_7080 (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:23:09,483    INFO |   evaluate_test_case: Running server openlitespeed_w_admin in case two-servers-same-stek
+2025-01-10 14:23:14,925    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:23:15,121    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:23:15,319    INFO |      precheck_remote: vhost openlitespeed_w_admin_additional_0_7080 (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:23:15,514    INFO |      precheck_remote: vhost openlitespeed_w_admin_additional_0_7080 (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:23:21,086    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:23:21,291    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:23:21,453 WARNING |      precheck_remote: Did not have prior knowledge about cert for openlitespeed_w_admin_additional_1_7080, storing now
+2025-01-10 14:23:21,521    INFO |      precheck_remote: vhost openlitespeed_w_admin_additional_1_7080 (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:23:21,710    INFO |      precheck_remote: vhost openlitespeed_w_admin_additional_1_7080 (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:23:21,810 WARNING |   evaluate_test_case: Duplicate body for openlitespeed_w_admin_additional_1_7080 and ['openlitespeed_w_admin_additional_0_7080']
+2025-01-10 14:23:32,120    INFO |   evaluate_test_case: Running server openlitespeed_w_admin in case two-servers-same-stek-different-ports
+2025-01-10 14:23:37,566    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:23:37,785    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:23:37,996    INFO |      precheck_remote: vhost openlitespeed_w_admin_additional_0_7080 (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:23:38,194    INFO |      precheck_remote: vhost openlitespeed_w_admin_additional_0_7080 (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:23:43,742    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:23:43,948    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:23:44,175    INFO |      precheck_remote: vhost openlitespeed_w_admin_additional_1_7080 (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:23:44,368    INFO |      precheck_remote: vhost openlitespeed_w_admin_additional_1_7080 (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:23:44,468 WARNING |   evaluate_test_case: Duplicate body for openlitespeed_w_admin_additional_1_7080 and ['openlitespeed_w_admin_additional_0_7080']
+2025-01-10 14:23:54,877    INFO |   evaluate_test_case: Running server openlitespeed_w_admin in case two-servers-distinct-stek
+2025-01-10 14:24:00,308    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:24:00,507    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:24:00,731    INFO |      precheck_remote: vhost openlitespeed_w_admin_additional_0_7080 (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:24:00,924    INFO |      precheck_remote: vhost openlitespeed_w_admin_additional_0_7080 (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:24:06,487    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server2, no SNI results in stek server2
+2025-01-10 14:24:06,677    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server2, no SNI results in stek server2
+2025-01-10 14:24:06,904    INFO |      precheck_remote: vhost openlitespeed_w_admin_additional_1_7080 (TLSv1.2) uses stek server2, no SNI results in stek server2
+2025-01-10 14:24:07,102    INFO |      precheck_remote: vhost openlitespeed_w_admin_additional_1_7080 (TLSv1.3) uses stek server2, no SNI results in stek server2
+2025-01-10 14:24:07,199 WARNING |   evaluate_test_case: Duplicate body for openlitespeed_w_admin_additional_1_7080 and ['openlitespeed_w_admin_additional_0_7080']
+2025-01-10 14:24:16,788    INFO |   evaluate_test_case: Running server openlitespeed_w_admin in case two-servers-distinct-stek-different-ports
+2025-01-10 14:24:22,272    INFO |      precheck_remote: vhost a.com (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:24:22,491    INFO |      precheck_remote: vhost a.com (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:24:22,720    INFO |      precheck_remote: vhost openlitespeed_w_admin_additional_0_7080 (TLSv1.2) uses stek server1, no SNI results in stek server1
+2025-01-10 14:24:22,917    INFO |      precheck_remote: vhost openlitespeed_w_admin_additional_0_7080 (TLSv1.3) uses stek server1, no SNI results in stek server1
+2025-01-10 14:24:28,526    INFO |      precheck_remote: vhost b.com (TLSv1.2) uses stek server2, no SNI results in stek server2
+2025-01-10 14:24:28,745    INFO |      precheck_remote: vhost b.com (TLSv1.3) uses stek server2, no SNI results in stek server2
+2025-01-10 14:24:28,969    INFO |      precheck_remote: vhost openlitespeed_w_admin_additional_1_7080 (TLSv1.2) uses stek server2, no SNI results in stek server2
+2025-01-10 14:24:29,177    INFO |      precheck_remote: vhost openlitespeed_w_admin_additional_1_7080 (TLSv1.3) uses stek server2, no SNI results in stek server2
+2025-01-10 14:24:29,274 WARNING |   evaluate_test_case: Duplicate body for openlitespeed_w_admin_additional_1_7080 and ['openlitespeed_w_admin_additional_0_7080']
+2025-01-10 14:24:39,331    INFO |   evaluate_test_case: Running server caddy_caddyfile in case one-server
+2025-01-10 14:24:39,932 WARNING |      precheck_remote: vhost a.com (TLSv1.2) uses stek unknown(e431f38fc6b1b231525fa8cbf7c1523c), requires SNI
+2025-01-10 14:24:40,093 WARNING |      precheck_remote: vhost a.com (TLSv1.3) uses stek unknown(33c23a93c289438804e6846a9dc4c140), requires SNI
+2025-01-10 14:24:40,272 WARNING |      precheck_remote: vhost b.com (TLSv1.2) uses stek unknown(17a40f6cf3d1299ffca70e71d973cd6f), requires SNI
+2025-01-10 14:24:40,436 WARNING |      precheck_remote: vhost b.com (TLSv1.3) uses stek unknown(ef093364331c3c77afc81861cb066954), requires SNI
+2025-01-10 14:24:40,610 WARNING |      precheck_remote: vhost c.com (TLSv1.2) uses stek unknown(5828b9d7184f3e94de180b8e09c8e6d3), requires SNI
+2025-01-10 14:24:40,753 WARNING |      precheck_remote: vhost c.com (TLSv1.3) uses stek unknown(c3939edba77ad129e69dd28847b93c9b), requires SNI
+2025-01-10 14:24:42,360   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:42,361   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:42,362   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:42,363   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:42,364   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:42,364   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:42,365   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:42,365   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:42,366   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:42,366   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:42,366   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:42,367   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:42,367   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:42,368   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:42,368   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:42,368   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:42,369   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:42,369   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:42,369   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:42,370   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:42,370   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:42,370   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:42,371   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:42,371   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:45,069   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:45,119   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:45,169   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:45,221   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:45,279   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:45,329   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:45,381   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:45,429   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:45,477   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:45,526   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:45,576   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:45,626   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:45,848    INFO |   evaluate_test_case: Running server caddy_caddyfile in case one-server-different-steks
+2025-01-10 14:24:46,356 WARNING |      precheck_remote: vhost a.com (TLSv1.2) uses stek unknown(15aee96a8950d9dbec244c9de5e0d621), requires SNI
+2025-01-10 14:24:46,506 WARNING |      precheck_remote: vhost a.com (TLSv1.3) uses stek unknown(858104728c5cd513ff2d4baab6ddb895), requires SNI
+2025-01-10 14:24:46,679 WARNING |      precheck_remote: vhost b.com (TLSv1.2) uses stek unknown(b08aee16ef65f02eeeb0228bfbf7f1c9), requires SNI
+2025-01-10 14:24:46,826 WARNING |      precheck_remote: vhost b.com (TLSv1.3) uses stek unknown(92a4652d92ce2ef86fc639ed980e8bd2), requires SNI
+2025-01-10 14:24:47,001 WARNING |      precheck_remote: vhost c.com (TLSv1.2) uses stek unknown(8868a3e9411f9b77bea8e720e3d12743), requires SNI
+2025-01-10 14:24:47,149 WARNING |      precheck_remote: vhost c.com (TLSv1.3) uses stek unknown(3b6995d070c4b4058f2bcdecedc9b4c2), requires SNI
+2025-01-10 14:24:48,607   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:48,608   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:48,609   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:48,609   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:48,610   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:48,610   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:48,611   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:48,611   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:48,611   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:48,612   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:48,612   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:48,613   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:48,613   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:48,613   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:48,614   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:48,614   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:48,615   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:48,615   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:48,615   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:48,616   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:48,616   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:48,616   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:48,617   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:48,617   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:51,041   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:51,084   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:51,128   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:51,175   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:51,222   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:51,268   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:51,311   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:51,355   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:51,402   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:51,445   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:51,489   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:51,536   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:51,765    INFO |   evaluate_test_case: Running server caddy_caddyfile in case one-server-different-ports
+2025-01-10 14:24:52,271 WARNING |      precheck_remote: vhost a.com (TLSv1.2) uses stek unknown(8d652b99e1a5f3cc85d30a90e3d0b283), requires SNI
+2025-01-10 14:24:52,415 WARNING |      precheck_remote: vhost a.com (TLSv1.3) uses stek unknown(1c48daeb51af701a776f0a2fef3eb04e), requires SNI
+2025-01-10 14:24:52,565 WARNING |      precheck_remote: vhost b.com (TLSv1.2) uses stek unknown(19328feae21d06e6ba23b4d5a6c30736), requires SNI
+2025-01-10 14:24:52,705 WARNING |      precheck_remote: vhost b.com (TLSv1.3) uses stek unknown(cf9718f65f972272a8f29bdde2551cbe), requires SNI
+2025-01-10 14:24:53,111   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:53,112   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:53,113   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:53,114   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:53,115   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:53,115   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:53,115   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:53,116   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:54,106   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:54,107   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:54,108   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:54,108   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:54,109   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:54,110   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:54,110   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:54,111   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:54,332    INFO |   evaluate_test_case: Running server caddy_caddyfile in case two-servers-same-stek
+2025-01-10 14:24:54,809 WARNING |      precheck_remote: vhost a.com (TLSv1.2) uses stek unknown(a888957ea63ca0a1051025265566c3bd), requires SNI
+2025-01-10 14:24:54,956 WARNING |      precheck_remote: vhost a.com (TLSv1.3) uses stek unknown(17b4ead527221f0fedacd18f19eb6175), requires SNI
+2025-01-10 14:24:55,559 WARNING |      precheck_remote: vhost b.com (TLSv1.2) uses stek unknown(9e10f7059ff5f3c12c888dfe4fa2c874), requires SNI
+2025-01-10 14:24:55,699 WARNING |      precheck_remote: vhost b.com (TLSv1.3) uses stek unknown(80e2b3b52d3436df5585bc4c5b1c3088), requires SNI
+2025-01-10 14:24:55,789   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:55,790   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:55,791   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:55,792   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:55,793   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:55,794   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:55,795   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:55,795   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:55,906   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:55,906   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:55,907   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:55,907   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:55,908   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:55,908   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:55,908   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:55,909   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:55,909   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:55,910   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:55,910   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:55,911   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:55,912   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:55,912   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:55,913   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:55,913   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:56,409   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:56,410   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:56,411   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:56,412   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:56,413   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:56,414   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:56,415   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:56,415   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:56,874    INFO |   evaluate_test_case: Running server caddy_caddyfile in case two-servers-same-stek-different-ports
+2025-01-10 14:24:57,315 WARNING |      precheck_remote: vhost a.com (TLSv1.2) uses stek unknown(5b3f0640e3258ad353abf38312d833f3), requires SNI
+2025-01-10 14:24:57,464 WARNING |      precheck_remote: vhost a.com (TLSv1.3) uses stek unknown(779c34e1a6d95eb9bd3d20579c154e08), requires SNI
+2025-01-10 14:24:57,992 WARNING |      precheck_remote: vhost b.com (TLSv1.2) uses stek unknown(0e44db2a090192133fa157657d857a80), requires SNI
+2025-01-10 14:24:58,141 WARNING |      precheck_remote: vhost b.com (TLSv1.3) uses stek unknown(e4f0881bba07ee72470de3fa85177d54), requires SNI
+2025-01-10 14:24:58,232   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:58,232   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:58,233   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:58,233   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:58,234   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:58,234   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:58,235   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:58,235   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:58,329   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:58,329   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:58,330   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:58,331   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:58,331   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:58,332   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:58,332   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:58,333   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:58,334   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:58,335   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:58,336   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:58,337   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:58,338   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:58,339   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:58,339   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:58,340   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:58,778   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:58,780   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:58,781   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:58,782   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:58,783   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:58,785   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:58,786   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:58,787   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:24:59,257    INFO |   evaluate_test_case: Running server caddy_caddyfile in case two-servers-distinct-stek
+2025-01-10 14:24:59,764 WARNING |      precheck_remote: vhost a.com (TLSv1.2) uses stek unknown(0438d988a83925751ffd42964daaa588), requires SNI
+2025-01-10 14:24:59,923 WARNING |      precheck_remote: vhost a.com (TLSv1.3) uses stek unknown(831655f33a20f008ef426f5b07215507), requires SNI
+2025-01-10 14:25:00,512 WARNING |      precheck_remote: vhost b.com (TLSv1.2) uses stek unknown(7c1056698989b0459cef0b3440defb1a), requires SNI
+2025-01-10 14:25:00,676 WARNING |      precheck_remote: vhost b.com (TLSv1.3) uses stek unknown(2e9723776467df3fe4707defc879678f), requires SNI
+2025-01-10 14:25:00,765   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:00,766   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:00,768   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:00,768   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:00,770   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:00,770   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:00,771   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:00,771   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:00,919   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:00,920   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:00,921   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:00,921   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:00,921   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:00,922   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:00,922   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:00,922   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:00,923   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:00,924   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:00,924   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:00,925   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:00,926   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:00,926   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:00,927   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:00,927   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:01,410   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:01,412   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:01,413   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:01,415   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:01,415   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:01,416   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:01,417   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:01,417   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:01,887    INFO |   evaluate_test_case: Running server caddy_caddyfile in case two-servers-distinct-stek-different-ports
+2025-01-10 14:25:02,353 WARNING |      precheck_remote: vhost a.com (TLSv1.2) uses stek unknown(18a9a279b8105eaffa63ddfb5598c745), requires SNI
+2025-01-10 14:25:02,516 WARNING |      precheck_remote: vhost a.com (TLSv1.3) uses stek unknown(f425c1d7f7163de3689ac5cd0ed2535c), requires SNI
+2025-01-10 14:25:03,152 WARNING |      precheck_remote: vhost b.com (TLSv1.2) uses stek unknown(83ce3fc076935172dddd3f76afb7f560), requires SNI
+2025-01-10 14:25:03,316 WARNING |      precheck_remote: vhost b.com (TLSv1.3) uses stek unknown(339df405bd006ef10c1bc9cfa85d95bf), requires SNI
+2025-01-10 14:25:03,406   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:03,407   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:03,408   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:03,409   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:03,410   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:03,410   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:03,411   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:03,411   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:03,500   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:03,501   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:03,501   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:03,502   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:03,502   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:03,503   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:03,503   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:03,503   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:03,504   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:03,505   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:03,505   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:03,506   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:03,507   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:03,507   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:03,508   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:03,508   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:04,006   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:04,008   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:04,011   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:04,014   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:04,018   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:04,021   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:04,023   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:04,025   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:04,483    INFO |   evaluate_test_case: Running server caddy in case one-server
+2025-01-10 14:25:04,946 WARNING |      precheck_remote: vhost a.com (TLSv1.2) uses stek unknown(905e3953b10f307cc5b579671e42131d), requires SNI
+2025-01-10 14:25:05,105 WARNING |      precheck_remote: vhost a.com (TLSv1.3) uses stek unknown(67928903391937df0308283dfb8f2507), requires SNI
+2025-01-10 14:25:05,276 WARNING |      precheck_remote: vhost b.com (TLSv1.2) uses stek unknown(2a40458c1f08f489fc9c85607fc40a82), requires SNI
+2025-01-10 14:25:05,429 WARNING |      precheck_remote: vhost b.com (TLSv1.3) uses stek unknown(bfa88269cc01ddbf73faa3adcbe8e414), requires SNI
+2025-01-10 14:25:05,614 WARNING |      precheck_remote: vhost c.com (TLSv1.2) uses stek unknown(699314128ea506287904332d1132681e), requires SNI
+2025-01-10 14:25:05,759 WARNING |      precheck_remote: vhost c.com (TLSv1.3) uses stek unknown(0eccfb4eb82d1d9c81f5fd07c0d751a7), requires SNI
+2025-01-10 14:25:07,313   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:07,313   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:07,314   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:07,315   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:07,316   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:07,316   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:07,317   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:07,318   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:07,319   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:07,319   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:07,320   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:07,320   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:07,321   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:07,322   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:07,322   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:07,323   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:07,323   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:07,324   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:07,324   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:07,324   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:07,325   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:07,325   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:07,325   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:07,326   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:09,801   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:09,802   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:09,802   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:09,803   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:09,803   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:09,803   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:09,804   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:09,804   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:09,805   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:09,805   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:09,805   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:09,806   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:09,806   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:09,806   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:09,807   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:09,807   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:09,808   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:09,808   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:09,808   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:09,809   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:09,809   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:09,809   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:09,810   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:09,810   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:10,002    INFO |   evaluate_test_case: Running server caddy in case one-server-different-steks
+2025-01-10 14:25:10,468 WARNING |      precheck_remote: vhost a.com (TLSv1.2) uses stek unknown(b052879554c49b3aba399886154c2c60), requires SNI
+2025-01-10 14:25:10,618 WARNING |      precheck_remote: vhost a.com (TLSv1.3) uses stek unknown(cd1621f17635c414ee05ef2ef750bf5a), requires SNI
+2025-01-10 14:25:10,782 WARNING |      precheck_remote: vhost b.com (TLSv1.2) uses stek unknown(9647c53dc9313f2416853d404261206d), requires SNI
+2025-01-10 14:25:10,935 WARNING |      precheck_remote: vhost b.com (TLSv1.3) uses stek unknown(797a43f6f0688de311a173942c584b29), requires SNI
+2025-01-10 14:25:11,102 WARNING |      precheck_remote: vhost c.com (TLSv1.2) uses stek unknown(bfb9c71b89e3aa913c0114c3f4b9c25a), requires SNI
+2025-01-10 14:25:11,242 WARNING |      precheck_remote: vhost c.com (TLSv1.3) uses stek unknown(78d62f230efa27e4c995be3351aa1c8b), requires SNI
+2025-01-10 14:25:12,856   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:12,857   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:12,858   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:12,859   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:12,859   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:12,860   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:12,861   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:12,862   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:12,863   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:12,863   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:12,864   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:12,865   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:12,866   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:12,866   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:12,867   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:12,868   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:12,869   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:12,869   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:12,869   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:12,870   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:12,870   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:12,870   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:12,871   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:12,871   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:15,492   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:15,492   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:15,493   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:15,493   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:15,494   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:15,494   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:15,495   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:15,495   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:15,496   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:15,496   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:15,497   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:15,497   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:15,498   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:15,498   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:15,499   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:15,499   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:15,500   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:15,500   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:15,501   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:15,501   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:15,501   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:15,502   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:15,502   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:15,503   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:15,725    INFO |   evaluate_test_case: Running server caddy in case one-server-different-ports
+2025-01-10 14:25:16,267 WARNING |      precheck_remote: vhost a.com (TLSv1.2) uses stek unknown(07171d22c50ca2b565dade6894288e5e), requires SNI
+2025-01-10 14:25:16,415 WARNING |      precheck_remote: vhost a.com (TLSv1.3) uses stek unknown(16ac7905a245c02feb771bef07dde89d), requires SNI
+2025-01-10 14:25:16,595 WARNING |      precheck_remote: vhost b.com (TLSv1.2) uses stek unknown(ac6f026c33b3feee2967130b1d31b908), requires SNI
+2025-01-10 14:25:16,755 WARNING |      precheck_remote: vhost b.com (TLSv1.3) uses stek unknown(8c665643f1d82cdae01ac10659c0c53f), requires SNI
+2025-01-10 14:25:16,845   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:16,846   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:16,847   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:16,848   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:16,849   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:16,850   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:16,851   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:16,851   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:17,043   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:17,044   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:17,045   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:17,045   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:17,046   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:17,047   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:17,048   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:17,048   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:17,049   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:17,050   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:17,051   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:17,052   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:17,053   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:17,054   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:17,055   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:17,056   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:17,520   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:17,521   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:17,522   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:17,523   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:17,524   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:17,525   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:17,526   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:17,527   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:17,747    INFO |   evaluate_test_case: Running server caddy in case two-servers-same-stek
+2025-01-10 14:25:18,213 WARNING |      precheck_remote: vhost a.com (TLSv1.2) uses stek unknown(aea84f07f0f507dcc5fbfbbc24541be0), requires SNI
+2025-01-10 14:25:18,365 WARNING |      precheck_remote: vhost a.com (TLSv1.3) uses stek unknown(42916a40beefad15c4f4cfa78ae021a2), requires SNI
+2025-01-10 14:25:18,980 WARNING |      precheck_remote: vhost b.com (TLSv1.2) uses stek unknown(3f2e7a6176c41369c89625ea92bb9226), requires SNI
+2025-01-10 14:25:19,139 WARNING |      precheck_remote: vhost b.com (TLSv1.3) uses stek unknown(e496b79fd9e1911038edcf5dbd19a73f), requires SNI
+2025-01-10 14:25:19,232   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:19,233   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:19,234   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:19,234   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:19,235   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:19,236   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:19,238   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:19,238   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:19,331   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:19,332   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:19,332   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:19,333   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:19,333   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:19,333   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:19,334   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:19,334   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:19,334   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:19,335   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:19,335   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:19,335   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:19,336   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:19,336   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:19,337   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:19,337   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:19,840   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:19,841   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:19,842   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:19,844   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:19,846   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:19,847   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:19,848   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:19,849   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:20,297    INFO |   evaluate_test_case: Running server caddy in case two-servers-same-stek-different-ports
+2025-01-10 14:25:20,764 WARNING |      precheck_remote: vhost a.com (TLSv1.2) uses stek unknown(9c0b55a21ccf510e3047455900c31688), requires SNI
+2025-01-10 14:25:20,922 WARNING |      precheck_remote: vhost a.com (TLSv1.3) uses stek unknown(da6c5df2bf4e149dec7203665a327240), requires SNI
+2025-01-10 14:25:21,490 WARNING |      precheck_remote: vhost b.com (TLSv1.2) uses stek unknown(cb3b9590badc58b38893e3819a492879), requires SNI
+2025-01-10 14:25:21,635 WARNING |      precheck_remote: vhost b.com (TLSv1.3) uses stek unknown(2bcf237cfbae47fa7368fa9e02daaaa5), requires SNI
+2025-01-10 14:25:21,726   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:21,727   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:21,728   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:21,729   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:21,729   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:21,729   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:21,730   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:21,730   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:21,819   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:21,819   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:21,820   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:21,820   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:21,821   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:21,821   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:21,821   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:21,822   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:21,822   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:21,822   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:21,823   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:21,823   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:21,824   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:21,824   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:21,825   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:21,825   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:22,283   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:22,284   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:22,285   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:22,286   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:22,286   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:22,287   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:22,287   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:22,287   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:22,753    INFO |   evaluate_test_case: Running server caddy in case two-servers-distinct-stek
+2025-01-10 14:25:23,206 WARNING |      precheck_remote: vhost a.com (TLSv1.2) uses stek unknown(c7f7b43affe4241b4f039decd04d5e5e), requires SNI
+2025-01-10 14:25:23,352 WARNING |      precheck_remote: vhost a.com (TLSv1.3) uses stek unknown(9800d0c74e57649627d9c17b0c8729ea), requires SNI
+2025-01-10 14:25:23,924 WARNING |      precheck_remote: vhost b.com (TLSv1.2) uses stek unknown(6bf19a003b41dc8d97a5feee9291eef6), requires SNI
+2025-01-10 14:25:24,091 WARNING |      precheck_remote: vhost b.com (TLSv1.3) uses stek unknown(d35d0a5035cc8b09f240d7dcc23a0744), requires SNI
+2025-01-10 14:25:24,189   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:24,190   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:24,191   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:24,192   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:24,193   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:24,193   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:24,194   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:24,194   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:24,283   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:24,283   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:24,284   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:24,284   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:24,285   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:24,286   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:24,286   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:24,287   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:24,288   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:24,289   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:24,290   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:24,290   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:24,291   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:24,291   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:24,292   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:24,292   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:24,783   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:24,784   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:24,785   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:24,786   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:24,787   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:24,788   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:24,789   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:24,790   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:25,247    INFO |   evaluate_test_case: Running server caddy in case two-servers-distinct-stek-different-ports
+2025-01-10 14:25:25,742 WARNING |      precheck_remote: vhost a.com (TLSv1.2) uses stek unknown(d20fd423beb0637536eef9aa4d58ffd1), requires SNI
+2025-01-10 14:25:25,892 WARNING |      precheck_remote: vhost a.com (TLSv1.3) uses stek unknown(d4ada983bebcd3bec76d103c7034af59), requires SNI
+2025-01-10 14:25:26,487 WARNING |      precheck_remote: vhost b.com (TLSv1.2) uses stek unknown(daec3d34f229ceab866aebb9e27cb5b1), requires SNI
+2025-01-10 14:25:26,635 WARNING |      precheck_remote: vhost b.com (TLSv1.3) uses stek unknown(34bdfe713abcdc670fc331ade3ddf38c), requires SNI
+2025-01-10 14:25:26,729   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:26,730   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:26,731   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:26,732   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:26,733   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:26,734   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:26,735   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:26,736   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:26,892   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:26,892   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:26,893   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:26,893   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:26,894   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:26,894   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:26,895   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:26,895   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:26,895   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:26,896   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:26,896   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:26,897   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:26,897   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:26,898   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:26,898   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:26,899   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:27,396   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:27,397   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:27,399   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:27,399   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:27,401   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:27,401   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:27,401   ERROR |     evaluate_request: Failed to perform TLS resumption handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)
+2025-01-10 14:25:27,402   ERROR |     evaluate_request: Failed to perform TLS full handshake: [SSL: TLSV1_ALERT_INTERNAL_ERROR] tlsv1 alert internal error (_ssl.c:1000)

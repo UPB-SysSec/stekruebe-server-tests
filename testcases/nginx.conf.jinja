@@ -8,21 +8,22 @@ http {
 
 
     {% if strict_sni %}
+    {% for port in vhosts|map(attribute="port")|unique %}
     # Catch SNIs which we do not host!
     # Simulates Strict-SNI validation as it declines every conn with unrecognized SNI
     server {
-        {% for port in vhosts|map(attribute="port")|unique %}
         listen {{ port }} ssl default_server;
-        {% endfor %}
         server_name _; # some invalid name that won't match anything
-        ssl_certificate /certs/fallback.crt;
-        ssl_certificate_key /certs/fallback.key;
+        # a bit cursed, but this way we have separate fallback certs per port
+        ssl_certificate /certs/fallback{{server_num+loop.index0}}.crt;
+        ssl_certificate_key /certs/fallback{{server_num+loop.index0}}.key;
         {% if strict_sni == "HTTP" %}
         return 404;
         {% elif strict_sni == "TLS" %}
         ssl_reject_handshake on;
         {% endif %}
     }
+    {% endfor %}
     {% endif %}
 
 
