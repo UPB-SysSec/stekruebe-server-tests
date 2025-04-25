@@ -240,7 +240,7 @@ def post_process(ctx: click.Context, input_file):
     )
 
     try:
-        # check_result_assertions(results)
+        check_result_assertions(results)
         print()
     except AssertionError as e:
         click.secho(
