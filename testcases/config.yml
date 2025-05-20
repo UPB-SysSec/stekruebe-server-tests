@@ -166,7 +166,7 @@ software_config:
       - 7080
   openlitespeed: &ols
     <<: *base_software
-    image: litespeedtech/openlitespeed:1.8.1-lsphp82
+    image: litespeedtech/openlitespeed:1.8.2-lsphp82
     config_path: /usr/local/lsws/conf/httpd_config.conf
     template: openlitespeed.conf.jinja
     stek_length: 48

@@ -23,14 +23,14 @@ This should yield different dummy HTMLs based on the command you provide.
 To run the full test suite, you can use the following command:
 ```bash
 mkdir out
-docker run --privileged -it -v ./out:/out server-tests:latest evaluate --outdir out
+docker run --privileged --rm -it -v ./out:/out server-tests:latest evaluate --outdir out
 ``` 
 This will run all tests and save the results in the `out` directory.
 
 To verify the results against Table 1 of the paper, you can then run the following command:
 ```bash
-docker run --privileged -it -v ./out:/out server-tests:latest evaluate --outdir out
-docker run --privileged -it -v ./out:/out server-tests:latest postprocess out/results.jsonl
+docker run --privileged --rm -it -v ./out:/out server-tests:latest evaluate --outdir out
+docker run --privileged --rm -it -v ./out:/out server-tests:latest postprocess out/results.jsonl
 ```
 
 ### Running on bare metal
@@ -39,9 +39,10 @@ docker run --privileged -it -v ./out:/out server-tests:latest postprocess out/re
 - OpenSSL-dev (with header files)
 - Docker
 
-For Ubuntu 20.04, you can install the dependencies with the following command:
+For Ubuntu 25.04, you can install the dependencies with the following command:
 ```bash
-sudo apt install python3-dev libssl-dev docker.io python3-full
+sudo apt install python3-dev libssl-dev docker.io python3-full 
+```bash
 systemctl start docker.service
 python3 -m venv venv
 source venv/bin/activate
@@ -62,7 +63,7 @@ python -m evaluate postprocess results.jsonl
 ```
 
 ## Troubleshooting
-### [Errno113] Host is unreachable for `closedlitespeed`
+### [Errno113] Host is unreachable/SocketTimeout for `closedlitespeed`
 Our setup uses the trial version of LiteSpeed, which uses a license key that is bound to the IP address.
 This should not be a problem for most users, but we encountered issues when running from our institutional network.
 We were able to resolve this issue by using a VPN.
