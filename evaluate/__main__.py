@@ -216,12 +216,10 @@ def main_deploy(
                         print(
                             f" curl -k --resolve '*:{vhost.port}:{instance.ip}' https://{vhost.hostname}:{vhost.port}/"
                         )
-        try:
-            print("\nStarted all servers. Press Ctrl+C to stop.")
-            while True:
-                time.sleep(60)
-        except KeyboardInterrupt:
-            print("\rStopping...")
+        # try:
+        input("\nStarted all servers. Press Enter key to stop.")
+        # except KeyboardInterrupt:
+        print("\rStopping...")
 
 
 @main.command("postprocess")
