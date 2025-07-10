@@ -10,6 +10,7 @@ The artifact is a Python package that can be run from the command line, but we a
 ### Running on Docker
 Build the Docker image
 ```bash
+cd server-tests
 docker build -t server-tests:latest .
 ```
 The container executes the CLI tool, which offers different options.
@@ -39,9 +40,10 @@ docker run --privileged --rm -it -v ./out:/out server-tests:latest postprocess o
 - OpenSSL-dev (with header files)
 - Docker
 
-For Ubuntu 25.04, you can install the dependencies with the following command:
+For **Ubuntu 25.04**, the following command installs all required dependencies.
+If you are using a different distribution, you may need to adapt the package names, as not all versions package the same versions of the dependencies (e.g. Ubuntu 24 does not offer `python3.13`).
 ```bash
-sudo apt install python3-dev libssl-dev docker.io python3-full 
+sudo apt install python3.13-dev libssl-dev docker.io python3.13-full 
 ```bash
 systemctl start docker.service
 python3 -m venv venv
